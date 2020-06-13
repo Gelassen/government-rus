@@ -119,3 +119,72 @@ Response:
 http://api.duma.gov.ru/api/<api_key>/deputy.json?id=<code (deputy code)>&app_token=<app_token>
 ```
 (link http://api.duma.gov.ru/pages/dokumentatsiya/svedeniya-o-deputate)
+
+5. Laws signed by President: 
+```
+http://api.duma.gov.ru/api/<api_key>/search.json?status=7&app_token=<app_token>
+```
+Response
+```
+{
+   "count":8340,
+   "page":1,
+   "wording":"Законопроекты, подписанные Президентом РФ, отсортированные по дате последнего события (по убыванию)",
+   "laws":[
+      {
+         "id":32170,
+         "number":"953580-7",
+         "name":"О внесении изменений в отдельные законодательные акты Российской Федерации в целях принятия неотложных мер, направленных на обеспечение устойчивого развития экономики и предотвращение последствий распространения новой коронавирусной инфекции",
+         "comments":null,
+         "introductionDate":"2020-05-07",
+         "url":"http:\/\/sozd.parlament.gov.ru\/bill\/953580-7",
+         "transcriptUrl":"http:\/\/api.duma.gov.ru\/api\/transcript\/953580-7",
+         "lastEvent":{
+            "stage":{
+               "id":8,
+               "name":"Прохождение закона у Президента Российской Федерации"
+            },
+            "phase":{
+               "id":23,
+               "name":"Рассмотрение закона Президентом Российской Федерации"
+            },
+            "solution":"закон подписан",
+            "date":"2020-06-08",
+            "document":null
+         },
+         "subject":{
+            "deputies":[
+
+            ],
+            "departments":[
+               {
+                  "id":6230800,
+                  "name":"Правительство РФ",
+                  "isCurrent":true,
+                  "startDate":"1994-01-01",
+                  "endDate":null
+               }
+            ],
+            "factions":[
+
+            ]
+         },
+         "committees":{
+            "responsible":{
+
+            },
+            "profile":[
+
+            ],
+            "soexecutor":[
+
+            ]
+         },
+         "type":{
+            "id":38,
+            "name":"Федеральный закон"
+         }
+      }
+   ]
+}
+```
