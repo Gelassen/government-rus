@@ -114,3 +114,8 @@ Response:
    ]
 }
 ```
+4. Get information about a deputy: 
+```
+http://api.duma.gov.ru/api/<api_key>/deputy.json?id=<code (deputy code)>&app_token=<app_token>
+```
+(link http://api.duma.gov.ru/pages/dokumentatsiya/svedeniya-o-deputate)
