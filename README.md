@@ -71,3 +71,45 @@ Response:
    ]
 }
 ```
+3. Get a votes for issue: 
+```
+http://api.duma.gov.ru/api/<api_key>/vote/<id (vote id)>.json?app_token=<app_token>
+```
+(link http://api.duma.gov.ru/pages/dokumentatsiya/svedeniya-o-golosovanii)
+Response:
+```
+{
+   "date":"2020-05-27 12:14:03",
+   "lawNumber":null,
+   "subject":"(в целом) О проекте порядка работы Государственной Думы на 27 мая 2020 года",
+   "resolution":false,
+   "for":"330",
+   "against":"0",
+   "abstain":"0",
+   "absent":"120",
+   "transcriptLink":"http:\/\/api.duma.gov.ru\/api\/transcriptFull\/2020-05-27#2020_05_27_12_14_03",
+   "resultsByFaction":[
+      {
+         "code":"72100011",
+         "total":"3",
+         "for":"3",
+         "against":"0",
+         "abstain":"0",
+         "name":"Депутаты, не входящие во фракции",
+         "abbr":"Вне фракций"
+      }
+   ],
+   "resultsByDeputy":[
+      {
+         "code":"99111893",
+         "result":"absent",
+         "factionCode":"72100005",
+         "family":"Маринин",
+         "name":"Сергей",
+         "patronymic":"Владимирович",
+         "resultSort":"2",
+         "faction":"ЛДПР"
+      }
+   ]
+}
+```
