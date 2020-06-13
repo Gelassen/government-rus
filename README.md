@@ -2,7 +2,9 @@
 A mobile app to track documents that will be discussed and applied by government
 
 1. Get a list of events (заседаний):
+```
 http://api.duma.gov.ru/api/<api_key>/questions.json?app_token=<app_token>&limit=5&dateFrom=2020-01-01
+```
 (link http://api.duma.gov.ru/pages/dokumentatsiya/voprosi-zasedaniy-gosudarstvennoy-dumi)
 
 Response: 
@@ -18,7 +20,9 @@ Response:
 ```
 
 2. Get stenogram of an issue (стенограмма заседания по вопросу):
+```
 http://api.duma.gov.ru/api/<api_key>/<kodz>/<kodvopr>.json?app_token=<app_token>
+```
 (link http://api.duma.gov.ru/pages/dokumentatsiya/stenogramma-rassmotreniya-voprosa)
 
 Response: 
