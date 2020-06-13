@@ -76,6 +76,7 @@ Response:
 http://api.duma.gov.ru/api/<api_key>/vote/<id (vote id)>.json?app_token=<app_token>
 ```
 (link http://api.duma.gov.ru/pages/dokumentatsiya/svedeniya-o-golosovanii)
+
 Response:
 ```
 {
