@@ -188,3 +188,35 @@ Response
    ]
 }
 ```
+6. Laws rejected by government:
+```
+http://api.duma.gov.ru/api/<api_key>/search.json?status=8&app_token=<app_token>
+```
+7. Laws recaled or returned by subject of legislative initiative:
+```
+http://api.duma.gov.ru/api/<api_key>/search.json?status=9&app_token=<app_token>
+```
+9. Current active laws: (verify as it looks as it is not sorted by decreased date)
+```
+http://api.duma.gov.ru/api/<api_key>/search.json?status=10&app_token=<app_token>
+```
+10. Finished laws:
+```
+http://api.duma.gov.ru/api/<api_key>/search.json?status=6&app_token=<app_token>
+```
+11. Laws that came out of programms: 
+```
+http://api.duma.gov.ru/api/<api_key>/search.json?status=5&app_token=<app_token>
+```
+12. Laws that came within commitee's programm:
+```
+http://api.duma.gov.ru/api/<api_key>/search.json?status=4&app_token=<app_token>
+```
+13. Active laws on the government considiration:
+```
+http://api.duma.gov.ru/api/<api_key>/search.json?status=2&app_token=<app_token>
+```
+14. Introduced laws:
+```
+http://api.duma.gov.ru/api/<api_key>/search.json?status=1&app_token=<app_token>
+```
