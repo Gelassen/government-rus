@@ -6,6 +6,7 @@ http://api.duma.gov.ru/api/<api_key>/questions.json?app_token=<app_token>&limit=
 (link http://api.duma.gov.ru/pages/dokumentatsiya/voprosi-zasedaniy-gosudarstvennoy-dumi)
 
 Response: 
+```
 {
    "name":"О проекте порядка работы Государственной Думы на 27 мая 2020 года.",
    "datez":"2020-05-27 00:00:00",
@@ -14,12 +15,14 @@ Response:
    "nbegin":389,
    "nend":618
 }
+```
 
 2. Get stenogram of an issue (стенограмма заседания по вопросу):
 http://api.duma.gov.ru/api/<api_key>/<kodz>/<kodvopr>.json?app_token=<app_token>
 (link http://api.duma.gov.ru/pages/dokumentatsiya/stenogramma-rassmotreniya-voprosa)
 
 Response: 
+```
 {
    "meetings":[
       {
@@ -63,3 +66,4 @@ Response:
       }
    ]
 }
+```
