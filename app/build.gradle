@@ -1,0 +1,46 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion versions.TARGET_SDK_VERSION
+    buildToolsVersion versions.BUILD_TOOLS_VERSION
+    defaultConfig {
+        applicationId "ru.home.government"
+        minSdkVersion versions.MIN_SDK_VERSION
+        targetSdkVersion versions.TARGET_SDK_VERSION
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation androidLibs
+    implementation retrofitLibs
+    implementation coroutinesLibs
+    implementation kodeinLibs
+    implementation roomLibs
+    kapt compilerLibs
+
+    testImplementation unitTestLibs
+    androidTestImplementation androidTestsLibs
+
+    testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
+//
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+//    implementation 'com.google.code.gson:gson:2.8.5'
+
+
+}
