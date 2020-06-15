@@ -3,6 +3,7 @@ package ru.home.government
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import com.flatstack.android.model.network.errors.ErrorHandler
 import com.flatstack.android.util.StringResource
@@ -14,7 +15,9 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.home.government.network.adapter.CoroutineCallAdapterFactory
+import ru.home.government.screens.model.DeputiesViewModel
 import ru.home.government.screens.repository.GovernmentRepository
+import ru.home.government.util.observeBy
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,22 +28,19 @@ class MainActivity : AppCompatActivity() {
         val client = prepareApi()
 
         val repository = GovernmentRepository(this, client, ErrorHandler(Gson(), StringResource(this)))
-        repository.loadDeputies()
+        val viewModel = DeputiesViewModel(repository)
+        viewModel.deputiesBoundResource
             .asLiveData()
-            .observe(
+            .observeBy(
                 this,
-                Observer
-                {
-                        it -> Log.d("TAG", "Deputies: " + it)
-                }
+                onNext = {
+                    // TODO complete me
+                        it -> Log.d("TAG", "Data arrived: " + it)
+                },
+                onLoading = ::visibleProgress,
+                onError = ::showError
             )
-
-//        client.getAllDeputies(getString(R.string.api_key), getString(R.string.api_app_token))
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe {
-//                it -> Log.d("TAG", "Data arrived: " + it)
-//            }
+        viewModel.fetchDeputies()
     }
 
     private fun prepareApi(): IApi {
@@ -63,5 +63,15 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         return retrofit.create(IApi::class.java)
+    }
+
+    private fun visibleProgress(show: Boolean) {
+//        refreshLayout.isRefreshing = show
+    }
+
+    private fun showError(errorText: String?) {
+        errorText?.let {
+            Toast.makeText(this, errorText, Toast.LENGTH_LONG).show()
+        }
     }
 }
