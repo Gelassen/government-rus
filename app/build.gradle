@@ -31,6 +31,7 @@ dependencies {
     implementation coroutinesLibs
     implementation kodeinLibs
     implementation roomLibs
+    implementation diLibs
     kapt compilerLibs
 
     testImplementation unitTestLibs
@@ -41,6 +42,8 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
 //    implementation 'com.google.code.gson:gson:2.8.5'
+//    kapt "com.google.dagger:dagger-android-processor:2.25"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
 
 
 }

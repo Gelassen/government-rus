@@ -15,7 +15,8 @@ ext {
             retrofit           : '2.6.0',
             coroutines         : '1.1.1',
             room               : '2.1.0-beta01',
-            espressoVersion    : '3.2.0'
+            espressoVersion    : '3.2.0',
+            dagger             : '2.24'
     ]
     androidx = [
             appcompat        : 'androidx.appcompat:appcompat:1.1.0',
@@ -56,9 +57,15 @@ ext {
 //            testRunner     : "androidx.test.runner.AndroidJUnitRunner",
             junit          : "androidx.test.ext:junit:1.1.1"
     ]
+    di = [
+            dagger               : "com.google.dagger:dagger:$versions.dagger",
+            daggerAndroidSupport : "com.google.dagger:dagger-android-support:$versions.dagger"
+    ]
     kapt = [
-            room_compiler : "androidx.room:room-compiler:$versions.room",
-            lifecycle     : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
+            room_compiler    : "androidx.room:room-compiler:$versions.room",
+            lifecycle        : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
+            dagger_compiler  : "com.google.dagger:dagger-compiler:2.15",
+//            dagger_processor : "com.google.dagger:dagger-android-processor:2.15"
     ]
 
     androidLibs = androidx.values()
@@ -69,4 +76,5 @@ ext {
     compilerLibs = kapt.values()
     unitTestLibs = unitTests.values()
     androidTestsLibs = androidTests.values()
+    diLibs = di.values()
 }

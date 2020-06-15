@@ -1,4 +1,4 @@
-package ru.home.government
+package ru.home.government.network
 
 import com.flatstack.android.model.network.ApiResponse
 import io.reactivex.Observable

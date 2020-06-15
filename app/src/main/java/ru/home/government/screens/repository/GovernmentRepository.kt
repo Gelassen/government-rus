@@ -5,7 +5,7 @@ import com.flatstack.android.model.network.ApiResponse
 import com.flatstack.android.model.network.NetworkBoundResource
 import com.flatstack.android.model.network.errors.ErrorHandler
 import kotlinx.coroutines.*
-import ru.home.government.IApi
+import ru.home.government.network.IApi
 import ru.home.government.R
 import ru.home.government.model.Deputy
 
