@@ -12,9 +12,9 @@ import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
 
 class ErrorHandler(
     private val gson: Gson,
-    private val stringResource: StringResource,
+    private val stringResource: StringResource
 //    private val authorizationModel: AuthorizationModel,
-    private val router: Router
+//    private val router: Router
 ) {
     suspend fun proceed(error: Throwable): String = when (error) {
         is HttpException -> {
