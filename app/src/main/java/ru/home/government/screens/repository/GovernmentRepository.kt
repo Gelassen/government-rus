@@ -8,6 +8,7 @@ import kotlinx.coroutines.*
 import ru.home.government.network.IApi
 import ru.home.government.R
 import ru.home.government.model.Deputy
+import ru.home.government.model.GovResponse
 
 class GovernmentRepository(
     private val context: Context,
@@ -16,6 +17,22 @@ class GovernmentRepository(
 ) : CoroutineScope {
 
     override val coroutineContext = SupervisorJob() + Dispatchers.IO
+
+    fun loadIntroducedLaws() =
+        object : NetworkBoundResource<GovResponse, GovResponse>(coroutineContext, errorHandler) {
+            override suspend fun createCallAsync(): Deferred<ApiResponse<GovResponse>> {
+                return api.getIntroducedLaws(context.getString(R.string.api_key), context.getString(R.string.api_app_token))
+            }
+
+            override suspend fun saveCallResult(item: GovResponse) {
+                // TODO("Not yet implemented")
+            }
+
+            override suspend fun loadFromDb(): GovResponse? {
+                // TODO("Not yet implemented")
+                return GovResponse()
+            }
+        }
 
     fun loadDeputies() =
         object : NetworkBoundResource<List<Deputy>, List<Deputy>>(coroutineContext, errorHandler) {
