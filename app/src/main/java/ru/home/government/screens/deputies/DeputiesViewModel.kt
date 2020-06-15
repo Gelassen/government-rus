@@ -1,4 +1,4 @@
-package ru.home.government.screens.model
+package ru.home.government.screens.deputies
 
 import androidx.lifecycle.ViewModel
 import com.flatstack.android.model.network.NetworkBoundResource

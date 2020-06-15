@@ -2,7 +2,7 @@ package ru.home.government.di
 
 import dagger.Component
 import ru.home.government.screens.laws.BillsViewModel
-import ru.home.government.screens.model.DeputiesViewModel
+import ru.home.government.screens.deputies.DeputiesViewModel
 import javax.inject.Singleton
 
 @Singleton

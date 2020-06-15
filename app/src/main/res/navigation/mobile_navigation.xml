@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="ru.home.government.screens.deputies.DeputiesFragment"
+        android:label="@string/title_deputies"
+        tools:layout="@layout/fragment_deputies" />
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="ru.home.government.screens.laws.LawsFragment"
+        android:label="@string/title_laws"
+        tools:layout="@layout/fragment_laws" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="ru.home.government.screens.votes.VotesFragment"
+        android:label="@string/title_votes"
+        tools:layout="@layout/fragment_votes" />
+</navigation>

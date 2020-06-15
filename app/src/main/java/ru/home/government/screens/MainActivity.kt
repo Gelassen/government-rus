@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.screens.laws.BillsViewModel
@@ -16,46 +21,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        val viewModel = ViewModelProviders.of(this).get(DeputiesViewModel::class.java)
-//        viewModel.init(application as AppApplication)
-//        viewModel.deputiesBoundResource
-//            .asLiveData()
-//            .observeBy(
-//                this,
-//                onNext = {
-//                    // TODO complete me
-//                        it -> Log.d("TAG", "Data arrived: " + it)
-//                },
-//                onLoading = ::visibleProgress,
-//                onError = ::showError
-//            )
-//        viewModel.fetchDeputies()
+        val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        val billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
-        billsViewModel.init(application as AppApplication)
-        billsViewModel.boundResource
-            .asLiveData()
-            .observeBy(
-                this,
-                onNext = {
-                    // TODO complete me
-                        it -> Log.d("TAG", "Data arrived: " + it)
-                },
-                onLoading = ::visibleProgress,
-                onError = ::showError
+        val navController = findNavController(R.id.nav_host_fragment)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
             )
-        billsViewModel.fetch()
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 
-    private fun visibleProgress(show: Boolean) {
-//        refreshLayout.isRefreshing = show
-    }
-
-    private fun showError(errorText: String?) {
-        errorText?.let {
-            Toast.makeText(this, errorText, Toast.LENGTH_LONG).show()
-        }
-    }
 }
 
 
