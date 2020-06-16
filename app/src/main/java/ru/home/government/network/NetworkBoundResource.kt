@@ -25,18 +25,34 @@ abstract class NetworkBoundResource<ResultType, RequestType>(
 
     fun fetchFromNetwork() {
         launch {
-            result.postValue(Resource.loading(loadFromDb()))
-            when (val apiResponse = createCallAsync().await()) {
-                is ApiSuccessResponse -> {
-                    saveCallResult(processResponse(apiResponse))
-                    result.postValue(Resource.success(loadFromDb()))
+            if (isSkipCache()) {
+                when (val apiResponse = createCallAsync().await()) {
+                    is ApiSuccessResponse -> {
+                        result.postValue(Resource.success(apiResponse.body as ResultType))
+                    }
+                    is ApiErrorResponse -> {
+                        onFetchFailed()
+                        result.postValue(Resource.error(errorHandler.proceed(apiResponse.error), loadFromDb()))
+                    }
                 }
-                is ApiErrorResponse -> {
-                    onFetchFailed()
-                    result.postValue(Resource.error(errorHandler.proceed(apiResponse.error), loadFromDb()))
+            } else {
+                result.postValue(Resource.loading(loadFromDb()))
+                when (val apiResponse = createCallAsync().await()) {
+                    is ApiSuccessResponse -> {
+                        saveCallResult(processResponse(apiResponse))
+                        result.postValue(Resource.success(loadFromDb()))
+                    }
+                    is ApiErrorResponse -> {
+                        onFetchFailed()
+                        result.postValue(Resource.error(errorHandler.proceed(apiResponse.error), loadFromDb()))
+                    }
                 }
             }
         }
+    }
+
+    protected open fun isSkipCache(): Boolean {
+        return true
     }
 
     protected open fun onFetchFailed() {}

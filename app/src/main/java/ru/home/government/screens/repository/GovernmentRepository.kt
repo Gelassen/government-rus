@@ -28,7 +28,7 @@ class GovernmentRepository(
                 // TODO("Not yet implemented")
             }
 
-            override suspend fun loadFromDb(): GovResponse? {
+            override suspend fun loadFromDb(): GovResponse {
                 // TODO("Not yet implemented")
                 return GovResponse()
             }

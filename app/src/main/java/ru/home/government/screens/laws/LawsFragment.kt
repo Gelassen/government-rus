@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.fragment_laws.*
 import ru.home.government.AppApplication
 import ru.home.government.R
+import ru.home.government.model.GovResponse
 import ru.home.government.screens.BaseFragment
 import ru.home.government.util.observeBy
 
@@ -24,6 +27,9 @@ class LawsFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        list.layoutManager = LinearLayoutManager(context)
+        list.adapter = LawsAdapter()
+
         val billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
         billsViewModel.init(activity!!.application as AppApplication)
         billsViewModel.boundResource
@@ -31,12 +37,17 @@ class LawsFragment: BaseFragment() {
             .observeBy(
                 this,
                 onNext = {
-                    // TODO complete me
-                        it -> Log.d("TAG", "Data arrived: " + it)
+                        it ->
+                            Log.d("TAG", "Data arrived: " + it)
+                            onNewData(it)
                 },
                 onLoading = ::visibleProgress,
                 onError = ::showError
             )
         billsViewModel.fetch()
+    }
+
+    private fun onNewData(data: GovResponse) {
+        (list.adapter as LawsAdapter).update(data.laws)
     }
 }

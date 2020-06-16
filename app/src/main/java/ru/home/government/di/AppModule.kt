@@ -26,7 +26,7 @@ class AppModule(val context: Context) {
     fun providesApi(httpClient: OkHttpClient): IApi {
         val customGson = GsonBuilder().create()
         val retrofit = Retrofit.Builder()
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(customGson))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(httpClient)

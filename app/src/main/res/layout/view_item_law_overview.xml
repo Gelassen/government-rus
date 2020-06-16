@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorPrimaryDark">
+
+    <LinearLayout
+        android:id="@+id/lawDateContainer"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lawDate"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            tools:text="JUNE 12"/>
+
+        <TextView
+            android:id="@+id/lawCode"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textSize="14sp"
+            tools:text="973160-7" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lawTitle"
+        style="@style/BaseTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/lawDateContainer"
+        android:padding="4dp"
+        android:textColor="@color/colorWhite"
+        android:ellipsize="end"
+        tools:text="О внесении изменений в статьи 346-43 и 346-51 части второй Налогового кодекса Российской Федерации" />
+
+    <TextView
+        android:id="@+id/lawResolution"
+        style="@style/BaseTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lawTitle"
+        android:layout_toEndOf="@+id/lawDateContainer"
+        android:padding="4dp"
+        android:textColor="@color/colorGray"
+        android:ellipsize="end"
+        tools:text="Законопроект отклонён" />
+
+
+</RelativeLayout>
