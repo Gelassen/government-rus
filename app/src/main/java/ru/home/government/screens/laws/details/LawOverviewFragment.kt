@@ -12,7 +12,7 @@ import ru.home.government.R
 import ru.home.government.model.GovResponse
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
-import ru.home.government.screens.providers.LawDataProvider
+import ru.home.government.providers.LawDataProvider
 import ru.home.government.util.observeBy
 
 class LawOverviewFragment: BaseFragment() {

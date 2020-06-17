@@ -6,7 +6,7 @@ import com.flatstack.android.model.entities.Resource
 import com.flatstack.android.model.network.NetworkBoundResource
 import ru.home.government.AppApplication
 import ru.home.government.model.GovResponse
-import ru.home.government.screens.repository.GovernmentRepository
+import ru.home.government.repository.GovernmentRepository
 import javax.inject.Inject
 
 class BillsViewModel: ViewModel() {

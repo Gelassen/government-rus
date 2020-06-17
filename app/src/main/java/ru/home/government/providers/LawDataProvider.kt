@@ -1,4 +1,4 @@
-package ru.home.government.screens.providers
+package ru.home.government.providers
 
 import java.text.SimpleDateFormat
 import java.util.*

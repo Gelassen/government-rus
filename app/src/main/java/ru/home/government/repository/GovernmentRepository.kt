@@ -1,4 +1,4 @@
-package ru.home.government.screens.repository
+package ru.home.government.repository
 
 import android.content.Context
 import com.flatstack.android.model.network.ApiResponse

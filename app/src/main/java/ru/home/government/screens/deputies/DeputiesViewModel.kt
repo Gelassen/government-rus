@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.flatstack.android.model.network.NetworkBoundResource
 import ru.home.government.AppApplication
 import ru.home.government.model.Deputy
-import ru.home.government.screens.repository.GovernmentRepository
+import ru.home.government.repository.GovernmentRepository
 import javax.inject.Inject
 
 class DeputiesViewModel: ViewModel() {
