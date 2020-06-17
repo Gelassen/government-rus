@@ -1,6 +1,5 @@
 package ru.home.government.screens.laws
 
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.home.government.App
 import ru.home.government.R
 import ru.home.government.model.Law
-import ru.home.government.screens.laws.details.DetailsActivity
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,7 +17,7 @@ class LawsAdapter :
     private val model: MutableList<Law> = ArrayList()
 
     interface ClickListener {
-        fun onItemClick()
+        fun onItemClick(item: Law)
     }
 
     lateinit var listener: ClickListener
@@ -61,7 +58,7 @@ class LawsAdapter :
         holder.itemView.setOnClickListener { it ->
                 if (this.listener == null) return@setOnClickListener
 
-                listener.onItemClick()
+                listener.onItemClick(item)
             }
     }
 

@@ -14,10 +14,18 @@ interface IApi {
 
     // http://api.duma.gov.ru/api/<api_key>/search.json?status=1&app_token=<app_token>
     @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/api/{token}/search.json?status=1")
+    @GET("/api/{token}/search.json?status=1&sort=last_event_date") // TODO move to common search without status
     fun getIntroducedLaws(
         @Path("token") token: String,
         @Query("app_token") appToken: String
+    ): Deferred<ApiResponse<GovResponse>>
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("/api/{token}/search.json")
+    fun getLawByNumber(
+        @Path("token") token: String,
+        @Query("app_token") appToken: String,
+        @Query("number") number: String
     ): Deferred<ApiResponse<GovResponse>>
 
     @Headers("Content-Type: application/json; charset=utf-8")
