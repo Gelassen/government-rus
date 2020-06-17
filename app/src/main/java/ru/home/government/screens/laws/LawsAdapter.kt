@@ -1,5 +1,6 @@
 package ru.home.government.screens.laws
 
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.home.government.App
 import ru.home.government.R
 import ru.home.government.model.Law
+import ru.home.government.screens.laws.details.DetailsActivity
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,6 +18,16 @@ import java.util.*
 class LawsAdapter :
     RecyclerView.Adapter<LawsAdapter.ViewHolder>() {
     private val model: MutableList<Law> = ArrayList()
+
+    interface ClickListener {
+        fun onItemClick()
+    }
+
+    lateinit var listener: ClickListener
+
+    fun setClickListener(listener: ClickListener) {
+        this.listener = listener
+    }
 
     fun update(model: List<Law>?) {
         Log.d(App.TAG, "Update laws model: " + model.isNullOrEmpty())
@@ -45,6 +57,12 @@ class LawsAdapter :
         holder.code.text = item.number
         holder.title.text = item.name
         holder.resolution.text = if (item.lastEvent.solution == null) "" else item.lastEvent.solution as String
+
+        holder.itemView.setOnClickListener { it ->
+                if (this.listener == null) return@setOnClickListener
+
+                listener.onItemClick()
+            }
     }
 
     override fun getItemCount(): Int {
