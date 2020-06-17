@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="72dp">
+
+    <FrameLayout
+        android:id="@+id/photoContainer"
+        android:layout_width="56dp"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:background="@color/colorWhite"
+        android:src="@drawable/ic_no_photo" >
+
+        <ImageView
+            android:id="@+id/photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_no_photo" />
+
+        <TextView
+            android:id="@+id/position"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:layout_gravity="bottom"
+            android:background="#CC000000"
+            android:gravity="center"
+            android:textSize="8sp"
+            tools:text="Член СФ"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/photoContainer">
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Шарль Де Голль"/>
+
+        <TextView
+            android:id="@+id/fraction"
+            style="@style/BaseTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:textSize="12sp"
+            android:minLines="2"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/colorGray"
+            tools:text="Едииная Россия"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.fragment_deputies.*
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.screens.BaseFragment
@@ -24,15 +27,19 @@ class DeputiesFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val list = view.findViewById<RecyclerView>(R.id.list)
+        list.layoutManager = LinearLayoutManager(activity)
+        list.adapter = DeputiesAdapter()
+
         val viewModel = ViewModelProviders.of(this).get(DeputiesViewModel::class.java)
         viewModel.init(activity!!.application as AppApplication)
-        viewModel.deputiesBoundResource
-            .asLiveData()
+        viewModel.subscribeOnDeputies()
             .observeBy(
                 this,
                 onNext = {
-                    // TODO complete me
-                        it -> Log.d("TAG", "Data arrived: " + it)
+                        it ->
+                    Log.d("TAG", "Data arrived: " + it)
+                    (list.adapter as DeputiesAdapter).update(it)
                 },
                 onLoading = ::visibleProgress,
                 onError = ::showError

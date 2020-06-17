@@ -1,6 +1,8 @@
 package ru.home.government.screens.deputies
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.flatstack.android.model.entities.Resource
 import com.flatstack.android.model.network.NetworkBoundResource
 import ru.home.government.AppApplication
 import ru.home.government.model.Deputy
@@ -17,12 +19,16 @@ class DeputiesViewModel: ViewModel() {
 
     fun init(application: AppApplication) {
         application.getComponent().inject(this)
-        deputiesBoundResource = repository.loadDeputies()
     }
 
     override fun onCleared() {
         super.onCleared()
         repository.onDestroy()
+    }
+
+    fun subscribeOnDeputies(): LiveData<Resource<List<Deputy>>> {
+        deputiesBoundResource = repository.loadDeputies()
+        return deputiesBoundResource.asLiveData()
     }
 
     fun fetchDeputies() {
