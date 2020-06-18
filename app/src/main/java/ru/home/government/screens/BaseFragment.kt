@@ -1,12 +1,16 @@
 package ru.home.government.screens
 
+import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 open class BaseFragment: Fragment() {
 
+    protected var progressView: View? = null
+
     protected fun visibleProgress(show: Boolean) {
-//        refreshLayout.isRefreshing = show
+        if (progressView == null) return
+        progressView!!.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     protected fun showError(errorText: String?) {

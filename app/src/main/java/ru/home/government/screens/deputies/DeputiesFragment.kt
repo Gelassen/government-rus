@@ -29,6 +29,8 @@ class DeputiesFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressView = view.findViewById<View>(R.id.progressView)
+
         val list = view.findViewById<RecyclerView>(R.id.list)
         list.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         list.adapter = DeputiesAdapter()
