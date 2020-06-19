@@ -3,6 +3,8 @@ package ru.home.government.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class Law {
 
     @SerializedName("id")
@@ -127,4 +129,29 @@ public class Law {
         this.type = type;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Law)) return false;
+        Law law = (Law) o;
+        return Objects.equals(getId(), law.getId()) &&
+                Objects.equals(getNumber(), law.getNumber()) &&
+                Objects.equals(getName(), law.getName()) &&
+                Objects.equals(getComments(), law.getComments()) &&
+                Objects.equals(getIntroductionDate(), law.getIntroductionDate()) &&
+                Objects.equals(getUrl(), law.getUrl()) &&
+                Objects.equals(getTranscriptUrl(), law.getTranscriptUrl()) &&
+                Objects.equals(getLastEvent(), law.getLastEvent()) &&
+                Objects.equals(getSubject(), law.getSubject()) &&
+                Objects.equals(getCommittees(), law.getCommittees()) &&
+                Objects.equals(getType(), law.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                getId(), getNumber(), getName(), getComments(), getIntroductionDate(), getUrl(),
+                getTranscriptUrl(), getLastEvent(), getSubject(), getCommittees(), getType()
+        );
+    }
 }

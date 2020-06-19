@@ -2,10 +2,14 @@ package ru.home.government.screens.laws
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.flatstack.android.model.entities.Resource
 import com.flatstack.android.model.network.NetworkBoundResource
+import kotlinx.coroutines.flow.Flow
 import ru.home.government.AppApplication
 import ru.home.government.model.GovResponse
+import ru.home.government.model.Law
 import ru.home.government.repository.GovernmentRepository
 import javax.inject.Inject
 
@@ -27,13 +31,8 @@ class BillsViewModel: ViewModel() {
         repository.onDestroy()
     }
 
-    fun subscribeOnLaws(): LiveData<Resource<GovResponse>> {
-        boundResource = repository.loadIntroducedLaws()
-        return boundResource.asLiveData()
-    }
-
-    fun fetchLaws() {
-        boundResource!!.fetchFromNetwork()
+    fun getLaws(): Flow<PagingData<Law>> {
+        return repository.loadIntroducedLaws()/*.cachedIn(viewM)*/
     }
 
     fun subscribeOnLawsByNumber(number: String): LiveData<Resource<GovResponse>> {

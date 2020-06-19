@@ -1,39 +1,25 @@
 package ru.home.government.screens.laws
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import ru.home.government.App
 import ru.home.government.R
 import ru.home.government.model.Law
 import java.text.SimpleDateFormat
 import java.util.*
 
 class LawsAdapter :
-    RecyclerView.Adapter<LawsAdapter.ViewHolder>() {
-    private val model: MutableList<Law> = ArrayList()
+    PagingDataAdapter<Law, LawsAdapter.ViewHolder>(LAW_COMPARATOR) {
 
     interface ClickListener {
         fun onItemClick(item: Law)
     }
 
     lateinit var listener: ClickListener
-
-    fun setClickListener(listener: ClickListener) {
-        this.listener = listener
-    }
-
-    fun update(model: List<Law>?) {
-        Log.d(App.TAG, "Update laws model: " + model.isNullOrEmpty())
-        this.model.clear()
-        if (model != null) {
-            this.model.addAll(model!!)
-        }
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -48,11 +34,11 @@ class LawsAdapter :
         holder: ViewHolder,
         position: Int
     ) {
-        val item = model.get(position)
-        val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(item.lastEvent.date)
+        val item = getItem(position)/*model.get(position)*/
+        val date = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(item!!.lastEvent.date)
         holder.date.text = SimpleDateFormat("MMM dd", Locale.getDefault()).format(date)
-        holder.code.text = item.number
-        holder.title.text = item.name
+        holder.code.text = item!!.number
+        holder.title.text = item!!.name
         holder.resolution.text = if (item.lastEvent.solution == null) "" else item.lastEvent.solution as String
 
         holder.itemView.setOnClickListener { it ->
@@ -60,10 +46,6 @@ class LawsAdapter :
 
                 listener.onItemClick(item)
             }
-    }
-
-    override fun getItemCount(): Int {
-        return model.size
     }
 
     inner class ViewHolder(itemView: View) :
@@ -78,6 +60,16 @@ class LawsAdapter :
             code = itemView.findViewById(R.id.lawCode)
             title = itemView.findViewById(R.id.lawTitle)
             resolution = itemView.findViewById(R.id.lawResolution)
+        }
+    }
+
+    companion object {
+        private val LAW_COMPARATOR = object : DiffUtil.ItemCallback<Law>() {
+            override fun areItemsTheSame(oldItem: Law, newItem: Law): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Law, newItem: Law): Boolean =
+                oldItem == newItem
         }
     }
 }

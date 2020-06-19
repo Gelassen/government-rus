@@ -8,16 +8,17 @@ import android.view.ViewGroup
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_laws.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.home.government.AppApplication
 import ru.home.government.R
-import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.details.DetailsActivity
-import ru.home.government.util.observeBy
 
 class LawsFragment: BaseFragment(), LawsAdapter.ClickListener {
 
@@ -42,26 +43,16 @@ class LawsFragment: BaseFragment(), LawsAdapter.ClickListener {
 
         val billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
         billsViewModel.init(activity!!.application as AppApplication)
-        billsViewModel.subscribeOnLaws()
-            .observeBy(
-                this,
-                onNext = {
-                        it ->
-                            Log.d("TAG", "Data arrived: " + it)
-                            onNewData(it)
-                },
-                onLoading = ::visibleProgress,
-                onError = ::showError
-            )
-        billsViewModel.fetchLaws()
+        lifecycleScope.launch {
+            billsViewModel.getLaws().collectLatest {
+                it ->
+                Log.d("TAG", "Data arrived: " + it)
+                (list.adapter as LawsAdapter).submitData(it)
+            }
+        }
     }
 
     override fun onItemClick(item: Law) {
         DetailsActivity.start(activity as ComponentActivity, item.number, item.url)
     }
-
-    private fun onNewData(data: GovResponse) {
-        (list.adapter as LawsAdapter).update(data.laws)
-    }
-
 }
