@@ -10,27 +10,27 @@ public class Committees {
 
     @SerializedName("responsible")
     @Expose
-    private Object responsible;
+    private Responsible responsible;
     @SerializedName("profile")
     @Expose
-    private List<Object> profile = null;
+    private List<Profile> profile = null;
     @SerializedName("soexecutor")
     @Expose
     private List<Object> soexecutor = null;
 
-    public Object getResponsible() {
+    public Responsible getResponsible() {
         return responsible;
     }
 
-    public void setResponsible(Object responsible) {
+    public void setResponsible(Responsible responsible) {
         this.responsible = responsible;
     }
 
-    public List<Object> getProfile() {
+    public List<Profile> getProfile() {
         return profile;
     }
 
-    public void setProfile(List<Object> profile) {
+    public void setProfile(List<Profile> profile) {
         this.profile = profile;
     }
 

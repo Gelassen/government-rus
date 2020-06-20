@@ -5,6 +5,7 @@
     <color name="colorPrimaryDark">#002366</color>
     <color name="colorAccent">#ffffff</color>
 
+    <color name="colorActionBar">#002C96</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorGray">#808080</color>
 </resources>

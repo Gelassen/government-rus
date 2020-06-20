@@ -1,9 +1,11 @@
 package ru.home.government.screens
 
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
@@ -21,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val dr = ColorDrawable(resources.getColor(R.color.colorActionBar))
+        supportActionBar!!.setBackgroundDrawable(dr)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 

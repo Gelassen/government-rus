@@ -46,8 +46,10 @@ class DeputiesFragment: BaseFragment() {
                 this,
                 onNext = {
                         it ->
-                    Log.d("TAG", "Data arrived: " + it)
+//                    Log.d("TAG", "Data arrived: " + it)
+                    Log.d("DEPUTIES", "Data arrived: " + it.size)
                     val activeDeputies = it.filter { it -> it.isCurrent!! }
+                    visibleProgress(false)
                     (list.adapter as DeputiesAdapter).update(activeDeputies)
                 },
                 onLoading = ::visibleProgress,

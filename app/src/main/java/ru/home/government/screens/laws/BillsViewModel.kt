@@ -1,5 +1,6 @@
 package ru.home.government.screens.laws
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
@@ -7,6 +8,7 @@ import androidx.paging.cachedIn
 import com.flatstack.android.model.entities.Resource
 import com.flatstack.android.model.network.NetworkBoundResource
 import kotlinx.coroutines.flow.Flow
+import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
@@ -23,11 +25,11 @@ class BillsViewModel: ViewModel() {
 
     fun init(application: AppApplication) {
         application.getComponent().inject(this)
-
     }
 
     override fun onCleared() {
         super.onCleared()
+        Log.d(App.VIEW_MODEL, "Bills::onCleared()")
         repository.onDestroy()
     }
 

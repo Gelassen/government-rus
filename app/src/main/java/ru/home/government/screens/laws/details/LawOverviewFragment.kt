@@ -65,6 +65,6 @@ class LawOverviewFragment: BaseFragment() {
 
         lawIntroducedDate.text = dataProvider.provideFormattedIntroducedDate(item.introductionDate)
         lawResolution.text = dataProvider.provideFormattedResolution(item.lastEvent.solution as String?)
-        lawResponsibleCommittee.text = dataProvider.provideResponsibleCommittee(item.committees.responsible as String?)
+        lawResponsibleCommittee.text = dataProvider.provideResponsibleCommittee(item.committees)
     }
 }

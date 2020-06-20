@@ -1,5 +1,6 @@
 package ru.home.government.providers
 
+import ru.home.government.model.Committees
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,17 +21,23 @@ class LawDataProvider {
         introducedDateFormat = SimpleDateFormat(INTRODUCED_DATE_FORMAT, Locale.getDefault())
     }
 
-    fun provideFormattedIntroducedDate(date: String): String {
+    fun provideFormattedIntroducedDate(date: String?): String {
         return String.format("Внесён: %s",
-            introducedDateFormat.format(originDateFormat.parse(date)))
+            if (date.isNullOrEmpty()) "Нет данных" else introducedDateFormat.format(originDateFormat.parse(date))
+        )
+    }
+
+    fun provideLastEventDate(date: String?): String {
+        return String.format("Последнее событие: %s",
+            if (date.isNullOrEmpty()) "Нет данных" else introducedDateFormat.format(originDateFormat.parse(date)))
     }
 
     fun provideFormattedResolution(resolution: String?): String {
         return String.format("Решение: %s", if (resolution.isNullOrEmpty()) "Нет данных" else resolution)
     }
 
-    fun provideResponsibleCommittee(responsible: String?): String {
-        return if (responsible.isNullOrEmpty()) "Нет данных" else responsible
+    fun provideResponsibleCommittee(committees: Committees?): String {
+        return if (committees == null || committees.responsible == null) "Нет данных" else committees.responsible.name
     }
 
 }
