@@ -1,4 +1,4 @@
-package ru.home.government.screens.votes
+package ru.home.government.screens.tracker
 
 import android.view.LayoutInflater
 import android.view.View
