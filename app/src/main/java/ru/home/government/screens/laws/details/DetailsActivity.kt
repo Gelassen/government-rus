@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ComponentActivity
-import androidx.core.view.get
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import ru.home.government.R
@@ -27,7 +26,6 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     lateinit var cacheRepository: CacheRepository
-
     lateinit var lawCode: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +52,8 @@ class DetailsActivity : AppCompatActivity() {
             tabLayout!!.setupWithViewPager(viewPager)
         }
 
-        cacheRepository = CacheRepository(this)
+        cacheRepository =
+            CacheRepository(this)//CacheRepository(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

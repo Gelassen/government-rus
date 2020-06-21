@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.flatstack.android.model.entities.Resource
 import com.flatstack.android.model.network.NetworkBoundResource
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +14,6 @@ import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
 import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
-import javax.inject.Inject
 
 class BillsViewModel: ViewModel() {
 
@@ -31,12 +29,12 @@ class BillsViewModel: ViewModel() {
 //        application.getComponent().inject(this)
         val module = AppModule(application)
         repository = module.providesRepository(module.providesApi(module.providesClient()))
-        cacheRepository = CacheRepository(application)
+        cacheRepository =
+            CacheRepository(application)
     }
 
     override fun onCleared() {
         super.onCleared()
-        Log.d(App.VIEW_MODEL, "Bills::onCleared()")
         repository.onDestroy()
     }
 
@@ -48,11 +46,6 @@ class BillsViewModel: ViewModel() {
         searchLaw = repository.loadLawByNumber(number)
         return searchLaw.asLiveData()
     }
-
-/*
-    fun getTrackedLaws(): Flow<PagingData<Law>> {
-        return repository.loadTrackedLaws()
-    }*/
 
     fun fetchLawByNumber() {
         searchLaw!!.fetchFromNetwork()

@@ -28,7 +28,6 @@ class DeputiesViewModel: ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        Log.d(App.VIEW_MODEL, "Deputies::onCleared()")
         repository.onDestroy()
     }
 

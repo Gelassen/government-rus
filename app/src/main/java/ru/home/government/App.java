@@ -4,7 +4,5 @@ public class App {
 
     public static final String TAG = "TAG";
 
-    public static final String VIEW_MODEL = "VIEW_MODEL";
-
-    public static final String LAWS = "LAWS";
+    public static final String CACHE = "CACHE";
 }
