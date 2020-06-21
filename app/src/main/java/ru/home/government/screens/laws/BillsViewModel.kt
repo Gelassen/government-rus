@@ -29,8 +29,7 @@ class BillsViewModel: ViewModel() {
 //        application.getComponent().inject(this)
         val module = AppModule(application)
         repository = module.providesRepository(module.providesApi(module.providesClient()))
-        cacheRepository =
-            CacheRepository(application)
+        cacheRepository = CacheRepository(application)
     }
 
     override fun onCleared() {

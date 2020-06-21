@@ -23,7 +23,7 @@ abstract class NetworkBoundResource<ResultType, RequestType>(
 
     init {
         result.postValue(Resource.loading())
-        fetchFromNetwork()
+//        fetchFromNetwork()
     }
 
     fun asLiveData() = result as LiveData<Resource<ResultType>>

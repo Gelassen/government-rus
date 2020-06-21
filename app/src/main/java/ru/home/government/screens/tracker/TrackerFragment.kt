@@ -62,7 +62,6 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
                 onLoading = ::visibleProgress,
                 onError = ::showError
             )
-        billsViewModel.fetchTrackedLaws()
     }
 
     override fun onResume() {
