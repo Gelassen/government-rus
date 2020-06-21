@@ -20,6 +20,6 @@
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="ru.home.government.screens.tracker.TrackerFragment"
-        android:label="@string/title_votes"
+        android:label="@string/title_tracker"
         tools:layout="@layout/fragment_tracker" />
 </navigation>
