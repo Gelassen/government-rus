@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_laws.*
+import kotlinx.android.synthetic.main.layout_tracked_laws_placeholder.*
 import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
@@ -56,6 +57,7 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
                     Log.d(App.TAG, "Data arrived: " + it.laws.size)
                     visibleProgress(false)
                     (list.adapter as TrackerAdapter).update(it.laws)
+                    trackedPlaceholder.visibility = if (it.laws.size == 0) View.VISIBLE else View.GONE
                 },
                 onLoading = ::visibleProgress,
                 onError = ::showError
