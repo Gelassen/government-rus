@@ -1,5 +1,6 @@
 package ru.home.government.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -17,7 +18,7 @@ public class GovResponse {
     private String wording;
     @SerializedName("laws")
     @Expose
-    private List<Law> laws = null;
+    private List<Law> laws = new ArrayList<>();
 
     public Integer getCount() {
         return count;

@@ -9,6 +9,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.launch
 import ru.home.government.App
+import ru.home.government.R
+import ru.home.government.model.GovResponse
+import ru.home.government.model.Law
 import kotlin.coroutines.CoroutineContext
 
 abstract class NetworkBoundResource<ResultType, RequestType>(
@@ -24,6 +27,23 @@ abstract class NetworkBoundResource<ResultType, RequestType>(
     }
 
     fun asLiveData() = result as LiveData<Resource<ResultType>>
+
+    fun fetchFromNetwork(codes: Set<String>) {
+        launch {
+            val result = GovResponse()
+            for (code in codes) {
+                when (val apiResponse = createCallAsync(code)!!.await()) {
+                    is ApiSuccessResponse -> {
+                        result.laws.addAll((apiResponse.body as GovResponse).laws)
+                    }
+                    is ApiErrorResponse -> {
+                        // no op
+                    }
+                }
+            }
+            this@NetworkBoundResource.result.postValue(Resource.success(result as ResultType))
+        }
+    }
 
     fun fetchFromNetwork() {
         launch {
@@ -71,4 +91,6 @@ abstract class NetworkBoundResource<ResultType, RequestType>(
     protected abstract suspend fun loadFromDb(): ResultType?
 
     protected abstract suspend fun createCallAsync(): Deferred<ApiResponse<RequestType>>
+
+    protected open suspend fun createCallAsync(code: String): Deferred<ApiResponse<RequestType>>? { return null}
 }

@@ -51,6 +51,27 @@ class GovernmentRepository(
             }
         }
 
+    fun loadLawsByNumbers() =
+        object : NetworkBoundResource<GovResponse, GovResponse>(coroutineContext, errorHandler) {
+            override suspend fun createCallAsync(): Deferred<ApiResponse<GovResponse>> {
+                // stub
+                return api.getLawByNumber(context.getString(R.string.api_key), context.getString(R.string.api_app_token), "")
+            }
+
+            override suspend fun saveCallResult(item: GovResponse) {
+                // TODO("Not yet implemented")
+            }
+
+            override suspend fun loadFromDb(): GovResponse {
+                // TODO("Not yet implemented")
+                return GovResponse()
+            }
+
+            override suspend fun createCallAsync(code: String): Deferred<ApiResponse<GovResponse>> {
+                return api.getLawByNumber(context.getString(R.string.api_key), context.getString(R.string.api_app_token), code)
+            }
+        }
+
     fun loadDeputies() =
         object : NetworkBoundResource<List<Deputy>, List<Deputy>>(coroutineContext, errorHandler) {
             override suspend fun createCallAsync(): Deferred<ApiResponse<List<Deputy>>> {
@@ -70,4 +91,5 @@ class GovernmentRepository(
     fun onDestroy() {
         coroutineContext.cancelChildren()
     }
+
 }

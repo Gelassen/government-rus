@@ -10,21 +10,28 @@ import com.flatstack.android.model.network.NetworkBoundResource
 import kotlinx.coroutines.flow.Flow
 import ru.home.government.App
 import ru.home.government.AppApplication
+import ru.home.government.di.AppModule
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
+import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
 import javax.inject.Inject
 
 class BillsViewModel: ViewModel() {
 
-    @Inject
+//    @Inject
     lateinit var repository: GovernmentRepository
+
+    lateinit var cacheRepository: CacheRepository
 
     lateinit var boundResource: NetworkBoundResource<GovResponse, GovResponse>
     lateinit var searchLaw: NetworkBoundResource<GovResponse, GovResponse>
 
     fun init(application: AppApplication) {
-        application.getComponent().inject(this)
+//        application.getComponent().inject(this)
+        val module = AppModule(application)
+        repository = module.providesRepository(module.providesApi(module.providesClient()))
+        cacheRepository = CacheRepository(application)
     }
 
     override fun onCleared() {
@@ -42,8 +49,23 @@ class BillsViewModel: ViewModel() {
         return searchLaw.asLiveData()
     }
 
+/*
+    fun getTrackedLaws(): Flow<PagingData<Law>> {
+        return repository.loadTrackedLaws()
+    }*/
+
     fun fetchLawByNumber() {
         searchLaw!!.fetchFromNetwork()
+    }
+
+    fun getTrackedLaws(): LiveData<Resource<GovResponse>> {
+        boundResource = repository.loadLawsByNumbers()
+        return boundResource.asLiveData()
+    }
+
+    fun fetchTrackedLaws() {
+        val lawCodes = cacheRepository.getLawCodes()
+        boundResource.fetchFromNetwork(lawCodes)
     }
 
 }

@@ -2,12 +2,14 @@ package ru.home.government.screens.laws.details
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ComponentActivity
+import androidx.core.view.get
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import ru.home.government.R
+import ru.home.government.repository.CacheRepository
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -24,6 +26,10 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
+    lateinit var cacheRepository: CacheRepository
+
+    lateinit var lawCode: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_law_details)
@@ -31,11 +37,12 @@ class DetailsActivity : AppCompatActivity() {
         val viewPager = findViewById<View>(R.id.viewpager) as ViewPager
 
         val extras = intent.extras
+        lawCode = extras!!.getString(EXTRA_LAW_CODE, "")
         if (extras != null) { // cover corner case on back press scenario
             val adapter = LawDetailsPagerAdapter(supportFragmentManager)
             viewPager.adapter = adapter
             adapter.addFragment(
-                LawOverviewFragment.instance(extras.getString(EXTRA_LAW_CODE, "")),
+                LawOverviewFragment.instance(lawCode),
                 "Законопроект"
             )
             adapter.addFragment(
@@ -47,6 +54,44 @@ class DetailsActivity : AppCompatActivity() {
             tabLayout!!.setupWithViewPager(viewPager)
         }
 
+        cacheRepository = CacheRepository(this)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.menu_top_law, menu)
+        if (cacheRepository.isCodeInCache(lawCode)) {
+            val selected = 1;
+            menu!!.findItem(R.id.itemFav).icon.level = selected
+        } else {
+            val unselected = 0
+            menu!!.findItem(R.id.itemFav).icon.level = unselected
+        }
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.itemFav -> {
+                val selected = 1;
+                val unselected = 0
+                when(item.icon.level) {
+                    selected -> {
+                        item.icon.level = unselected
+                        cacheRepository.removeLawCode(lawCode)
+                    }
+                    unselected -> {
+                        item.icon.level = selected
+                        cacheRepository.saveLawCode(lawCode)
+                    }
+                    else -> {
+
+                    }
+                }
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

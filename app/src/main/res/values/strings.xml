@@ -5,6 +5,8 @@
     <string name="title_laws">Laws</string>
     <string name="title_votes">Votes</string>
 
+    <string name="title_favorite">Favorite</string>
+
     <!--Error messages -->
     <string name="unknown_error">Unknown error</string>
     <string name="network_error">Error connecting to the internet</string>

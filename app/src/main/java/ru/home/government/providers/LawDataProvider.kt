@@ -11,14 +11,22 @@ class LawDataProvider {
         private const val SOURCE_DATE_FORMAT = "yyyy-MM-dd"
 
         private const val INTRODUCED_DATE_FORMAT = "dd MMM yyyy"
+
+        private const val SHORT_DATE_FORMAT = "MMM dd"
     }
 
     val originDateFormat: SimpleDateFormat
     val introducedDateFormat: SimpleDateFormat
+    val shortDateFormat: SimpleDateFormat
 
     init {
         originDateFormat = SimpleDateFormat(SOURCE_DATE_FORMAT, Locale.getDefault())
         introducedDateFormat = SimpleDateFormat(INTRODUCED_DATE_FORMAT, Locale.getDefault())
+        shortDateFormat = SimpleDateFormat(SHORT_DATE_FORMAT, Locale.getDefault())
+    }
+
+    fun provideFormattedShortDate(date: String?): String {
+        return shortDateFormat.format(originDateFormat.parse(date))
     }
 
     fun provideFormattedIntroducedDate(date: String?): String {
