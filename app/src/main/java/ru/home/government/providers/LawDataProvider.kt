@@ -12,7 +12,7 @@ class LawDataProvider {
 
         private const val INTRODUCED_DATE_FORMAT = "dd MMM yyyy"
 
-        private const val SHORT_DATE_FORMAT = "MMM dd"
+        private const val SHORT_DATE_FORMAT = "dd MMM"
     }
 
     val originDateFormat: SimpleDateFormat

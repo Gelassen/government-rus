@@ -1,4 +1,7 @@
 # government-rus
+
+Email: government.rus.mobile@gmail.com
+
 A mobile app to track documents that will be discussed and applied by government
 
 1. Get a list of sessions (заседаний):

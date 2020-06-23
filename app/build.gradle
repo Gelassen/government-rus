@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+//apply plugin: 'com.splunk.mint.gradle.android.plugin'
+
 android {
     compileSdkVersion versions.TARGET_SDK_VERSION
     buildToolsVersion versions.BUILD_TOOLS_VERSION
@@ -10,8 +12,8 @@ android {
         applicationId "ru.home.government"
         minSdkVersion versions.MIN_SDK_VERSION
         targetSdkVersion versions.TARGET_SDK_VERSION
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "0.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

@@ -1,6 +1,9 @@
 package ru.home.government;
 
 import android.app.Application;
+
+import com.splunk.mint.Mint;
+
 import org.jetbrains.annotations.NotNull;
 import ru.home.government.di.AppComponent;
 import ru.home.government.di.AppModule;
@@ -14,11 +17,13 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        Mint.setApplicationEnvironment(Mint.appEnvironmentStaging);
+        Mint.initAndStartSession(this, "93f093e1");
+
         component = DaggerAppComponent
                 .builder()
                 .appModule(new AppModule(getBaseContext()))
                 .build();
-
     }
 
     @NotNull
