@@ -38,7 +38,6 @@ class LawsFragment: BaseFragment() {
         search_view.setOnQueryTextListener(object: MaterialSearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
-                Toast.makeText(this@LawsFragment.context, "Query: " + query, Toast.LENGTH_SHORT).show()
                 onSearch(query)
                 search_view.closeSearch()
                 return true

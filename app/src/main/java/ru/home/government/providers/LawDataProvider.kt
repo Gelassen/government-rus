@@ -1,6 +1,9 @@
 package ru.home.government.providers
 
 import ru.home.government.model.Committees
+import ru.home.government.model.LastEvent
+import ru.home.government.model.Phase
+import ru.home.government.model.Stage
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,9 +38,37 @@ class LawDataProvider {
         )
     }
 
-    fun provideLastEventDate(date: String?): String {
-        return String.format("Последнее событие: %s",
-            if (date.isNullOrEmpty()) "Нет данных" else introducedDateFormat.format(originDateFormat.parse(date)))
+    fun provideLastEventDate(lastEvent: LastEvent?): String {
+        val textFormat = "Обновление: %s"
+        if (lastEvent == null) {
+            return String.format(textFormat, "Нет данных")
+        } else {
+            val date: String? = lastEvent.date
+            return String.format("Обновление: %s",
+                if (date.isNullOrEmpty()) "Нет данных" else introducedDateFormat.format(originDateFormat.parse(date)))
+        }
+
+    }
+
+    fun provideLastEventData(lastEvent: LastEvent?): String {
+        if (lastEvent == null) {
+            return "Нет данных"
+        } else {
+            return provideLastEventData(lastEvent.stage, lastEvent.phase)
+        }
+    }
+
+    fun provideLastEventData(stage: Stage?, phase: Phase?): String {
+        val noDataPlaceholder = "Нет данных"
+        if (stage == null && phase == null) {
+            return noDataPlaceholder
+        } else if (stage != null && phase == null) {
+            return String.format("%s", stage.name)
+        } else if (stage == null && phase != null) {
+            return String.format("%s", phase.name)
+        } else {
+            return String.format("%s \n\n%s", stage!!.name, phase!!.name)
+        }
     }
 
     fun provideFormattedResolution(resolution: String?): String {
