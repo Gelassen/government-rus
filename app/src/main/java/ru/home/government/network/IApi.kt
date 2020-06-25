@@ -9,6 +9,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.home.government.model.Deputy
 import ru.home.government.model.GovResponse
+import ru.home.government.model.VotesResponse
 
 interface IApi {
 
@@ -37,6 +38,14 @@ interface IApi {
         @Query("page") page: Int,
         @Query("name") name: String
     ): Deferred<ApiResponse<GovResponse>>
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("/api/{token}/voteSearch.json")
+    fun getLawVotes(
+        @Path("token") token: String,
+        @Query("app_token") appToken: String,
+        @Query("number") number: String
+    ): Deferred<ApiResponse<VotesResponse>>
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/deputies.json")

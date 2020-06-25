@@ -42,6 +42,7 @@ class LawDetailsFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        webView.webViewClient = WebViewClient()
         webView.isClickable = true
         webView.settings.loadsImagesAutomatically = true
         webView.settings.domStorageEnabled = true

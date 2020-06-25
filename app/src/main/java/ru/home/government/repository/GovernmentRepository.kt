@@ -14,6 +14,7 @@ import ru.home.government.R
 import ru.home.government.model.Deputy
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
+import ru.home.government.model.VotesResponse
 
 class GovernmentRepository(
     private val context: Context,
@@ -47,6 +48,28 @@ class GovernmentRepository(
                 )
             }
         ).flow
+    }
+
+    fun loadVotesByLaw(number: String): NetworkBoundResource<VotesResponse, VotesResponse> {
+        return object: NetworkBoundResource<VotesResponse, VotesResponse>(coroutineContext, errorHandler) {
+
+            override suspend fun saveCallResult(item: VotesResponse) {
+                // no op
+            }
+
+            override suspend fun loadFromDb(): VotesResponse? {
+                // no op
+                return VotesResponse()
+            }
+
+            override suspend fun createCallAsync(): Deferred<ApiResponse<VotesResponse>> {
+                return api.getLawVotes(
+                    context.getString(R.string.api_key),
+                    context.getString(R.string.api_app_token),
+                    number
+                )
+            }
+        }
     }
 
     @Deprecated(message = "Redundant")

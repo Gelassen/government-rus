@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.home.government.R
 import ru.home.government.model.Deputy
+import ru.home.government.providers.LawDataProvider
 import java.util.*
 
 class DeputiesAdapter :
@@ -34,7 +35,7 @@ class DeputiesAdapter :
         val item = model[position]
         holder.name.text = item.name
         holder.position.setText(item.position)
-        holder.fraction.text = getFractions(item)
+        holder.fraction.text =  LawDataProvider().provideFractions(item)
     }
 
     override fun getItemCount(): Int {

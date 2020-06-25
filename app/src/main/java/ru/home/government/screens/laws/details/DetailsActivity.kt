@@ -48,11 +48,15 @@ class DetailsActivity : AppCompatActivity() {
             viewPager.adapter = adapter
             adapter.addFragment(
                 LawOverviewFragment.instance(lawCode),
-                "Законопроект"
+                getString(R.string.title_law_tab_law)
             )
             adapter.addFragment(
                 LawDetailsFragment.instance(extras.getString(EXTRA_DETAILS_URL, "")),
-                "Подробнее"
+                getString(R.string.title_law_tab_details)
+            )
+            adapter.addFragment(
+                LawVotesFragment.instance(lawCode),
+                getString(R.string.title_law_tab_votes)
             )
 
             val tabLayout = findViewById<View>(R.id.tabs) as TabLayout

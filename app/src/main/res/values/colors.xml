@@ -8,4 +8,5 @@
     <color name="colorActionBar">#002C96</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorGray">#808080</color>
+    <color name="textProtector">#CC000000</color>
 </resources>

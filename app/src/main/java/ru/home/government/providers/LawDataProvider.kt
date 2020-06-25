@@ -1,9 +1,6 @@
 package ru.home.government.providers
 
-import ru.home.government.model.Committees
-import ru.home.government.model.LastEvent
-import ru.home.government.model.Phase
-import ru.home.government.model.Stage
+import ru.home.government.model.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -77,6 +74,16 @@ class LawDataProvider {
 
     fun provideResponsibleCommittee(committees: Committees?): String {
         return if (committees == null || committees.responsible == null) "Нет данных" else committees.responsible.name
+    }
+
+    fun provideFractions(deputy: Deputy): String {
+        if (deputy.factions == null) return ""
+        val builder = StringBuilder()
+        for (item in deputy.factions!!) {
+            builder.append(item.name)
+            builder.append("\n")
+        }
+        return builder.toString()
     }
 
 }

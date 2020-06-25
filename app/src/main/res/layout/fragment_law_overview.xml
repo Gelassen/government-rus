@@ -76,7 +76,7 @@
             android:paddingLeft="16dp"
             android:background="@color/colorGray"
             android:gravity="center_vertical"
-            android:text="Ответственный"/>
+            android:text="@string/title_responsible"/>
 
         <TextView
             android:id="@+id/lawResponsibleCommittee"
@@ -101,7 +101,7 @@
             android:paddingLeft="16dp"
             android:background="@color/colorGray"
             android:gravity="center_vertical"
-            android:text="Последнее событие"/>
+            android:text="@string/title_last_event"/>
 
         <TextView
             android:id="@+id/lawLastEventData"

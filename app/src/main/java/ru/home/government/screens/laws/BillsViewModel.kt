@@ -12,6 +12,7 @@ import ru.home.government.AppApplication
 import ru.home.government.di.AppModule
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
+import ru.home.government.model.VotesResponse
 import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
 
@@ -24,6 +25,7 @@ class BillsViewModel: ViewModel() {
 
     lateinit var boundResource: NetworkBoundResource<GovResponse, GovResponse>
     lateinit var searchLaw: NetworkBoundResource<GovResponse, GovResponse>
+    lateinit var votesByLaw: NetworkBoundResource<VotesResponse, VotesResponse>
 
     fun init(application: AppApplication) {
 //        application.getComponent().inject(this)
@@ -63,6 +65,15 @@ class BillsViewModel: ViewModel() {
     fun fetchTrackedLaws() {
         val lawCodes = cacheRepository.getLawCodes()
         boundResource.fetchFromNetwork(lawCodes)
+    }
+
+    fun subscribeOnVotesByLaw(lawNumber: String): LiveData<Resource<VotesResponse>> {
+        votesByLaw = repository.loadVotesByLaw(lawNumber)
+        return votesByLaw.asLiveData()
+    }
+
+    fun fetchVotesByLaw() {
+        votesByLaw.fetchFromNetwork()
     }
 
 }

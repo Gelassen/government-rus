@@ -6,8 +6,21 @@
     <string name="title_tracker">Tracker</string>
 
     <string name="title_favorite">Favorite</string>
-
     <string name="title_search">Search</string>
+
+    <string name="title_law_tab_law">Laws</string>
+    <string name="title_law_tab_details">Details</string>
+    <string name="title_law_tab_votes">Votes</string>
+
+    <string name="title_responsible">Responsible</string>
+    <string name="title_last_event">Last event</string>
+
+    <string name="votes_no_data">No votes data</string>
+    <string name="votes_details">Details</string>
+    <string name="votes_support">%s\n---\n support</string>
+    <string name="votes_against">%s\n---\n against</string>
+    <string name="votes_abstain">%s\n---\n abstain</string>
+    <string name="votes_deputies_counter">+%s</string>
 
     <string name="laws_placeholder">Any law you follow will be added here. \n\nWhile viewing a law, follow it by tapping star icon at the top right corner. </string>
 
