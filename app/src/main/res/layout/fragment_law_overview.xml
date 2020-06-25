@@ -117,30 +117,6 @@
             android:ellipsize="end"
             tools:text="Рассмотрение законопроекта в первом чтении \n\nРассмотрение Советом Государственной Думы законопроекта, представленного ответственным комитетом"/>
 
-        <TextView
-            android:id="@+id/lawDeputies"
-            style="@style/BaseTextView"
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_marginTop="8dp"
-            android:paddingLeft="16dp"
-            android:background="@color/colorGray"
-            android:gravity="center_vertical"
-            android:text="Депутаты"/>
-
-        <TextView
-            android:id="@+id/lawVotes"
-            style="@style/BaseTextView"
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_marginTop="8dp"
-            android:paddingLeft="16dp"
-            android:background="@color/colorGray"
-            android:gravity="center_vertical"
-            android:text="Голосование"/>
-
-        <!-- TODO add list of deputies -->
-
     </LinearLayout>
 
 </ScrollView>
