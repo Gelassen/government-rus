@@ -67,12 +67,59 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@color/textProtector" />
+
+        <RelativeLayout
+            android:id="@+id/voteDeputiesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/voteDeputiesNoData"
+                style="@style/BaseTextView"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:text="Нет данных"
+                android:visibility="gone"
+                />
+
+            <include
+                android:id="@+id/voteDeputies"
+                layout="@layout/view_item_deputy"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_toStartOf="@+id/voteDeputiesCounter"
+                />
+
+            <TextView
+                android:id="@+id/voteDeputiesCounter"
+                style="@style/BaseTextView"
+                android:layout_width="56dp"
+                android:layout_height="72dp"
+                android:gravity="center"
+                android:layout_alignParentEnd="true"
+                android:textSize="18sp"
+                android:clickable="true"
+                android:background="@color/textProtector"
+                tools:text="+15 ещё"
+                />
+
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/lawResponsible"
             style="@style/BaseTextView"
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:paddingLeft="16dp"
             android:background="@color/colorGray"
             android:gravity="center_vertical"

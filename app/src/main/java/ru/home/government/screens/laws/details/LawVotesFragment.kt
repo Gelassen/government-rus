@@ -9,12 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_law_votes.*
-import kotlinx.android.synthetic.main.view_item_deputy.view.*
 import ru.home.government.AppApplication
 import ru.home.government.R
-import ru.home.government.model.GovResponse
 import ru.home.government.model.VotesResponse
-import ru.home.government.providers.LawDataProvider
 import ru.home.government.providers.VotesDataProvider
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
@@ -51,19 +48,6 @@ class LawVotesFragment: BaseFragment() {
         billsViewModel.init(activity!!.application as AppApplication)
 
         val lawNumber = arguments!!.get(EXTRA_LAW_CODE).toString()
-        billsViewModel.subscribeOnLawsByNumber(lawNumber)
-            .observeBy(
-                this,
-                onNext = {
-                        it ->
-                    Log.d("TAG", "Data arrived: " + it)
-                    onNewData(it)
-                },
-                onLoading = ::visibleProgress,
-                onError = ::showError
-            )
-        billsViewModel.fetchLawByNumber()
-
         billsViewModel.subscribeOnVotesByLaw(lawNumber)
             .observeBy(
                 this,
@@ -99,19 +83,4 @@ class LawVotesFragment: BaseFragment() {
         }
     }
 
-    private fun onNewData(response: GovResponse) {
-        var item = response.laws.get(0)
-        if (item.subject != null && item.subject.deputies != null && item.subject.deputies.size != 0) {
-            val deputy = item.subject.deputies.get(0)
-            voteDeputies.name.text = deputy.name
-            voteDeputies.position.setText(deputy.position)
-            voteDeputies.fraction.text =  LawDataProvider().provideFractions(deputy)
-            voteDeputiesCounter.text = VotesDataProvider().providesVotedDeputiesCounter(resources, item.subject.deputies)
-        } else {
-            voteDeputiesNoData.visibility = View.VISIBLE
-            voteDeputies.visibility = View.GONE
-            voteDeputiesCounter.visibility = View.GONE
-        }
-
-    }
 }
