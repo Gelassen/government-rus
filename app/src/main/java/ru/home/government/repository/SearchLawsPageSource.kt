@@ -11,16 +11,17 @@ import java.io.IOException
 
 private const val GOV_STARTING_PAGE_INDEX = 1
 
-class GovernmentPageSource(
+class SearchLawsPageSource(
     private val api: IApi,
     private val apiKey: String,
-    private val appToken: String
+    private val appToken: String,
+    private val searchStr: String
 ) : PagingSource<Int, Law>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Law> {
         return try {
             val page = params.key ?: GOV_STARTING_PAGE_INDEX
-            val response = api.getIntroducedLaws(apiKey, appToken, page).await()
+            val response = api.getLawByName(apiKey, appToken, page, searchStr).await()
             var data: GovResponse = GovResponse()
             when(response) {
                 is ApiSuccessResponse -> {

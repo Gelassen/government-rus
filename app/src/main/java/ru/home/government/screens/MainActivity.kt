@@ -1,28 +1,25 @@
 package ru.home.government.screens
 
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
-import androidx.core.graphics.drawable.DrawableCompat
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavDirections
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import ru.home.government.AppApplication
+import kotlinx.android.synthetic.main.activity_main.*
 import ru.home.government.R
-import ru.home.government.screens.laws.BillsViewModel
-import ru.home.government.util.observeBy
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setSupportActionBar(toolbar)
 
         val dr = ColorDrawable(resources.getColor(R.color.colorActionBar))
         supportActionBar!!.setBackgroundDrawable(dr)
@@ -42,7 +39,6 @@ class MainActivity : AppCompatActivity() {
 
         navController.navigate(R.id.navigation_dashboard)
     }
-
 }
 
 

@@ -1,12 +1,14 @@
 package ru.home.government.screens.laws.details
 
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ComponentActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.activity_main.*
 import ru.home.government.R
 import ru.home.government.repository.CacheRepository
 
@@ -31,6 +33,11 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_law_details)
+
+        setSupportActionBar(toolbar)
+
+        val dr = ColorDrawable(resources.getColor(R.color.colorActionBar))
+        supportActionBar!!.setBackgroundDrawable(dr)
 
         val viewPager = findViewById<View>(R.id.viewpager) as ViewPager
 

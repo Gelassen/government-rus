@@ -27,13 +27,51 @@ class GovernmentRepository(
         return Pager(
             config = PagingConfig(pageSize = 20),
             pagingSourceFactory = {
-                GovernmentPageSource(
+                LawsPageSource(
                     api,
                     context.getString(R.string.api_key),
                     context.getString(R.string.api_app_token))
             }
         ).flow
     }
+
+    fun loadLawsByName(name: String): Flow<PagingData<Law>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = {
+                SearchLawsPageSource(
+                    api,
+                    context.getString(R.string.api_key),
+                    context.getString(R.string.api_app_token),
+                    name
+                )
+            }
+        ).flow
+    }
+
+    @Deprecated(message = "Redundant")
+    fun loadLawsByNames(name: String) =
+        object: NetworkBoundResource<GovResponse, GovResponse>(coroutineContext, errorHandler) {
+
+            override suspend fun saveCallResult(item: GovResponse) {
+                // no op
+            }
+
+            override suspend fun loadFromDb(): GovResponse? {
+                // no op
+                return GovResponse()
+            }
+
+            override suspend fun createCallAsync(): Deferred<ApiResponse<GovResponse>> {
+                return api.getLawByName(
+                    context.getString(R.string.api_key),
+                    context.getString(R.string.api_app_token),
+                    1,
+                    name
+                )
+            }
+
+        }
 
     fun loadLawByNumber(number: String) =
         object : NetworkBoundResource<GovResponse, GovResponse>(coroutineContext, errorHandler) {

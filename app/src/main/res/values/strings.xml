@@ -7,6 +7,8 @@
 
     <string name="title_favorite">Favorite</string>
 
+    <string name="title_search">Search</string>
+
     <string name="laws_placeholder">Any law you follow will be added here. \n\nWhile viewing a law, follow it by tapping star icon at the top right corner. </string>
 
     <!--Error messages -->

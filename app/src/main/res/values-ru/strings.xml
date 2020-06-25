@@ -7,6 +7,8 @@
 
     <string name="title_favorite">Избранное</string>
 
+    <string name="title_search">Поиск</string>
+
     <string name="laws_placeholder">Каждый законопроект, который вы отслеживаете, будет добавлен сюда. \n\nКогда просматриваете законопроект, начните отслеживтаь его, кликнув на пиктограмму звезды в правом верхнем углу.</string>
 
     <!--Error messages -->

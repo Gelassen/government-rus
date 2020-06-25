@@ -41,6 +41,11 @@ class BillsViewModel: ViewModel() {
         return repository.loadIntroducedLaws()/*.cachedIn(viewM)*/
     }
 
+    fun getLawsByName(name: String): Flow<PagingData<Law>> {
+        // TODO on name == '' use getLaws() as search call would not work here
+        return repository.loadLawsByName(name)
+    }
+
     fun subscribeOnLawsByNumber(number: String): LiveData<Resource<GovResponse>> {
         searchLaw = repository.loadLawByNumber(number)
         return searchLaw.asLiveData()

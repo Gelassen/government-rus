@@ -1,4 +1,4 @@
-package ru.home.government.screens.laws
+package ru.home.government.screens.laws.main
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +13,9 @@ import ru.home.government.model.Law
 import ru.home.government.providers.LawDataProvider
 
 class LawsAdapter :
-    PagingDataAdapter<Law, LawsAdapter.ViewHolder>(LAW_COMPARATOR) {
+    PagingDataAdapter<Law, LawsAdapter.ViewHolder>(
+        LAW_COMPARATOR
+    ) {
 
     interface ClickListener {
         fun onItemClick(item: Law)

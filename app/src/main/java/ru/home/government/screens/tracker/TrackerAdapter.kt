@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.home.government.R
 import ru.home.government.model.Law
 import ru.home.government.providers.LawDataProvider
-import ru.home.government.screens.laws.LawsAdapter
+import ru.home.government.screens.laws.main.LawsAdapter
 import java.util.*
 
 class TrackerAdapter(private val listener: ClickListener) :

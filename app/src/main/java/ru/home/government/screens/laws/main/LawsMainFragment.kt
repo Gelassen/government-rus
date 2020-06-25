@@ -1,4 +1,4 @@
-package ru.home.government.screens.tracker
+package ru.home.government.screens.laws.main
 
 import android.os.Bundle
 import android.util.Log
@@ -6,72 +6,64 @@ import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_laws.*
-import kotlinx.android.synthetic.main.fragment_tracker.*
-import kotlinx.android.synthetic.main.layout_tracked_laws_placeholder.*
-import ru.home.government.App
+import kotlinx.android.synthetic.main.fragment_law_main.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.model.Law
-import ru.home.government.repository.CacheRepository
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.details.DetailsActivity
-import ru.home.government.util.observeBy
 
-class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
+class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
-    lateinit var billsViewModel: BillsViewModel
+    private lateinit var billsViewModel: BillsViewModel
+
+    private lateinit var lawsAdapter: LawsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return layoutInflater.inflate(R.layout.fragment_tracker, container, false)
+        setHasOptionsMenu(true)
+        return layoutInflater.inflate(R.layout.fragment_law_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        progressView = view.findViewById<View>(R.id.progressView)
+        lawsAdapter = LawsAdapter()
 
         list.layoutManager = LinearLayoutManager(context)
-        list.adapter = TrackerAdapter(this)
+        list.adapter = lawsAdapter
+        (list.adapter as LawsAdapter).listener = this
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(activity!!, R.drawable.ic_divider)!!)
         list.addItemDecoration(dividerItemDecoration)
 
-        val codes = CacheRepository(context!!).getLawCodes()
-        Log.d(App.TAG, "Tracked laws: " + codes.size);
-
         billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
         billsViewModel.init(activity!!.application as AppApplication)
-        billsViewModel.getTrackedLaws()
-            .observeBy(
-                this,
-                onNext = {
-                        it ->
-                    Log.d(App.TAG, "Data arrived: " + it.laws.size)
-                    visibleProgress(false)
-                    (list.adapter as TrackerAdapter).update(it.laws)
-                    trackedPlaceholder.visibility = if (it.laws.size == 0) View.VISIBLE else View.GONE
-                },
-                onLoading = ::visibleProgress,
-                onError = ::showError
-            )
-    }
-
-    override fun onResume() {
-        super.onResume()
-        billsViewModel.fetchTrackedLaws()
+        fetchLaws()
     }
 
     override fun onItemClick(item: Law) {
         DetailsActivity.start(activity as ComponentActivity, item.number, item.url)
+    }
+
+    private fun fetchLaws() {
+        lifecycleScope.launch {
+            billsViewModel.getLaws().collectLatest {
+                    it ->
+                Log.d("TAG", "Data arrived: " + it)
+                (list.adapter as LawsAdapter).submitData(it)
+            }
+        }
     }
 
 }
