@@ -71,7 +71,7 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
     }
 
     override fun onItemClick(item: Law) {
-        DetailsActivity.start(activity as ComponentActivity, item.number, item.url)
+        DetailsActivity.start(activity as ComponentActivity, item)
     }
 
 }

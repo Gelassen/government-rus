@@ -7,6 +7,7 @@
 
     <string name="title_favorite">Favorite</string>
     <string name="title_search">Search</string>
+    <string name="title_transcription">Discussions</string>
 
     <string name="title_law_tab_law">Laws</string>
     <string name="title_law_tab_details">Details</string>
@@ -16,11 +17,11 @@
     <string name="title_last_event">Last event</string>
 
     <string name="votes_no_data">No votes data</string>
-    <string name="votes_details">Details</string>
+    <string name="votes_details">Details (click to view)</string>
     <string name="votes_support">%s\n---\n support</string>
     <string name="votes_against">%s\n---\n against</string>
     <string name="votes_abstain">%s\n---\n abstain</string>
-    <string name="votes_deputies_counter">+%s</string>
+    <string name="votes_deputies_counter">+%s\nothers</string>
 
     <string name="laws_placeholder">Any law you follow will be added here. \n\nWhile viewing a law, follow it by tapping star icon at the top right corner. </string>
 
@@ -35,5 +36,6 @@
     <string name="method_not_allowed_error">405 Method Not Allowed</string>
     <string name="conflict_error">409 Conflict</string>
     <string name="server_error_error">500 Server Error</string>
+    <string name="msg_no_discussions">There is no available discussions yet</string>
 
 </resources>

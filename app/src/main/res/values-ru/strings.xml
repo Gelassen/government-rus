@@ -7,6 +7,7 @@
 
     <string name="title_favorite">Избранное</string>
     <string name="title_search">Поиск</string>
+    <string name="title_transcription">Обсуждения</string>
 
     <string name="title_law_tab_law">Законопроект</string>
     <string name="title_law_tab_details">Подробнее</string>
@@ -16,11 +17,11 @@
     <string name="title_last_event">Последнее событие</string>
 
     <string name="votes_no_data">Нет данных по голосованию</string>
-    <string name="votes_details">Подробнее</string>
+    <string name="votes_details">Подробнее (нажмите, чтобы увидеть детали)</string>
     <string name="votes_support">%s\n---\n поддержали</string>
     <string name="votes_against">%s\n---\n против</string>
     <string name="votes_abstain">%s\n---\n воздержались</string>
-    <string name="votes_deputies_counter">+%s</string>
+    <string name="votes_deputies_counter">+%s\ещё</string>
 
     <string name="laws_placeholder">Каждый законопроект, который вы отслеживаете, будет добавлен сюда. \n\nКогда просматриваете законопроект, начните отслеживтаь его, кликнув на пиктограмму звезды в правом верхнем углу.</string>
 
@@ -35,5 +36,6 @@
     <string name="method_not_allowed_error">405 Method Not Allowed</string>
     <string name="conflict_error">409 Conflict</string>
     <string name="server_error_error">500 Server Error</string>
+    <string name="msg_no_discussions">Здесь пока нет доступных обсуждений</string>
 
 </resources>

@@ -78,7 +78,7 @@ class LawsFilteredFragment: BaseFragment(),
     }
 
     override fun onItemClick(item: Law) {
-        DetailsActivity.start(activity as ComponentActivity, item.number, item.url)
+        DetailsActivity.start(activity as ComponentActivity, item)
     }
 
     override fun onSearch(str: String?) {

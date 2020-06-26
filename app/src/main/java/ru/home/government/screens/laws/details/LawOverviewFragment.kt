@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.view_item_deputy.view.*
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.model.GovResponse
+import ru.home.government.model.Law
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.providers.LawDataProvider
@@ -72,15 +73,23 @@ class LawOverviewFragment: BaseFragment() {
         lawResolution.text = dataProvider.provideFormattedResolution(item.lastEvent.solution as String?)
         lawResponsibleCommittee.text = dataProvider.provideResponsibleCommittee(item.committees)
         lawLastEventData.text = dataProvider.provideLastEventData(item.lastEvent)
+        processDeputies(item)
+    }
 
+    private fun processDeputies(item: Law) {
         if (item.subject != null && item.subject.deputies != null && item.subject.deputies.size != 0) {
             val deputy = item.subject.deputies.get(0)
             voteDeputies.name.text = deputy.name
             voteDeputies.position.setText(deputy.position)
             voteDeputies.fraction.text =  LawDataProvider().provideFractions(deputy)
+
+            voteDeputiesCounter.visibility = if (item.subject.deputies.size > 1) View.VISIBLE else View.GONE
             voteDeputiesCounter.text = VotesDataProvider().providesVotedDeputiesCounter(resources, item.subject.deputies)
             voteDeputiesCounter.setOnClickListener { it ->
-                DeputiesOnLawActivity.launch(activity!! as AppCompatActivity, ArrayList(item.subject.deputies))
+                DeputiesOnLawActivity.launch(
+                    activity!! as AppCompatActivity,
+                    ArrayList(item.subject.deputies.subList(1, item.subject.deputies.size))
+                )
             }
         } else {
             voteDeputiesNoData.visibility = View.VISIBLE

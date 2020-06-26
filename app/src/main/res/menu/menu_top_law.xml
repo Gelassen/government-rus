@@ -8,4 +8,9 @@
         android:title="@string/title_favorite"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/itemTranscription"
+        android:title="@string/title_transcription"
+        app:showAsAction="never" />
+
 </menu>

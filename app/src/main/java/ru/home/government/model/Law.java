@@ -27,7 +27,7 @@ public class Law {
     private String url;
     @SerializedName("transcriptUrl")
     @Expose
-    private Object transcriptUrl;
+    private String transcriptUrl;
     @SerializedName("lastEvent")
     @Expose
     private LastEvent lastEvent;
@@ -89,11 +89,11 @@ public class Law {
         this.url = url;
     }
 
-    public Object getTranscriptUrl() {
+    public String getTranscriptUrl() {
         return transcriptUrl;
     }
 
-    public void setTranscriptUrl(Object transcriptUrl) {
+    public void setTranscriptUrl(String transcriptUrl) {
         this.transcriptUrl = transcriptUrl;
     }
 

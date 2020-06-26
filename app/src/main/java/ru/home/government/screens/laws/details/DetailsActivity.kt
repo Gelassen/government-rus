@@ -2,14 +2,17 @@ package ru.home.government.screens.laws.details
 
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ComponentActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.home.government.R
+import ru.home.government.model.Law
 import ru.home.government.repository.CacheRepository
 
 class DetailsActivity : AppCompatActivity() {
@@ -17,18 +20,21 @@ class DetailsActivity : AppCompatActivity() {
     companion object {
 
         private const val EXTRA_LAW_CODE = "EXTRA_LAW_CODE"
+        private const val EXTRA_DISCUSSIONS_URL = "EXTRA_DISCUSSIONS_URL"
         private const val EXTRA_DETAILS_URL = "EXTRA_DETAILS_URL"
 
-        fun start(context: ComponentActivity, code: String, url: String) {
+        fun start(context: ComponentActivity, item: Law) {
             val intent = Intent(context, DetailsActivity::class.java)
-            intent.putExtra(EXTRA_LAW_CODE, code)
-            intent.putExtra(EXTRA_DETAILS_URL, url)
+            intent.putExtra(EXTRA_LAW_CODE, item.number)
+            intent.putExtra(EXTRA_DETAILS_URL, item.url)
+            intent.putExtra(EXTRA_DISCUSSIONS_URL, item.transcriptUrl)
             context.startActivity(intent)
         }
     }
 
     lateinit var cacheRepository: CacheRepository
     lateinit var lawCode: String
+    var extras: Bundle? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +47,7 @@ class DetailsActivity : AppCompatActivity() {
 
         val viewPager = findViewById<View>(R.id.viewpager) as ViewPager
 
-        val extras = intent.extras
+        extras = intent.extras
         lawCode = extras!!.getString(EXTRA_LAW_CODE, "")
         if (extras != null) { // cover corner case on back press scenario
             val adapter = LawDetailsPagerAdapter(supportFragmentManager)
@@ -51,7 +57,7 @@ class DetailsActivity : AppCompatActivity() {
                 getString(R.string.title_law_tab_law)
             )
             adapter.addFragment(
-                LawDetailsFragment.instance(extras.getString(EXTRA_DETAILS_URL, "")),
+                LawDetailsFragment.instance(extras!!.getString(EXTRA_DETAILS_URL, "")),
                 getString(R.string.title_law_tab_details)
             )
             adapter.addFragment(
@@ -97,6 +103,17 @@ class DetailsActivity : AppCompatActivity() {
                     else -> {
 
                     }
+                }
+                return true
+            }
+            R.id.itemTranscription -> {
+                if (extras != null && extras!!.getString(EXTRA_DISCUSSIONS_URL) != null) {
+                    val url = extras!!.getString(EXTRA_DISCUSSIONS_URL)
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, getString(R.string.msg_no_discussions), Toast.LENGTH_SHORT).show()
                 }
                 return true
             }
