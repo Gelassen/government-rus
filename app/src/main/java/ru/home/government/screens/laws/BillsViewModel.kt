@@ -3,6 +3,7 @@ package ru.home.government.screens.laws
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import com.flatstack.android.model.entities.Resource
 import com.flatstack.android.model.network.NetworkBoundResource
@@ -15,10 +16,11 @@ import ru.home.government.model.Law
 import ru.home.government.model.VotesResponse
 import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
+import javax.inject.Inject
 
 class BillsViewModel: ViewModel() {
 
-//    @Inject
+    @Inject
     lateinit var repository: GovernmentRepository
 
     lateinit var cacheRepository: CacheRepository
@@ -28,9 +30,9 @@ class BillsViewModel: ViewModel() {
     lateinit var votesByLaw: NetworkBoundResource<VotesResponse, VotesResponse>
 
     fun init(application: AppApplication) {
-//        application.getComponent().inject(this)
-        val module = AppModule(application)
-        repository = module.providesRepository(module.providesApi(module.providesClient()))
+        application.getComponent().inject(this)
+//        val module = AppModule(application)
+//        repository = module.providesRepository(module.providesApi(module.providesClient()))
         cacheRepository = CacheRepository(application)
     }
 
@@ -54,7 +56,7 @@ class BillsViewModel: ViewModel() {
     }
 
     fun fetchLawByNumber() {
-        searchLaw!!.fetchFromNetwork()
+        searchLaw!!.fetchFromNetwork(viewModelScope)
     }
 
     fun getTrackedLaws(): LiveData<Resource<GovResponse>> {
@@ -73,7 +75,7 @@ class BillsViewModel: ViewModel() {
     }
 
     fun fetchVotesByLaw() {
-        votesByLaw.fetchFromNetwork()
+        votesByLaw.fetchFromNetwork(viewModelScope)
     }
 
 }

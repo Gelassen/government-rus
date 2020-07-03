@@ -1,6 +1,7 @@
 package ru.home.government.screens.laws.filter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
@@ -12,6 +13,7 @@ import kotlinx.android.synthetic.main.fragment_law_main.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.model.Law
@@ -20,6 +22,7 @@ import ru.home.government.screens.OnSearchClickListener
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.main.LawsAdapter
 import ru.home.government.screens.laws.details.DetailsActivity
+import java.lang.Exception
 
 class LawsFilteredFragment: BaseFragment(),
     LawsAdapter.ClickListener,
@@ -59,8 +62,7 @@ class LawsFilteredFragment: BaseFragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        filteredLawsAdapter =
-            FilteredLawsAdapter()
+        filteredLawsAdapter = FilteredLawsAdapter()
 
         list.layoutManager = LinearLayoutManager(context)
         list.adapter = filteredLawsAdapter
@@ -89,7 +91,19 @@ class LawsFilteredFragment: BaseFragment(),
     private fun fetchLawsWithFilter(str: String?) {
         searchJob = lifecycleScope.launch {
             billsViewModel.getLawsByName(str!!).collectLatest { it ->
-                (list.adapter as FilteredLawsAdapter).submitData(it)
+                try {
+                    (list.adapter as FilteredLawsAdapter).submitData(it)
+                    if ((list.adapter as FilteredLawsAdapter).itemCount == 0) {
+                        lawsNoData.visibility = View.VISIBLE
+                        list.visibility = View.GONE
+                    } else {
+                        lawsNoData.visibility = View.GONE
+                        list.visibility = View.VISIBLE
+                    }
+                } catch (ex: Exception) {
+                    Log.e(App.TAG, "Search job exception", ex)
+                }
+
             }
         }
 

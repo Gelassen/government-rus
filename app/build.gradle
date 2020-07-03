@@ -12,8 +12,8 @@ android {
         applicationId "ru.home.government"
         minSdkVersion versions.MIN_SDK_VERSION
         targetSdkVersion versions.TARGET_SDK_VERSION
-        versionCode 2
-        versionName "0.9"
+        versionCode 3
+        versionName "0.91"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -41,6 +41,9 @@ dependencies {
 
     testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
 //
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     implementation 'com.google.android.material:material:1.1.0'

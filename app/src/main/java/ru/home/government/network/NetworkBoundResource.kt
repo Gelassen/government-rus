@@ -28,6 +28,12 @@ abstract class NetworkBoundResource<ResultType, RequestType>(
 
     fun asLiveData() = result as LiveData<Resource<ResultType>>
 
+    fun fetchFromNetwork(scope: CoroutineScope) {
+        scope.launch {
+            fetchFromNetwork()
+        }
+    }
+
     fun fetchFromNetwork(codes: Set<String>) {
         launch {
             val result = GovResponse()
@@ -45,36 +51,33 @@ abstract class NetworkBoundResource<ResultType, RequestType>(
         }
     }
 
-    fun fetchFromNetwork() {
-        launch {
-            try {
-                if (isSkipCache()) {
-                    when (val apiResponse = createCallAsync().await()) {
-                        is ApiSuccessResponse -> {
-                            result.postValue(Resource.success(apiResponse.body as ResultType))
-                        }
-                        is ApiErrorResponse -> {
-                            onFetchFailed()
-                            result.postValue(Resource.error(errorHandler.proceed(apiResponse.error), loadFromDb()))
-                        }
+    suspend fun fetchFromNetwork() {
+        try {
+            if (isSkipCache()) {
+                when (val apiResponse = createCallAsync().await()) {
+                    is ApiSuccessResponse -> {
+                        result.postValue(Resource.success(apiResponse.body as ResultType))
                     }
-                } else {
-                    result.postValue(Resource.loading(loadFromDb()))
-                    when (val apiResponse = createCallAsync().await()) {
-                        is ApiSuccessResponse -> {
-                            saveCallResult(processResponse(apiResponse))
-                            result.postValue(Resource.success(loadFromDb()))
-                        }
-                        is ApiErrorResponse -> {
-                            onFetchFailed()
-                            result.postValue(Resource.error(errorHandler.proceed(apiResponse.error), loadFromDb()))
-                        }
+                    is ApiErrorResponse -> {
+                        onFetchFailed()
+                        result.postValue(Resource.error(errorHandler.proceed(apiResponse.error), loadFromDb()))
                     }
                 }
-            } catch (ex: Exception) {
-                Log.e(App.TAG, "Failed to process data", ex)
+            } else {
+                result.postValue(Resource.loading(loadFromDb()))
+                when (val apiResponse = createCallAsync().await()) {
+                    is ApiSuccessResponse -> {
+                        saveCallResult(processResponse(apiResponse))
+                        result.postValue(Resource.success(loadFromDb()))
+                    }
+                    is ApiErrorResponse -> {
+                        onFetchFailed()
+                        result.postValue(Resource.error(errorHandler.proceed(apiResponse.error), loadFromDb()))
+                    }
+                }
             }
-
+        } catch (ex: Exception) {
+            Log.e(App.TAG, "Failed to process data", ex)
         }
     }
 

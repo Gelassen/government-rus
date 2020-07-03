@@ -24,6 +24,7 @@
     <string name="votes_deputies_counter">+%s\nothers</string>
 
     <string name="laws_placeholder">Any law you follow will be added here. \n\nWhile viewing a law, follow it by tapping star icon at the top right corner. </string>
+    <string name="laws_no_data_for_this_filter">There is no data for this request</string>
 
     <!--Error messages -->
     <string name="unknown_error">Unknown error</string>
