@@ -14,7 +14,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.home.government.network.IApi
 import ru.home.government.R
 import ru.home.government.network.adapter.CoroutineCallAdapterFactory
+import ru.home.government.network.adapter.CustomTypeAdapterFactory
 import ru.home.government.repository.GovernmentRepository
+import ru.home.government.repository.NewGovernmentRepository
 import javax.inject.Singleton
 
 @Module
@@ -23,10 +25,11 @@ class AppModule(val context: Context) {
     @Singleton
     @Provides
     fun providesApi(httpClient: OkHttpClient): IApi {
-        val customGson = GsonBuilder().create()
+        val customGson = GsonBuilder().registerTypeAdapterFactory(CustomTypeAdapterFactory()).create()
         val retrofit = Retrofit.Builder()
 //            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(customGson))
+            .addConverterFactory(GsonConverterFactory.create(customGson/*GsonBuilder().create()*/))
+//            .addConverterFactory(CustomGsonConverterFactory.create(customGson))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(httpClient)
             .baseUrl(context.getString(R.string.url))
@@ -53,5 +56,11 @@ class AppModule(val context: Context) {
     @Provides
     fun providesRepository(client: IApi): GovernmentRepository {
         return GovernmentRepository(context, client, ErrorHandler(Gson(), StringResource(context)))
+    }
+
+    @Singleton
+    @Provides
+    fun providesNewRepository(client: IApi): NewGovernmentRepository {
+        return NewGovernmentRepository(context, client)
     }
 }
