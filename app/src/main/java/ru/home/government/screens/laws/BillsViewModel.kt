@@ -13,12 +13,16 @@ import ru.home.government.model.Law
 import ru.home.government.model.VotesResponse
 import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
+import ru.home.government.repository.NewGovernmentRepository
 import javax.inject.Inject
 
 class BillsViewModel: ViewModel() {
 
     @Inject
     lateinit var repository: GovernmentRepository
+
+    @Inject
+    lateinit var newRepo: NewGovernmentRepository
 
     lateinit var cacheRepository: CacheRepository
 
@@ -28,8 +32,6 @@ class BillsViewModel: ViewModel() {
 
     fun init(application: AppApplication) {
         application.getComponent().inject(this)
-//        val module = AppModule(application)
-//        repository = module.providesRepository(module.providesApi(module.providesClient()))
         cacheRepository = CacheRepository(application)
     }
 
@@ -39,12 +41,14 @@ class BillsViewModel: ViewModel() {
     }
 
     fun getLaws(): Flow<PagingData<Law>> {
-        return repository.loadIntroducedLaws()/*.cachedIn(viewM)*/
+        return newRepo.loadIntroducedLaws()
+//        return repository.loadIntroducedLaws()
     }
 
     fun getLawsByName(name: String): Flow<PagingData<Law>> {
         // TODO on name == '' use getLaws() as search call would not work here
-        return repository.loadLawsByName(name)
+        return newRepo.loadLawsByName(name)
+//        return repository.loadLawsByName(name)
     }
 
     fun subscribeOnLawsByNumber(number: String): LiveData<Resource<GovResponse>> {

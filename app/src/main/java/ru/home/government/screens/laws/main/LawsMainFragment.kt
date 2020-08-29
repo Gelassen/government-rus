@@ -58,7 +58,8 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
     private fun fetchLaws() {
         lifecycleScope.launch {
-            billsViewModel.getLaws().collectLatest {
+            val flow = billsViewModel.getLaws()
+            flow.collectLatest {
                     it ->
                 Log.d("TAG", "Data arrived: " + it)
                 (list.adapter as LawsAdapter).submitData(it)
