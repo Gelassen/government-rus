@@ -9,16 +9,19 @@ public class GovResponse {
 
     @SerializedName("count")
     @Expose
-    private Integer count;
+    private Integer count = 0;
     @SerializedName("page")
     @Expose
-    private Integer page;
+    private Integer page = 0;
     @SerializedName("wording")
     @Expose
-    private String wording;
+    private String wording = "";
     @SerializedName("laws")
     @Expose
     private List<Law> laws = new ArrayList<>();
+
+    public GovResponse() {
+    }
 
     public Integer getCount() {
         return count;

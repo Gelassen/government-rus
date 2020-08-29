@@ -44,18 +44,15 @@ public class CustomTypeAdapterFactory implements TypeAdapterFactory {
         @Override
         public FetcherResult<T> read(JsonReader in) throws IOException {
             Log.d(App.TAG, "[start] FetcherResultAdapter.read");
-//            getParameterUpperBound(0, (value instanceof FetcherResult.Data);
-//            ((FetcherResult.Data) value).getClass().getDeclaringClass();
-            T response = null;
+            FetcherResult<T> response = null;
             try {
                 Type responseType = getParameterUpperBound(0, (ParameterizedType) type.getType());
-                response = gson.fromJson(in, responseType);
+                response = new FetcherResult.Data<>(gson.fromJson(in, responseType));
             } catch (Exception ex) {
                 Log.e(App.TAG, "Failed to parse FetchResult response", ex);
+                response = new FetcherResult.Error.Exception<>(ex);
             }
-
-//            Class clazz = getClass();
-            return new FetcherResult.Data<>(response);
+            return response;
         }
     }
 

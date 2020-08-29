@@ -3,25 +3,26 @@ package ru.home.government.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Collections;
 import java.util.List;
 
 public class VotesResponse {
 
     @SerializedName("totalCount")
     @Expose
-    private String totalCount;
+    private String totalCount = "";
     @SerializedName("page")
     @Expose
-    private String page;
+    private String page = "";
     @SerializedName("pageSize")
     @Expose
-    private String pageSize;
+    private String pageSize = "";
     @SerializedName("wording")
     @Expose
-    private String wording;
+    private String wording = "";
     @SerializedName("votes")
     @Expose
-    private List<Vote> votes = null;
+    private List<Vote> votes = Collections.emptyList();
 
     public String getTotalCount() {
         return totalCount;

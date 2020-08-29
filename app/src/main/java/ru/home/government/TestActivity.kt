@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.dropbox.android.external.store4.FetcherResult
 import com.dropbox.android.external.store4.StoreRequest
-import com.flatstack.android.model.network.errors.ErrorHandler
-import com.flatstack.android.util.StringResource
-import com.google.gson.Gson
 import kotlinx.coroutines.flow.collect
-import ru.home.government.di.AppModule
-import ru.home.government.repository.GovernmentRepository
+import ru.home.government.model.Deputy
+import ru.home.government.model.VotesResponse
 import ru.home.government.repository.NewGovernmentRepository
 import javax.inject.Inject
+
 
 class TestActivity: AppCompatActivity() {
 
@@ -23,31 +22,6 @@ class TestActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         (application as AppApplication).component.inject(this)
-
-//        lifecycleScope.launchWhenCreated {
-//            repo.getData(
-//                getString(R.string.api_key),
-//                getString(R.string.api_app_token)
-//            )
-//                .stream(StoreRequest.fresh(1))
-//                .collect { result ->
-//                    Log.d(App.TAG, "repo.getData() result call")
-//                    Log.d(App.TAG, "result: " + result.dataOrNull().toString())
-//                    result.throwIfError()
-//                }
-//        }
-
-        // check chain of adapters is not broke
-/*        lifecycleScope.launchWhenCreated {
-            val module = AppModule(applicationContext)
-            val client = module.providesApi(module.providesClient())
-            GovernmentRepository(
-                applicationContext,
-                client,
-                ErrorHandler(Gson(), StringResource(applicationContext)))
-                .loadDeputies()
-                .fetchFromNetwork()
-        }*/
 
 
         // DONE
@@ -61,41 +35,78 @@ class TestActivity: AppCompatActivity() {
             Log.d(App.TAG, "Fetcher result: " + result.toString())
         }*/
 
-        lifecycleScope.launchWhenCreated {
+/*        lifecycleScope.launchWhenCreated {
             repo.loadDeputies()
                 .stream(StoreRequest.fresh(1))
                 .collect {
                     result ->
-                    Log.d(App.TAG, "Deputies are loaded: " + result.dataOrNull().toString());
-                    Log.d(App.TAG, "Error message if any: " + result.errorMessageOrNull());
+                    val result = result.dataOrNull()
+                    when(result) {
+                        is FetcherResult.Data -> Log.d(App.TAG, "laws by name: " + result.value.size)
+                        is FetcherResult.Error.Exception -> Log.d(App.TAG, "laws by name - exception", result.error)
+                        else -> {
+                            Log.d(App.TAG, "Laws by number response has unsupported type")
+                        }
+                    }
                 }
-        }
+        }*/
 
-//        lifecycleScope.launchWhenCreated {
-//            repo.loadLawsByName("мед")
-//                .stream(StoreRequest.fresh("мед"))
-//                .collect {
-//                        result ->
-//                    Log.d(App.TAG, "Laws by name are loaded: " + result.dataOrNull().toString())
-//                }
-//        }
+/*        lifecycleScope.launchWhenCreated {
+            repo.loadLawsByName()
+                .stream(StoreRequest.fresh("мед"))
+                .collect { result ->
+                    val result = result.dataOrNull()
+                    when(result) {
+                        is FetcherResult.Data -> Log.d(App.TAG, "laws by name: " + result.value.wording + " " + result.value.count)
+                        is FetcherResult.Error.Exception -> Log.d(App.TAG, "laws by name - exception", result.error)
+                        else -> {
+                            Log.d(App.TAG, "Laws by number response has unsupported type")
+                        }
+                    }
+                }
+        }*/
 
-//        lifecycleScope.launchWhenCreated {
-//            repo.loadLawsByNumber("1000074-7")
-//                .stream(StoreRequest.fresh("1000074-7"))
-//                .collect {
-//                        result ->
-//                    Log.d(App.TAG, "Laws by number are loaded: " + result.dataOrNull().toString())
-//                }
-//        }
+//        StrictMode.setThreadPolicy(
+//            StrictMode.ThreadPolicy.Builder()
+//                .detectDiskReads()
+//                .detectDiskWrites()
+//                .detectNetwork() // or .detectAll() for all detectable problems
+//                .penaltyDeath()
+//                .build()
+//        )
 
-//        lifecycleScope.launchWhenCreated {
-//            repo.loadVotesByLaw("1001105-7")
-//                .stream(StoreRequest.skipMemory("1001105-7", false))
-//                .collect {
-//                        result ->
-//                    Log.d(App.TAG, "Votes by number are loaded: " + result.dataOrNull().toString().length)
-//                }
-//        }
+/*        lifecycleScope.launchWhenCreated {
+            repo.loadLawsByNumber()
+                .stream(StoreRequest.fresh("1000074-7"))
+                .collect { result ->
+                    val result = result.dataOrNull()
+                    when(result) {
+                        is FetcherResult.Data -> Log.d(App.TAG, "laws by number: " + result.value.wording + " " + result.value.count)
+                        is FetcherResult.Error.Exception -> Log.d(App.TAG, "laws by number - exception", result.error)
+                        else -> {
+                            Log.d(App.TAG, "Laws by number response has unsupported type")
+                        }
+                    }
+                }
+        }*/
+
+/*        lifecycleScope.launchWhenCreated {
+            repo.loadVotesByLaw()
+                .stream(StoreRequest.fresh("1001105-7"))
+                .collect {
+                        result ->
+                    // TODO result.requireData(), it has some unexplored intent as it throws exceptions when dataOrNull returns response
+                    Log.d(App.TAG, "Votes response")
+                    val result = result.dataOrNull()// as FetcherResult<VotesResponse>;
+                    when (result) {
+                        is FetcherResult.Data -> Log.d(App.TAG, "Vote result: " + result.value.wording)
+                        is FetcherResult.Error.Exception -> Log.e(App.TAG, "Vote request error: ", result.error)
+                        is FetcherResult.Error.Message -> Log.d(App.TAG, "Vote request error message: " + result.message)
+                        else -> {
+                            Log.d(App.TAG, "Votes response has unsupported type")
+                        }
+                    }
+                }
+        }*/
     }
 }
