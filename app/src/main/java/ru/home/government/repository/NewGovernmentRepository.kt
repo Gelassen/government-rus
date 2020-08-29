@@ -2,31 +2,56 @@ package ru.home.government.repository
 
 import android.content.Context
 import android.util.Log
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.dropbox.android.external.store4.Fetcher
 import com.dropbox.android.external.store4.FetcherResult
 import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreBuilder
-import com.flatstack.android.model.network.ErrorResponse
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import ru.home.government.App
 import ru.home.government.R
 import ru.home.government.model.Deputy
 import ru.home.government.model.GovResponse
+import ru.home.government.model.Law
 import ru.home.government.model.VotesResponse
 import ru.home.government.network.IApi
+import ru.home.government.repository.pagination.NewLawsPageSource
+import ru.home.government.repository.pagination.NewSearchLawsPageSource
 import java.util.*
 
 class NewGovernmentRepository(
     private val context: Context,
     private val api: IApi) {
 
-    private lateinit var scope: CoroutineScope
+    fun loadIntroducedLaws(): Flow<PagingData<Law>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = {
+                NewLawsPageSource(
+                    api,
+                    context.getString(R.string.api_key),
+                    context.getString(R.string.api_app_token)
+                )
+            }
+        ).flow
+    }
 
-    fun setScope(scope: CoroutineScope) {
-        this.scope = scope
+    fun loadLawsByName(name: String): Flow<PagingData<Law>> {
+        return Pager(
+            config = PagingConfig(pageSize = 20),
+            pagingSourceFactory = {
+                NewSearchLawsPageSource(
+                    api,
+                    context.getString(R.string.api_key),
+                    context.getString(R.string.api_app_token),
+                    name
+                )
+            }
+        ).flow
     }
 
     @kotlinx.coroutines.ExperimentalCoroutinesApi

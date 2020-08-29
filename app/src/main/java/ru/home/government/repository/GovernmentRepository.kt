@@ -15,6 +15,8 @@ import ru.home.government.model.Deputy
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
 import ru.home.government.model.VotesResponse
+import ru.home.government.repository.pagination.LawsPageSource
+import ru.home.government.repository.pagination.SearchLawsPageSource
 
 class GovernmentRepository(
     private val context: Context,
@@ -31,7 +33,8 @@ class GovernmentRepository(
                 LawsPageSource(
                     api,
                     context.getString(R.string.api_key),
-                    context.getString(R.string.api_app_token))
+                    context.getString(R.string.api_app_token)
+                )
             }
         ).flow
     }

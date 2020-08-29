@@ -1,4 +1,4 @@
-package ru.home.government.repository
+package ru.home.government.repository.pagination
 
 import androidx.paging.PagingSource
 import com.flatstack.android.model.network.ApiErrorResponse
