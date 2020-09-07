@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.home.government.network.IApi
 import ru.home.government.R
 import ru.home.government.network.adapter.CustomTypeAdapterFactory
-import ru.home.government.repository.NewGovernmentRepository
+import ru.home.government.repository.GovernmentRepository
 import javax.inject.Singleton
 
 @Module
@@ -46,7 +46,7 @@ class AppModule(val context: Context) {
 
     @Singleton
     @Provides
-    fun providesNewRepository(client: IApi): NewGovernmentRepository {
-        return NewGovernmentRepository(context, client)
+    fun providesNewRepository(client: IApi): GovernmentRepository {
+        return GovernmentRepository(context, client)
     }
 }

@@ -1,6 +1,5 @@
 package ru.home.government.screens.deputies
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,17 +8,16 @@ import com.dropbox.android.external.store4.FetcherResult
 import com.dropbox.android.external.store4.StoreRequest
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.model.Deputy
-import ru.home.government.repository.NewGovernmentRepository
+import ru.home.government.repository.GovernmentRepository
 import java.util.*
 import javax.inject.Inject
 
 class DeputiesViewModel: ViewModel() {
 
     @Inject
-    lateinit var repository: NewGovernmentRepository
+    lateinit var repository: GovernmentRepository
 
     val deputiesLiveData: MutableLiveData<FetcherResult<List<Deputy>>> = MutableLiveData<FetcherResult<List<Deputy>>>()
 

@@ -4,22 +4,18 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
-import com.dropbox.android.external.store4.FetcherResult
 import com.dropbox.android.external.store4.StoreRequest
 import com.dropbox.android.external.store4.StoreResponse
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.home.government.model.Deputy
-import ru.home.government.model.VotesResponse
-import ru.home.government.repository.NewGovernmentRepository
+import ru.home.government.repository.GovernmentRepository
 import javax.inject.Inject
 
 
 class TestActivity: AppCompatActivity() {
 
     @Inject
-    lateinit var repo: NewGovernmentRepository
+    lateinit var repo: GovernmentRepository
 
     fun experimentalFetcher() {
 //        val lawCodes = cacheRepository.getLawCodes().toTypedArray()

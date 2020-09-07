@@ -10,7 +10,7 @@ import java.io.IOException
 
 private const val GOV_STARTING_PAGE_INDEX = 1
 
-class NewSearchLawsPageSource(
+class SearchLawsPageSource(
     private val api: IApi,
     private val apiKey: String,
     private val appToken: String,

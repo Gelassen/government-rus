@@ -13,13 +13,13 @@ import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
 import ru.home.government.model.VotesResponse
 import ru.home.government.repository.CacheRepository
-import ru.home.government.repository.NewGovernmentRepository
+import ru.home.government.repository.GovernmentRepository
 import javax.inject.Inject
 
 class BillsViewModel: ViewModel() {
 
     @Inject
-    lateinit var repository: NewGovernmentRepository
+    lateinit var repository: GovernmentRepository
 
     lateinit var cacheRepository: CacheRepository
 

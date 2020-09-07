@@ -19,11 +19,11 @@ import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
 import ru.home.government.model.VotesResponse
 import ru.home.government.network.IApi
-import ru.home.government.repository.pagination.NewLawsPageSource
-import ru.home.government.repository.pagination.NewSearchLawsPageSource
+import ru.home.government.repository.pagination.LawsPageSource
+import ru.home.government.repository.pagination.SearchLawsPageSource
 import java.util.*
 
-class NewGovernmentRepository(
+class GovernmentRepository(
     private val context: Context,
     private val api: IApi) {
 
@@ -31,7 +31,7 @@ class NewGovernmentRepository(
         return Pager(
             config = PagingConfig(pageSize = 20),
             pagingSourceFactory = {
-                NewLawsPageSource(
+                LawsPageSource(
                     api,
                     context.getString(R.string.api_key),
                     context.getString(R.string.api_app_token)
@@ -44,7 +44,7 @@ class NewGovernmentRepository(
         return Pager(
             config = PagingConfig(pageSize = 20),
             pagingSourceFactory = {
-                NewSearchLawsPageSource(
+                SearchLawsPageSource(
                     api,
                     context.getString(R.string.api_key),
                     context.getString(R.string.api_app_token),
