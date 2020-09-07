@@ -25,6 +25,10 @@ class LawDataProvider {
         shortDateFormat = SimpleDateFormat(SHORT_DATE_FORMAT, Locale.getDefault())
     }
 
+    fun dateAsLong(date: String?): Long {
+        return originDateFormat.parse(date).time
+    }
+
     fun provideFormattedShortDate(date: String?): String {
         return shortDateFormat.format(originDateFormat.parse(date))
     }

@@ -12,7 +12,9 @@ import java.util.*
 
 class DeputiesAdapter :
     RecyclerView.Adapter<DeputiesAdapter.ViewHolder>() {
+
     private val model: MutableList<Deputy> = ArrayList()
+
     fun update(model: List<Deputy>?) {
         this.model.clear()
         this.model.addAll(model!!)

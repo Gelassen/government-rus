@@ -70,7 +70,7 @@ class DetailsActivity : AppCompatActivity() {
         }
 
         cacheRepository =
-            CacheRepository(this)//CacheRepository(this)
+            CacheRepository(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

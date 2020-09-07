@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_laws.*
 import kotlinx.android.synthetic.main.fragment_tracker.*
 import kotlinx.android.synthetic.main.layout_tracked_laws_placeholder.*
 import ru.home.government.App
@@ -19,7 +18,7 @@ import ru.home.government.repository.CacheRepository
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.details.DetailsActivity
-import ru.home.government.util.observeBy
+import ru.home.government.util.newObserveBy
 
 class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
 
@@ -51,7 +50,7 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
         billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
         billsViewModel.init(activity!!.application as AppApplication)
         billsViewModel.getTrackedLaws()
-            .observeBy(
+            .newObserveBy(
                 this,
                 onNext = {
                         it ->
@@ -63,10 +62,13 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
                 onLoading = ::visibleProgress,
                 onError = ::showError
             )
+
     }
 
     override fun onResume() {
         super.onResume()
+        (list.adapter as TrackerAdapter).reset()
+        trackedPlaceholder.visibility = View.VISIBLE
         billsViewModel.fetchTrackedLaws()
     }
 

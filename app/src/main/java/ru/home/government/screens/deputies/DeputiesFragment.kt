@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_law_deputies.*
 import kotlinx.android.synthetic.main.fragment_deputies.*
+import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.model.Deputy
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.details.LawOverviewFragment
+import ru.home.government.util.newObserveBy
 import ru.home.government.util.observeBy
 
 
@@ -86,7 +88,7 @@ class DeputiesFragment: BaseFragment() {
             val viewModel = ViewModelProviders.of(this).get(DeputiesViewModel::class.java)
             viewModel.init(activity!!.application as AppApplication)
             viewModel.subscribeOnDeputies()
-                .observeBy(
+                .newObserveBy(
                     this,
                     onNext = {
                             it ->
@@ -97,6 +99,7 @@ class DeputiesFragment: BaseFragment() {
                     onLoading = ::visibleProgress,
                     onError = ::showError
                 )
+            visibleProgress(true)
             viewModel.fetchDeputies()
         }
 

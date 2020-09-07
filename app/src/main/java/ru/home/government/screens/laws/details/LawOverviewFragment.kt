@@ -17,6 +17,7 @@ import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.providers.VotesDataProvider
+import ru.home.government.util.newObserveBy
 import ru.home.government.util.observeBy
 import java.util.ArrayList
 
@@ -48,8 +49,8 @@ class LawOverviewFragment: BaseFragment() {
 
         val billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
         billsViewModel.init(activity!!.application as AppApplication)
-        billsViewModel.subscribeOnLawsByNumber(arguments!!.get(EXTRA_LAW_CODE).toString())
-            .observeBy(
+        billsViewModel.subscribeOnLawsByNumber()
+            .newObserveBy(
                 this,
                 onNext = {
                         it ->
@@ -59,7 +60,7 @@ class LawOverviewFragment: BaseFragment() {
                 onLoading = ::visibleProgress,
                 onError = ::showError
             )
-        billsViewModel.fetchLawByNumber()
+        billsViewModel.fetchLawByNumber(arguments!!.get(EXTRA_LAW_CODE).toString())
     }
 
     private fun onNewData(response: GovResponse) {

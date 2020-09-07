@@ -29,4 +29,6 @@
         app:layout_constraintTop_toTopOf="parent"
          />
 
+    <include layout="@layout/layout_progress_view" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

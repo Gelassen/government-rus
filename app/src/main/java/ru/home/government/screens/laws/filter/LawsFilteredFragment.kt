@@ -85,12 +85,14 @@ class LawsFilteredFragment: BaseFragment(),
 
     override fun onSearch(str: String?) {
         searchJob?.cancel()
+        visibleProgress(true)
         fetchLawsWithFilter(str)
     }
 
     private fun fetchLawsWithFilter(str: String?) {
         searchJob = lifecycleScope.launch {
             billsViewModel.getLawsByName(str!!).collectLatest { it ->
+                visibleProgress(false)
                 try {
                     (list.adapter as FilteredLawsAdapter).submitData(it)
                     if ((list.adapter as FilteredLawsAdapter).itemCount == 0) {

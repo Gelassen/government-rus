@@ -49,6 +49,7 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
         billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
         billsViewModel.init(activity!!.application as AppApplication)
+        visibleProgress(true)
         fetchLaws()
     }
 
@@ -61,7 +62,7 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
             val flow = billsViewModel.getLaws()
             flow.collectLatest {
                     it ->
-                Log.d("TAG", "Data arrived: " + it)
+                visibleProgress(false)
                 (list.adapter as LawsAdapter).submitData(it)
             }
         }

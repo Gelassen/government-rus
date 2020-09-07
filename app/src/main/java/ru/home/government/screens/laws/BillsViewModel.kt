@@ -1,12 +1,17 @@
 package ru.home.government.screens.laws
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import androidx.paging.PagingData
+import com.dropbox.android.external.store4.FetcherResult
+import com.dropbox.android.external.store4.StoreRequest
+import com.dropbox.android.external.store4.StoreResponse
 import com.flatstack.android.model.entities.Resource
 import com.flatstack.android.model.network.NetworkBoundResource
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
@@ -26,9 +31,9 @@ class BillsViewModel: ViewModel() {
 
     lateinit var cacheRepository: CacheRepository
 
-    lateinit var boundResource: NetworkBoundResource<GovResponse, GovResponse>
-    lateinit var searchLaw: NetworkBoundResource<GovResponse, GovResponse>
-    lateinit var votesByLaw: NetworkBoundResource<VotesResponse, VotesResponse>
+    val lawsLiveData: MutableLiveData<FetcherResult<GovResponse>> = MutableLiveData<FetcherResult<GovResponse>>()
+    val votesLiveData: MutableLiveData<FetcherResult<VotesResponse>> = MutableLiveData<FetcherResult<VotesResponse>>()
+    val trackedLiveData: MutableLiveData<FetcherResult<GovResponse>> = MutableLiveData<FetcherResult<GovResponse>>()
 
     fun init(application: AppApplication) {
         application.getComponent().inject(this)
@@ -42,41 +47,59 @@ class BillsViewModel: ViewModel() {
 
     fun getLaws(): Flow<PagingData<Law>> {
         return newRepo.loadIntroducedLaws()
-//        return repository.loadIntroducedLaws()
     }
 
     fun getLawsByName(name: String): Flow<PagingData<Law>> {
         // TODO on name == '' use getLaws() as search call would not work here
         return newRepo.loadLawsByName(name)
-//        return repository.loadLawsByName(name)
     }
 
-    fun subscribeOnLawsByNumber(number: String): LiveData<Resource<GovResponse>> {
-        searchLaw = repository.loadLawByNumber(number)
-        return searchLaw.asLiveData()
+    @Suppress("UNCHECKED_CAST")
+    fun subscribeOnLawsByNumber(): LiveData<FetcherResult<GovResponse>> {
+        return lawsLiveData
     }
 
-    fun fetchLawByNumber() {
-        searchLaw!!.fetchFromNetwork(viewModelScope)
+    fun fetchLawByNumber(number: String) {
+        viewModelScope.launch {
+            newRepo.loadLawsByNumber()
+                .stream(StoreRequest.fresh(number))
+                .collect { result ->
+                    lawsLiveData.postValue(result.dataOrNull())
+                }
+        }
     }
 
-    fun getTrackedLaws(): LiveData<Resource<GovResponse>> {
-        boundResource = repository.loadLawsByNumbers()
-        return boundResource.asLiveData()
+    fun subscribeOnVotesByLaw(): LiveData<FetcherResult<VotesResponse>> {
+        return votesLiveData
+    }
+
+    fun fetchVotesByLaw(lawNumber: String) {
+        viewModelScope.launch {
+            newRepo.loadVotesByLaw()
+                .stream(StoreRequest.fresh(lawNumber))
+                .collect{ result ->
+                    votesLiveData.postValue(result.dataOrNull())
+                }
+        }
+    }
+
+    fun getTrackedLaws(): LiveData<FetcherResult<GovResponse>> {
+        return trackedLiveData
     }
 
     fun fetchTrackedLaws() {
-        val lawCodes = cacheRepository.getLawCodes()
-        boundResource.fetchFromNetwork(lawCodes)
+        val lawCodes = cacheRepository.getLawCodes().toTypedArray()
+        viewModelScope.launch {
+            flowOf(*lawCodes)
+                .flatMapMerge { it ->
+                    newRepo
+                        .loadLawsByNumber()
+                        .stream(StoreRequest.fresh(it))
+                }
+                .collect { it ->
+                    Log.d(App.TAG, "experimentalFetcher call")
+                    trackedLiveData.postValue(it.dataOrNull())
+                }
+        }
     }
-
-    fun subscribeOnVotesByLaw(lawNumber: String): LiveData<Resource<VotesResponse>> {
-        votesByLaw = repository.loadVotesByLaw(lawNumber)
-        return votesByLaw.asLiveData()
-    }
-
-    fun fetchVotesByLaw() {
-        votesByLaw.fetchFromNetwork(viewModelScope)
-    }
-
 }

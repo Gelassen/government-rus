@@ -18,9 +18,18 @@ class TrackerAdapter(private val listener: ClickListener) :
     }
 
     private val model: MutableList<Law> = ArrayList()
-    fun update(model: List<Law>?) {
+
+    private val provider = LawDataProvider()
+
+    fun reset() {
         this.model.clear()
+        notifyDataSetChanged()
+    }
+
+    fun update(model: List<Law>?) {
+        /*this.model.clear()*/ // TODO revert back after figure out issue of smooth run several suspend functions in the same coroutine scope
         this.model.addAll(model!!)
+        this.model.sortByDescending { it -> provider.dateAsLong(it.lastEvent.date) }
         notifyDataSetChanged()
     }
 
@@ -38,7 +47,6 @@ class TrackerAdapter(private val listener: ClickListener) :
         position: Int
     ) {
         val item = model[position]
-        val provider = LawDataProvider()
         holder.date.text = provider.provideFormattedShortDate(item.lastEvent.date)
         holder.code.text = item.number
         holder.title.text = item.name

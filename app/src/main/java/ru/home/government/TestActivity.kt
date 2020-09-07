@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import com.dropbox.android.external.store4.FetcherResult
 import com.dropbox.android.external.store4.StoreRequest
-import kotlinx.coroutines.flow.collect
+import com.dropbox.android.external.store4.StoreResponse
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import ru.home.government.model.Deputy
 import ru.home.government.model.VotesResponse
 import ru.home.government.repository.NewGovernmentRepository
@@ -18,11 +21,28 @@ class TestActivity: AppCompatActivity() {
     @Inject
     lateinit var repo: NewGovernmentRepository
 
+    fun experimentalFetcher() {
+//        val lawCodes = cacheRepository.getLawCodes().toTypedArray()
+        lifecycleScope.launch {
+            repo
+                .loadLawsByNumber()
+                .stream(StoreRequest.fresh("1000975-7"))
+                .onEach {  }
+                .catch {  }
+                .collect { it ->
+                    Log.d(App.TAG, "Collect call: " + (it is StoreResponse.Loading));
+                    Log.d(App.TAG, "Collect call: [type] " + it.toString())
+                }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         (application as AppApplication).component.inject(this)
 
+//        1000975-7
+        experimentalFetcher()
 
         // DONE
 /*        lifecycleScope.launchWhenCreated {

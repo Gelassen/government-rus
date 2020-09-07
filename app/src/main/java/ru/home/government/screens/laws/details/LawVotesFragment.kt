@@ -15,6 +15,7 @@ import ru.home.government.model.VotesResponse
 import ru.home.government.providers.VotesDataProvider
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
+import ru.home.government.util.newObserveBy
 import ru.home.government.util.observeBy
 
 
@@ -46,10 +47,8 @@ class LawVotesFragment: BaseFragment() {
 
         val billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
         billsViewModel.init(activity!!.application as AppApplication)
-
-        val lawNumber = arguments!!.get(EXTRA_LAW_CODE).toString()
-        billsViewModel.subscribeOnVotesByLaw(lawNumber)
-            .observeBy(
+        billsViewModel.subscribeOnVotesByLaw()
+            .newObserveBy(
                 this,
                 onNext = {
                         it ->
@@ -59,7 +58,8 @@ class LawVotesFragment: BaseFragment() {
                 onLoading = ::visibleProgress,
                 onError = ::showError
             )
-        billsViewModel.fetchVotesByLaw()
+        val lawNumber = arguments!!.get(EXTRA_LAW_CODE).toString()
+        billsViewModel.fetchVotesByLaw(lawNumber)
     }
 
     private fun onVotesData(votesResponse: VotesResponse?) {

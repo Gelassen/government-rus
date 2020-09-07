@@ -2,45 +2,52 @@ package ru.home.government.screens.deputies
 
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.flatstack.android.model.entities.Resource
-import com.flatstack.android.model.network.NetworkBoundResource
+import com.dropbox.android.external.store4.FetcherResult
+import com.dropbox.android.external.store4.StoreRequest
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import ru.home.government.App
 import ru.home.government.AppApplication
-import ru.home.government.di.AppModule
 import ru.home.government.model.Deputy
-import ru.home.government.repository.GovernmentRepository
+import ru.home.government.repository.NewGovernmentRepository
+import java.util.*
 import javax.inject.Inject
 
 class DeputiesViewModel: ViewModel() {
 
     @Inject
-    lateinit var repository: GovernmentRepository
+    lateinit var repository: NewGovernmentRepository
 
-    lateinit var deputiesBoundResource: NetworkBoundResource<List<Deputy>, List<Deputy>>
+    val deputiesLiveData: MutableLiveData<FetcherResult<List<Deputy>>> = MutableLiveData<FetcherResult<List<Deputy>>>()
 
     fun init(application: AppApplication) {
         application.getComponent().inject(this)
-//        val di = AppModule(application)
         // FIXME issue with canceled coroutine job
-//        repository = di.providesRepository(di.providesApi(di.providesClient()))
     }
 
     override fun onCleared() {
         super.onCleared()
-        repository.onDestroy()
+//        repository.onDestroy()
 
         viewModelScope
     }
 
-    fun subscribeOnDeputies(): LiveData<Resource<List<Deputy>>> {
-        deputiesBoundResource = repository.loadDeputies()
-        return deputiesBoundResource.asLiveData()
+    fun subscribeOnDeputies(): LiveData<FetcherResult<List<Deputy>>> {
+        return deputiesLiveData
     }
 
     fun fetchDeputies() {
-        deputiesBoundResource.fetchFromNetwork(viewModelScope)
+        viewModelScope.launch {
+            deputiesLiveData.postValue(FetcherResult.Data(Collections.emptyList()))
+            repository.loadDeputies()
+                .stream(StoreRequest.fresh(0))
+                .collect { result ->
+                    deputiesLiveData.postValue(result.dataOrNull())
+                }
+        }
     }
 
 }

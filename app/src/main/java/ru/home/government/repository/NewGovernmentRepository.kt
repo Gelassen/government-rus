@@ -132,6 +132,8 @@ class NewGovernmentRepository(
             ).build()
     }
 
+    // TODO move exception handling in catch block in flow, e.g. stream().catch()
+
     @ExperimentalCoroutinesApi
     @FlowPreview
     fun loadDeputies(): Store<Int, FetcherResult<List<Deputy>>> {
