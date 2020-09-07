@@ -1,28 +1,21 @@
 package ru.home.government.screens.deputies
 
 import android.os.Bundle
-import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_law_deputies.*
 import kotlinx.android.synthetic.main.fragment_deputies.*
-import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.model.Deputy
 import ru.home.government.screens.BaseFragment
-import ru.home.government.screens.laws.details.LawOverviewFragment
 import ru.home.government.util.newObserveBy
-import ru.home.government.util.observeBy
 
 
 class DeputiesFragment: BaseFragment() {

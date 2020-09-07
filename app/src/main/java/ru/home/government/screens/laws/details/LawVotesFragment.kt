@@ -16,7 +16,6 @@ import ru.home.government.providers.VotesDataProvider
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.util.newObserveBy
-import ru.home.government.util.observeBy
 
 
 class LawVotesFragment: BaseFragment() {

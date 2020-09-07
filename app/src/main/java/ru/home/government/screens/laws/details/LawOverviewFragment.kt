@@ -18,7 +18,6 @@ import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.providers.VotesDataProvider
 import ru.home.government.util.newObserveBy
-import ru.home.government.util.observeBy
 import java.util.ArrayList
 
 class LawOverviewFragment: BaseFragment() {

@@ -2,8 +2,6 @@ package ru.home.government.repository.pagination
 
 import androidx.paging.PagingSource
 import com.dropbox.android.external.store4.FetcherResult
-import com.flatstack.android.model.network.ApiErrorResponse
-import com.flatstack.android.model.network.ApiSuccessResponse
 import retrofit2.HttpException
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law

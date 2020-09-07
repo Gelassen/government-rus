@@ -1,9 +1,6 @@
 package ru.home.government.di
 
 import android.content.Context
-import com.flatstack.android.model.network.errors.ErrorHandler
-import com.flatstack.android.util.StringResource
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -13,9 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.home.government.network.IApi
 import ru.home.government.R
-import ru.home.government.network.adapter.CoroutineCallAdapterFactory
 import ru.home.government.network.adapter.CustomTypeAdapterFactory
-import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.NewGovernmentRepository
 import javax.inject.Singleton
 
@@ -27,10 +22,7 @@ class AppModule(val context: Context) {
     fun providesApi(httpClient: OkHttpClient): IApi {
         val customGson = GsonBuilder().registerTypeAdapterFactory(CustomTypeAdapterFactory()).create()
         val retrofit = Retrofit.Builder()
-//            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(customGson/*GsonBuilder().create()*/))
-//            .addConverterFactory(CustomGsonConverterFactory.create(customGson))
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .addConverterFactory(GsonConverterFactory.create(customGson))
             .client(httpClient)
             .baseUrl(context.getString(R.string.url))
             .build()
@@ -50,12 +42,6 @@ class AppModule(val context: Context) {
             .build()
 
         return httpClient
-    }
-
-    @Singleton
-    @Provides
-    fun providesRepository(client: IApi): GovernmentRepository {
-        return GovernmentRepository(context, client, ErrorHandler(Gson(), StringResource(context)))
     }
 
     @Singleton

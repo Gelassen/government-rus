@@ -1,7 +1,6 @@
 package ru.home.government.network
 
 import com.dropbox.android.external.store4.FetcherResult
-import com.flatstack.android.model.network.ApiResponse
 import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
@@ -55,52 +54,4 @@ interface IApi {
         @Query("app_token") appToken: String
     ): FetcherResult<List<Deputy>>
 
-    @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/api/{token}/deputies.json")
-    suspend fun testGetAllDeputies(
-        @Path("token") token: String,
-        @Query("app_token") appToken: String
-    ): FetcherResult<List<Deputy>>
-
-    // http://api.duma.gov.ru/api/<api_key>/search.json?status=1&app_token=<app_token>
-    @Deprecated(message = "migrate on new network layer")
-    @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/api/{token}/search.json?sort=last_event_date&limit=20")
-    fun getIntroducedLaws(
-        @Path("token") token: String,
-        @Query("app_token") appToken: String,
-        @Query("page") page: Int
-    ): Deferred<ApiResponse<GovResponse>>
-
-    @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/api/{token}/search.json")
-    fun getLawByNumber(
-        @Path("token") token: String,
-        @Query("app_token") appToken: String,
-        @Query("number") number: String
-    ): Deferred<ApiResponse<GovResponse>>
-
-    @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/api/{token}/search.json")
-    fun getLawByName(
-        @Path("token") token: String,
-        @Query("app_token") appToken: String,
-        @Query("page") page: Int,
-        @Query("name") name: String
-    ): Deferred<ApiResponse<GovResponse>>
-
-    @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/api/{token}/voteSearch.json")
-    fun getLawVotes(
-        @Path("token") token: String,
-        @Query("app_token") appToken: String,
-        @Query("number") number: String
-    ): Deferred<ApiResponse<VotesResponse>>
-
-    @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/api/{token}/deputies.json")
-    fun getAllDeputies(
-        @Path("token") token: String,
-        @Query("app_token") appToken: String
-    ): Deferred<ApiResponse<List<Deputy>>>
 }
