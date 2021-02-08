@@ -17,8 +17,10 @@ public class AppApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Mint.setApplicationEnvironment(Mint.appEnvironmentStaging);
-        Mint.initAndStartSession(this, "93f093e1");
+        if (!BuildConfig.DEBUG) {
+            Mint.setApplicationEnvironment(Mint.appEnvironmentStaging);
+            Mint.initAndStartSession(this, "93f093e1");
+        }
 
         component = DaggerAppComponent
                 .builder()
