@@ -46,13 +46,13 @@ class LawDetailsFragment: BaseFragment() {
         webView.isClickable = true
         webView.settings.loadsImagesAutomatically = true
         webView.settings.domStorageEnabled = true
-        webView.settings.javaScriptEnabled = true
+        webView.settings.javaScriptEnabled = false
         webView.settings.allowContentAccess = true
         webView.settings.allowFileAccess = true
         webView.settings.allowFileAccessFromFileURLs = true
         webView.settings.allowUniversalAccessFromFileURLs = true
         webView.settings.loadsImagesAutomatically = true
-        webView.settings.javaScriptCanOpenWindowsAutomatically = true
+        webView.settings.javaScriptCanOpenWindowsAutomatically = false
 
         val url = arguments!!.getString(EXTRA_DETAILS_URL)!!.plus("#bh_note")
         webView.loadUrl(url)
