@@ -38,5 +38,6 @@
     <string name="conflict_error">409 Conflict</string>
     <string name="server_error_error">500 Server Error</string>
     <string name="msg_no_discussions">Здесь пока нет доступных обсуждений</string>
+    <string name="no_laws_error">Ответ сервера не содержит данных. Это ошибка. Пожалуйста попробуйте перезагрузить приложение и сообщите об ошибке.</string>
 
 </resources>

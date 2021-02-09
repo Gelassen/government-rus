@@ -63,17 +63,21 @@ class LawOverviewFragment: BaseFragment() {
     }
 
     private fun onNewData(response: GovResponse) {
-        val dataProvider = LawDataProvider()
+        if (response.laws == null || response.laws.size == 0) {
+            showError(getString(R.string.no_laws_error))
+        } else {
+            val dataProvider = LawDataProvider()
 
-        var item = response.laws.get(0)
-        lawTitle.text = item.name
+            var item = response.laws.get(0)
+            lawTitle.text = item.name
 
-        lawIntroducedDate.text = dataProvider.provideFormattedIntroducedDate(item.introductionDate)
-        lawUpdateDate.text = dataProvider.provideLastEventDate(item.lastEvent)
-        lawResolution.text = dataProvider.provideFormattedResolution(item.lastEvent.solution as String?)
-        lawResponsibleCommittee.text = dataProvider.provideResponsibleCommittee(item.committees)
-        lawLastEventData.text = dataProvider.provideLastEventData(item.lastEvent)
-        processDeputies(item)
+            lawIntroducedDate.text = dataProvider.provideFormattedIntroducedDate(item.introductionDate)
+            lawUpdateDate.text = dataProvider.provideLastEventDate(item.lastEvent)
+            lawResolution.text = dataProvider.provideFormattedResolution(item.lastEvent.solution as String?)
+            lawResponsibleCommittee.text = dataProvider.provideResponsibleCommittee(item.committees)
+            lawLastEventData.text = dataProvider.provideLastEventData(item.lastEvent)
+            processDeputies(item)
+        }
     }
 
     private fun processDeputies(item: Law) {

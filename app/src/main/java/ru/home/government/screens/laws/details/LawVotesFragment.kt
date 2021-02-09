@@ -62,7 +62,7 @@ class LawVotesFragment: BaseFragment() {
     }
 
     private fun onVotesData(votesResponse: VotesResponse?) {
-        if (votesResponse == null || votesResponse.votes.size == 0) {
+        if (votesResponse == null || votesResponse.votes == null || votesResponse.votes.size == 0) {
             votesNoData.visibility = View.VISIBLE
             votesContainer.visibility = View.GONE
             voteDetails.visibility = View.GONE
