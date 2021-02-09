@@ -58,6 +58,8 @@ class LawsFragment: BaseFragment() {
     }
 
     fun onSearch(str: String?) {
+        if (wasFragmentDestroyed()) return
+        
         val frag = fragmentManager!!.findFragmentByTag(LawsFilteredFragment.TAG)
         if (frag == null) {
             fragmentManager!!
@@ -72,6 +74,10 @@ class LawsFragment: BaseFragment() {
                 throw RuntimeException("Did you miss to add search interface to fragment?")
             }
         }
+    }
+
+    fun wasFragmentDestroyed(): Boolean {
+        return fragmentManager == null
     }
 
 }
