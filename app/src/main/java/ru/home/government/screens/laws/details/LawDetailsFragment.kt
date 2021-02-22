@@ -46,7 +46,7 @@ class LawDetailsFragment: BaseFragment() {
         webView.isClickable = true
         webView.settings.loadsImagesAutomatically = true
         webView.settings.domStorageEnabled = true
-        webView.settings.javaScriptEnabled = false
+        webView.settings.javaScriptEnabled = true
         webView.settings.allowContentAccess = true
         webView.settings.allowFileAccess = true
         webView.settings.allowFileAccessFromFileURLs = true
