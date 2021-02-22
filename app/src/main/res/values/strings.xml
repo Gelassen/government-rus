@@ -26,6 +26,13 @@
     <string name="laws_placeholder">Any law you follow will be added here. \n\nWhile viewing a law, follow it by tapping star icon at the top right corner. </string>
     <string name="laws_no_data_for_this_filter">There is no data for this request</string>
 
+    <!-- Menu -->
+    <string name="menu_privacy_policy">Privacy policy</string>
+    <string name="menu_disclaimer">Disclaimer</string>
+
+    <string name="privacyPolicy" translatable="false">https://gelassen.github.io/blog/2020/08/25/google-play-privacy-policy.html</string>
+    <string name="disclaimer" translatable="false">https://github.com/Gelassen/government-rus/blob/master/README.md</string>
+
     <!--Error messages -->
     <string name="unknown_error">Unknown error</string>
     <string name="network_error">Error connecting to the internet</string>

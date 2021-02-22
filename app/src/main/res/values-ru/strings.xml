@@ -26,6 +26,10 @@
     <string name="laws_placeholder">Каждый законопроект, который вы отслеживаете, будет добавлен сюда. \n\nКогда просматриваете законопроект, начните отслеживтаь его, кликнув на пиктограмму звезды в правом верхнем углу.</string>
     <string name="laws_no_data_for_this_filter">Здесь нет данных для этого запроса</string>
 
+    <!-- Menu -->
+    <string name="menu_privacy_policy">Политика конфиденциальности</string>
+    <string name="menu_disclaimer">Отказ от ответственности</string>
+
     <!--Error messages -->
     <string name="unknown_error">Неизвестаня ошибка</string>
     <string name="network_error">Проблема доступа в интернет</string>

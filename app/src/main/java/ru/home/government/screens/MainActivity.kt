@@ -1,8 +1,13 @@
 package ru.home.government.screens
 
+import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -36,11 +41,33 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         NavigationUI.setupWithNavController(navView, navController)
 //
         navController.navigate(R.id.navigation_dashboard)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        MenuInflater(this).inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.openPrivacyPolicy -> {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(getString(R.string.privacyPolicy))
+                startActivity(intent)
+                true
+            }
+            R.id.openDisclaimer -> {
+                intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(getString(R.string.disclaimer))
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
 
