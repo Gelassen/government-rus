@@ -1,10 +1,24 @@
-## government-rus
+# government-rus
 
 Demo: https://www.youtube.com/watch?v=D1WyOEI4E5Y&t=6s
 
 Email: government.rus.mobile@gmail.com
 
 A mobile app to track documents that will be discussed and applied by government
+
+Disclaimer: App is shared "as is" and developer does not represent the government entity.
+
+---
+
+Демо: https://www.youtube.com/watch?v=D1WyOEI4E5Y&t=6s
+
+Электронная почта: government.rus.mobile@gmail.com
+
+Мобильное приложение, предоставляющее доступ к законопроектам, находящиеся в государственной думе, и их статусу. 
+
+Отказ от ответственности: Приложение распространяется "как есть" и разработчик, разрабатывая это приложение, не представляет интересы правительства.
+
+# API
 
 1. Get a list of sessions (заседаний):
 ```
