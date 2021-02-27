@@ -21,7 +21,7 @@
     <string name="votes_support">%s\n---\n support</string>
     <string name="votes_against">%s\n---\n against</string>
     <string name="votes_abstain">%s\n---\n abstain</string>
-    <string name="votes_deputies_counter">+%s\nothers</string>
+    <string name="votes_deputies_counter">+%s\n others</string>
 
     <string name="laws_placeholder">Any law you follow will be added here. \n\nWhile viewing a law, follow it by tapping star icon at the top right corner. </string>
     <string name="laws_no_data_for_this_filter">There is no data for this request</string>

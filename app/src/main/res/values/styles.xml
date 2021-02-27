@@ -13,6 +13,12 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+    <style name="VoteTextView" parent="BaseTextView">
+        <item name="textAllCaps">true</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
     <style name="AppTabLayout" parent="Widget.Design.TabLayout">
         <item name="tabTextColor">@color/colorWhite</item>
 <!--        <item name="android:layout_height">24dp</item>-->
