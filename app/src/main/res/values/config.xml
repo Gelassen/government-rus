@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="api_key">35b04d9a9344a1befc4c95f519b279a9a738cf28</string>
-    <string name="api_app_token">appa409190224f66043f299efe0d5647f7a5adb2039</string>
+    <string name="api_key" translatable="false">35b04d9a9344a1befc4c95f519b279a9a738cf28</string>
+    <string name="api_app_token" translatable="false">appa409190224f66043f299efe0d5647f7a5adb2039</string>
 
-    <string name="url">http://api.duma.gov.ru/</string>
+    <string name="url" translatable="false">http://api.duma.gov.ru/</string>
     <!--
         В настоящий момент установлено ограничение в 50000 обращений в сутки для одного API-ключа.
         Вы можете отправить запрос на изменение ограничения по адресу webmaster@duma.gov.ru с информацией
