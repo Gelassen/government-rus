@@ -2,17 +2,13 @@ package ru.home.government.screens.laws.details
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
 import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.fragment_law_details.*
-import ru.home.government.App
 import ru.home.government.R
+import ru.home.government.choir.ServerDataTransformer
 import ru.home.government.screens.BaseFragment
 
 class LawDetailsFragment: BaseFragment() {
@@ -42,6 +38,8 @@ class LawDetailsFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         webView.webViewClient = WebViewClient()
         webView.isClickable = true
         webView.settings.loadsImagesAutomatically = true
@@ -54,7 +52,9 @@ class LawDetailsFragment: BaseFragment() {
         webView.settings.loadsImagesAutomatically = true
         webView.settings.javaScriptCanOpenWindowsAutomatically = false
 
-        val url = arguments!!.getString(EXTRA_DETAILS_URL)!!.plus("#bh_note")
+        val url = ServerDataTransformer()
+            .replaceLawUrlWithExplanatoryNote(arguments!!.getString(EXTRA_DETAILS_URL)!!)
+            .plus("#bh_note")
         webView.loadUrl(url)
     }
 }
