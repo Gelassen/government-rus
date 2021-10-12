@@ -10,8 +10,8 @@ android {
         applicationId "ru.home.government"
         minSdkVersion versions.MIN_SDK_VERSION
         targetSdkVersion versions.TARGET_SDK_VERSION
-        versionCode 5
-        versionName "0.93"
+        versionCode 6
+        versionName "0.94"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
