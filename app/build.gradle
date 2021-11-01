@@ -6,17 +6,29 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion versions.TARGET_SDK_VERSION
     buildToolsVersion versions.BUILD_TOOLS_VERSION
+//    ext.kotlin_version = versions.kotlin
+
+    packagingOptions {
+        exclude "META-INF/AL2.0"
+        exclude "META-INF/LGPL2.1"
+    }
+
     defaultConfig {
         applicationId "ru.home.government"
+        compileSdkVersion versions.COMPILE_SDK_VERSION
         minSdkVersion versions.MIN_SDK_VERSION
         targetSdkVersion versions.TARGET_SDK_VERSION
         versionCode 6
         versionName "0.94"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "ru.home.government.di.MyCustomTestRunner"
     }
 
     flavorDimensions "default"
 
+    buildFeatures {
+        dataBinding = true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -24,8 +36,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+    testOptions {
+        unitTests.returnDefaultValues = true
     }
     productFlavors {
         alfa {
@@ -35,11 +53,11 @@ android {
             applicationIdSuffix ".beta"
         }
     }
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation androidLibs
     implementation retrofitLibs
@@ -47,26 +65,27 @@ dependencies {
     implementation kodeinLibs
     implementation roomLibs
     implementation diLibs
-    kapt compilerLibs
-
-    testImplementation unitTestLibs
-    androidTestImplementation androidTestsLibs
-
-    testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
-
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
-
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
-    implementation('com.dropbox.mobile.store:store4:4.0.0-alpha07') {
+    implementation others
+    implementation('com.dropbox.mobile.store:store4:4.0.2-KT15') {
         exclude group: 'org.jetbrains.kotlinx', module: 'kotlinx-coroutines-core'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
         exclude group: 'org.jetbrains.kotlinx', module: 'kotlinx-coroutines-core-jvm'
     }
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
+
+    kapt compilerLibs
+
+    testImplementation unitTestLibs
+//    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$versions.kotlin"
+
+    androidTestImplementation androidTestsLibs
+
+    kaptAndroidTest kaptAndroidTestsLibs
+
     compileOnly 'javax.annotation:jsr250-api:1.0'
 
-
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 }

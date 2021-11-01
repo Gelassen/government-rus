@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import java.text.FieldPosition
 
 class Deputy() : Parcelable {
     @SerializedName("id")
@@ -33,6 +34,14 @@ class Deputy() : Parcelable {
         position = parcel.readString()
         isCurrent = parcel.readValue(Boolean::class.java.classLoader) as? Boolean
         factions = parcel.createTypedArrayList(Faction)
+    }
+
+    constructor(id: String, name: String, position: String, isCurrent: Boolean, fractions: List<Faction>): this() {
+        this.id = id
+        this.name = name
+        this.position = position
+        this.isCurrent = isCurrent
+        this.factions = fractions
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {

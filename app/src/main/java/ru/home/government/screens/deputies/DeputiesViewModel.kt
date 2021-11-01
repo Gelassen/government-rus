@@ -1,25 +1,35 @@
 package ru.home.government.screens.deputies
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dropbox.android.external.store4.FetcherResult
 import com.dropbox.android.external.store4.StoreRequest
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.model.Deputy
 import ru.home.government.repository.GovernmentRepository
+import ru.home.government.repository.Response
 import java.util.*
 import javax.inject.Inject
 
-class DeputiesViewModel: ViewModel() {
+@FlowPreview
+@ExperimentalCoroutinesApi
+class DeputiesViewModel
+@Inject constructor(private val repository: GovernmentRepository) : ViewModel() {
 
-    @Inject
-    lateinit var repository: GovernmentRepository
+    private val placeholder: Response<List<Deputy>> = Response.Data(Collections.emptyList())
 
-    val deputiesLiveData: MutableLiveData<FetcherResult<List<Deputy>>> = MutableLiveData<FetcherResult<List<Deputy>>>()
+    private val _deputies = MutableStateFlow(placeholder)
+    val deputies: StateFlow<Response<List<Deputy>>> = _deputies
+
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading
 
     fun init(application: AppApplication) {
         application.getComponent().inject(this)
@@ -28,24 +38,26 @@ class DeputiesViewModel: ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-//        repository.onDestroy()
-
-        viewModelScope
+        viewModelScope.cancel()
     }
 
-    fun subscribeOnDeputies(): LiveData<FetcherResult<List<Deputy>>> {
-        return deputiesLiveData
-    }
-
-    fun fetchDeputies() {
+    init {
+        /* launch call return Job instance which should be canceled to avoid leak */
         viewModelScope.launch {
-            deputiesLiveData.postValue(FetcherResult.Data(Collections.emptyList()))
-            repository.loadDeputies()
-                .stream(StoreRequest.fresh(0))
+            /*this@launch.cancel() -- just test coroutine behaviour*/
+            repository.loadDeputiesV2()
+                /*.cancellable() -- just test coroutine behaviour*/
+                .onCompletion {
+                    _isLoading.value = false
+                }
+                .catch { e ->
+                    Log.e(App.TAG, "Something went wrong on loading deputies", e)
+                }
                 .collect { result ->
-                    deputiesLiveData.postValue(result.dataOrNull())
+                    _deputies.value = result
                 }
         }
+
     }
 
 }

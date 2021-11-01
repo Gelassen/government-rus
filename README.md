@@ -18,6 +18,41 @@ Disclaimer: App is shared "as is" and developer does not represent the governmen
 
 Отказ от ответственности: Приложение распространяется "как есть" и разработчик, разрабатывая это приложение, не представляет интересы правительства.
 
+# Dependency Injection
+
+Besides main depenndecies
+```
+implementation 'com.google.dagger:dagger:$versions.dagger'
+androidTestImplementation 'com.google.dagger:dagger:$versions.dagger'
+```
+you have to add kapt dependencies
+```
+kapt 'com.google.dagger:dagger-compiler:$versions.dagger'
+kaptAndroidTest 'com.google.dagger:dagger-compiler:$versions.dagger'
+```
+and to use custom Application in tests you have declare dagger TestRunner in the app/build.gradle
+```
+class MyCustomTestRunner : AndroidJUnitRunner() {
+
+    override fun newApplication(cl: ClassLoader?, name: String?, context: Context?): Application {
+        return super.newApplication(cl, MyTestApplication::class.java.name, context)
+    }
+}
+```
+
+```
+android {
+    ...
+    defaultConfig {
+        ...
+        testInstrumentationRunner "com.example.android.dagger.MyCustomTestRunner"
+    }
+    ...
+}
+```
+see more by link https://developer.android.com/codelabs/android-dagger#13
+
+
 # API
 
 1. Get a list of sessions (заседаний):

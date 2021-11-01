@@ -7,6 +7,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import org.junit.Assert.*
+import org.junit.Before
+import ru.home.government.di.DaggerAppComponent
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -15,6 +17,13 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+
+    @Before
+    fun setUp() {
+        // TODO implement custom test runner https://developer.android.com/codelabs/android-dagger#13
+//        DaggerTestComponent
+    }
+
     @Test
     fun useAppContext() {
         // Context of the app under test.

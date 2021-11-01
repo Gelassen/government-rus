@@ -11,9 +11,11 @@ import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.StoreBuilder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.*
 import ru.home.government.App
+import ru.home.government.BuildConfig
 import ru.home.government.R
+import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.model.Deputy
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
@@ -23,7 +25,7 @@ import ru.home.government.repository.pagination.LawsPageSource
 import ru.home.government.repository.pagination.SearchLawsPageSource
 import java.util.*
 
-class GovernmentRepository(
+open class GovernmentRepository(
     private val context: Context,
     private val api: IApi) {
 
@@ -38,6 +40,21 @@ class GovernmentRepository(
                 )
             }
         ).flow
+            .onStart {
+                if (BuildConfig.DEBUG) {
+                    NetworkIdlingResource.increment()
+                }
+            }
+            .onEach { it ->
+                if (BuildConfig.DEBUG) {
+                    NetworkIdlingResource.decrement()
+                }
+            }
+/*            .onCompletion {
+                if (BuildConfig.DEBUG) {
+                    NetworkIdlingResource.decrement()
+                }
+            }*/
     }
 
     fun loadLawsByName(name: String): Flow<PagingData<Law>> {
@@ -134,9 +151,10 @@ class GovernmentRepository(
 
     // TODO move exception handling in catch block in flow, e.g. stream().catch()
 
+    @Deprecated(message = "Use loadDeputiesV2() instead")
     @ExperimentalCoroutinesApi
     @FlowPreview
-    fun loadDeputies(): Store<Int, FetcherResult<List<Deputy>>> {
+    open fun loadDeputies(): Store<Int, FetcherResult<List<Deputy>>> {
         return StoreBuilder
             .from(
                 Fetcher.of { key: Int ->
@@ -153,5 +171,37 @@ class GovernmentRepository(
                     result
                 }
             ).build()
+    }
+
+    open fun loadDeputiesV2(): Flow<Response<List<Deputy>>> {
+        return flow {
+            val response = api.getAllDeputiesV2(
+                context.getString(R.string.api_key),
+                context.getString(R.string.api_app_token)
+            )
+            if (response.isSuccessful) {
+                emit(Response.Data<List<Deputy>>(response.body()!!))
+            } else {
+                emit(Response.Error.Message(response.message()))
+            }
+        }
+            .onStart {
+                if (BuildConfig.DEBUG) {
+                    NetworkIdlingResource.increment()
+                }
+            }
+            .onCompletion {
+                if (BuildConfig.DEBUG) {
+                    NetworkIdlingResource.decrement()
+                }
+            }
+    }
+}
+
+sealed class Response<out T: Any> {
+    data class Data<out T: Any>(val data: T): Response<T>()
+    sealed class Error: Response<Nothing>() {
+        data class Exception(val error: Throwable): Error()
+        data class Message(val msg: String): Error()
     }
 }

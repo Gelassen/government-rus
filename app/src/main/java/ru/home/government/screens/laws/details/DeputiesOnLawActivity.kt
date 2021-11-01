@@ -35,7 +35,7 @@ class DeputiesOnLawActivity: AppCompatActivity() {
         val dr = ColorDrawable(resources.getColor(R.color.colorActionBar))
         supportActionBar!!.setBackgroundDrawable(dr)
 
-        val deputies: ArrayList<Deputy> = intent.getParcelableArrayListExtra(EXTRA_DEPUTIES)
+        val deputies: java.util.ArrayList<Deputy> = intent.getParcelableArrayListExtra(EXTRA_DEPUTIES)!!
 
         supportFragmentManager
             .beginTransaction()

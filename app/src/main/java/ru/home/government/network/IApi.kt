@@ -4,6 +4,7 @@ import com.dropbox.android.external.store4.FetcherResult
 import io.reactivex.Observable
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
@@ -47,11 +48,19 @@ interface IApi {
         @Query("number") number: String
     ): FetcherResult<VotesResponse>
 
+    @Deprecated(message = "Use getAllDeputiesV2() instead")
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/deputies.json")
     suspend fun newGetAllDeputies(
         @Path("token") token: String,
         @Query("app_token") appToken: String
     ): FetcherResult<List<Deputy>>
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("/api/{token}/deputies.json")
+    suspend fun getAllDeputiesV2(
+        @Path("token") token: String,
+        @Query("app_token") appToken: String
+    ): Response<List<Deputy>>
 
 }

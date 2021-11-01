@@ -1,23 +1,42 @@
 package ru.home.government.screens.deputies
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dropbox.android.external.store4.FetcherResult
 import kotlinx.android.synthetic.main.fragment_deputies.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
+import ru.home.government.databinding.FragmentDeputiesBinding
+import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.Deputy
+import ru.home.government.repository.Response
 import ru.home.government.screens.BaseFragment
-import ru.home.government.util.newObserveBy
+import java.lang.StringBuilder
+import javax.inject.Inject
 
 
+@FlowPreview
+@ExperimentalCoroutinesApi
 class DeputiesFragment: BaseFragment() {
 
     companion object {
@@ -44,16 +63,24 @@ class DeputiesFragment: BaseFragment() {
         }
     }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private lateinit var binding: FragmentDeputiesBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return layoutInflater.inflate(R.layout.fragment_deputies, container, false)
+        binding = FragmentDeputiesBinding.inflate(inflater, container, false)
+        return binding.root;
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (activity!!.application as AppApplication).component.inject(this)
 
         progressView = view.findViewById<View>(R.id.progressView)
 
@@ -68,34 +95,69 @@ class DeputiesFragment: BaseFragment() {
         if (arguments != null
             && arguments!!.containsKey(EXTRA_LAUNCH_WITH_CONTENT)
             && arguments!!.getBoolean(EXTRA_LAUNCH_WITH_CONTENT)) {
-            var layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
-            layoutParams.topMargin = resources.getDimension(R.dimen.actionBarSize).toInt()
-            deputiesContainer.layoutParams = layoutParams
-
-            val activeDeputies: ArrayList<Deputy> = arguments!!.getParcelableArrayList(EXTRA_DEPUTIES)!!
-            (list.adapter as DeputiesAdapter).update(activeDeputies)
+            processWithExistingData()
         } else {
-            val viewModel = ViewModelProviders.of(this).get(DeputiesViewModel::class.java)
-            viewModel.init(activity!!.application as AppApplication)
-            viewModel.subscribeOnDeputies()
-                .newObserveBy(
-                    this,
-                    onNext = {
-                            it ->
-                        val activeDeputies = it.filter { it -> it.isCurrent!! }
-                        visibleProgress(false)
-                        (list.adapter as DeputiesAdapter).update(activeDeputies)
-                    },
-                    onLoading = ::visibleProgress,
-                    onError = ::showError
-                )
-            visibleProgress(true)
-            viewModel.fetchDeputies()
+            processWithRequestForData()
+        }
+    }
+
+    private fun processWithExistingData() {
+        val layoutParams = FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT
+        )
+        layoutParams.topMargin = resources.getDimension(R.dimen.actionBarSize).toInt()
+        deputiesContainer.layoutParams = layoutParams
+
+        val activeDeputies: ArrayList<Deputy> = arguments!!.getParcelableArrayList(EXTRA_DEPUTIES)!!
+        (list.adapter as DeputiesAdapter).update(activeDeputies)
+    }
+
+    @FlowPreview
+    private fun processWithRequestForData() {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                processDeputiesModel()
+            }
         }
 
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                val viewModel: DeputiesViewModel by viewModels() { viewModelFactory }
+//                val viewModel = ViewModelProviders.of(this@DeputiesFragment, viewModelFactory).get(DeputiesViewModel::class.java)
+                viewModel.init(activity!!.application as AppApplication)
+                viewModel.isLoading.collect { value ->
+                    visibleProgress(value)
+                }
+            }
+        }
+    }
+
+    private suspend fun processDeputiesModel() {
+        visibleProgress(true)
+//        val viewModel = ViewModelProviders.of(this@DeputiesFragment, viewModelFactory).get(DeputiesViewModel::class.java)
+        val viewModel: DeputiesViewModel by viewModels() { viewModelFactory }
+        viewModel.init(activity!!.application as AppApplication)
+        viewModel.deputies.collect { result ->
+            when (result) {
+                is Response.Data -> {
+                    val activeDeputies = result.data.filter { it -> it.isCurrent!! }
+                    (list.adapter as DeputiesAdapter).update(activeDeputies)
+                }
+                is Response.Error.Message -> {
+                    val error = StringBuilder()
+                        .append(getString(R.string.unknown_error) + ". " + result.msg)
+                        .append(". ")
+                        .append(result.msg)
+                        .toString()
+                    showError(error)
+                }
+                is Response.Error.Exception -> {
+                    Log.e(App.TAG, getString(R.string.unknown_error), result.error)
+                    showError(getString(R.string.unknown_error))
+                }
+            }
+        }
     }
 
 }

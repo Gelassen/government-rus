@@ -15,7 +15,7 @@ import ru.home.government.repository.GovernmentRepository
 import javax.inject.Singleton
 
 @Module
-class AppModule(val context: Context) {
+open class AppModule(val context: Context) {
 
     @Singleton
     @Provides
@@ -46,7 +46,7 @@ class AppModule(val context: Context) {
 
     @Singleton
     @Provides
-    fun providesNewRepository(client: IApi): GovernmentRepository {
+    open fun providesNewRepository(client: IApi): GovernmentRepository {
         return GovernmentRepository(context, client)
     }
 }

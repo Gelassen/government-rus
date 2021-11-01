@@ -50,7 +50,8 @@ public class CustomTypeAdapterFactory implements TypeAdapterFactory {
                 response = new FetcherResult.Data<>(gson.fromJson(in, responseType));
             } catch (Exception ex) {
                 Log.e(App.TAG, "Failed to parse FetchResult response", ex);
-                response = new FetcherResult.Error.Exception<>(ex);
+                response = new FetcherResult.Error.Exception(ex);
+//                response = new FetcherResult.Error.Exception<>(ex);
             }
             return response;
         }
