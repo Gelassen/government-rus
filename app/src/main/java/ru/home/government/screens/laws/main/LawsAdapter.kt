@@ -9,6 +9,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.home.government.R
+import ru.home.government.databinding.ViewItemDeputyBinding
+import ru.home.government.databinding.ViewItemDeputyBindingImpl
+import ru.home.government.databinding.ViewItemLawOverviewBinding
 import ru.home.government.model.Law
 import ru.home.government.providers.LawDataProvider
 
@@ -27,9 +30,9 @@ class LawsAdapter :
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.view_item_law_overview, parent, false)
-        return ViewHolder(view)
+        val binding = ViewItemLawOverviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding.lawProvider = LawDataProvider()
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(
@@ -37,21 +40,17 @@ class LawsAdapter :
         position: Int
     ) {
         val item = getItem(position)
-        val provider = LawDataProvider()
-        holder.date.text = provider.provideFormattedShortDate(item!!.lastEvent.date)
-        holder.code.text = item!!.number
-        holder.title.text = item!!.name
-        holder.resolution.text = LawDataProvider().provideFormattedResolution(item.lastEvent.solution as String?)
-
-        holder.itemView.setOnClickListener { it ->
-                if (this.listener == null) return@setOnClickListener
-
-                listener.onItemClick(item)
-            }
+        holder.binding.lawData = item
+        holder.itemView.setOnClickListener {
+            if (this.listener == null) return@setOnClickListener
+            listener.onItemClick(item!!)
+        }
+        holder.binding.executePendingBindings()
     }
 
-    class ViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
+    // TODO remove all fields when all screen will be refactored to binding approach
+    class ViewHolder(internal val binding: ViewItemLawOverviewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val date: TextView
         val code: TextView
         val title: TextView

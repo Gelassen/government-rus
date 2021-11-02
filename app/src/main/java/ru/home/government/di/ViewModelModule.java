@@ -8,6 +8,7 @@ import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
 import ru.home.government.screens.deputies.DeputiesViewModel;
+import ru.home.government.screens.laws.BillsViewModel;
 
 @Module
 public abstract class ViewModelModule {
@@ -20,6 +21,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DeputiesViewModel.class)
     abstract ViewModel deputiesViewModel(DeputiesViewModel vm);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BillsViewModel.class)
+    abstract ViewModel billsViewModel(BillsViewModel vm);
 
     //Others ViewModels
 }

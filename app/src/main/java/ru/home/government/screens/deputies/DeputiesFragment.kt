@@ -84,13 +84,12 @@ class DeputiesFragment: BaseFragment() {
 
         progressView = view.findViewById<View>(R.id.progressView)
 
-        val list = view.findViewById<RecyclerView>(R.id.list)
-        list.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        list.adapter = DeputiesAdapter()
+        binding.list.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
+        binding.list.adapter = DeputiesAdapter()
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(activity!!, R.drawable.ic_divider)!!)
-        list.addItemDecoration(dividerItemDecoration)
+        binding.list.addItemDecoration(dividerItemDecoration)
 
         if (arguments != null
             && arguments!!.containsKey(EXTRA_LAUNCH_WITH_CONTENT)
@@ -110,7 +109,7 @@ class DeputiesFragment: BaseFragment() {
         deputiesContainer.layoutParams = layoutParams
 
         val activeDeputies: ArrayList<Deputy> = arguments!!.getParcelableArrayList(EXTRA_DEPUTIES)!!
-        (list.adapter as DeputiesAdapter).update(activeDeputies)
+        (binding.list.adapter as DeputiesAdapter).update(activeDeputies)
     }
 
     @FlowPreview
@@ -124,7 +123,6 @@ class DeputiesFragment: BaseFragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 val viewModel: DeputiesViewModel by viewModels() { viewModelFactory }
-//                val viewModel = ViewModelProviders.of(this@DeputiesFragment, viewModelFactory).get(DeputiesViewModel::class.java)
                 viewModel.init(activity!!.application as AppApplication)
                 viewModel.isLoading.collect { value ->
                     visibleProgress(value)
@@ -135,7 +133,6 @@ class DeputiesFragment: BaseFragment() {
 
     private suspend fun processDeputiesModel() {
         visibleProgress(true)
-//        val viewModel = ViewModelProviders.of(this@DeputiesFragment, viewModelFactory).get(DeputiesViewModel::class.java)
         val viewModel: DeputiesViewModel by viewModels() { viewModelFactory }
         viewModel.init(activity!!.application as AppApplication)
         viewModel.deputies.collect { result ->

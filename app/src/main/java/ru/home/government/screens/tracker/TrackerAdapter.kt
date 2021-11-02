@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.home.government.R
+import ru.home.government.databinding.ViewItemLawOverviewBinding
 import ru.home.government.model.Law
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.screens.laws.main.LawsAdapter
@@ -37,9 +38,9 @@ class TrackerAdapter(private val listener: ClickListener) :
         parent: ViewGroup,
         viewType: Int
     ): LawsAdapter.ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.view_item_law_overview, parent, false)
-        return LawsAdapter.ViewHolder(view)
+        val binding = ViewItemLawOverviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding.lawProvider = LawDataProvider()
+        return LawsAdapter.ViewHolder(binding)
     }
 
     override fun onBindViewHolder(
@@ -47,16 +48,11 @@ class TrackerAdapter(private val listener: ClickListener) :
         position: Int
     ) {
         val item = model[position]
-        holder.date.text = provider.provideFormattedShortDate(item.lastEvent.date)
-        holder.code.text = item.number
-        holder.title.text = item.name
-        holder.resolution.text = provider.provideFormattedResolution(
-            item.lastEvent.solution as String?
-        )
-        holder.title.text = item.name
-        holder.favIcon.drawable.level = 1
-        holder.favIcon.visibility = View.VISIBLE
+        holder.binding.lawData = item
+        holder.binding.lawFavSign.drawable.level = 1
+        holder.binding.lawFavSign.visibility = View.VISIBLE
         holder.itemView.setOnClickListener { listener.onItemClick(item) }
+        holder.binding.executePendingBindings()
     }
 
     override fun getItemCount(): Int {

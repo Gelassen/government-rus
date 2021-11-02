@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,14 +14,22 @@ import kotlinx.android.synthetic.main.layout_tracked_laws_placeholder.*
 import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
+import ru.home.government.databinding.FragmentTrackerBinding
+import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.Law
 import ru.home.government.repository.CacheRepository
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.details.DetailsActivity
 import ru.home.government.util.newObserveBy
+import javax.inject.Inject
 
 class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    lateinit var binding: FragmentTrackerBinding
 
     lateinit var billsViewModel: BillsViewModel
 
@@ -29,26 +38,29 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return layoutInflater.inflate(R.layout.fragment_tracker, container, false)
+        binding = FragmentTrackerBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (requireActivity().application as AppApplication).component.inject(this)
+
         progressView = view.findViewById<View>(R.id.progressView)
 
-        list.layoutManager = LinearLayoutManager(context)
-        list.adapter = TrackerAdapter(this)
+        binding.list.layoutManager = LinearLayoutManager(context)
+        binding.list.adapter = TrackerAdapter(this)
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(activity!!, R.drawable.ic_divider)!!)
-        list.addItemDecoration(dividerItemDecoration)
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
+        binding.list.addItemDecoration(dividerItemDecoration)
 
-        val codes = CacheRepository(context!!).getLawCodes()
+        val codes = CacheRepository(requireActivity()).getLawCodes()
         Log.d(App.TAG, "Tracked laws: " + codes.size);
 
-        billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
-        billsViewModel.init(activity!!.application as AppApplication)
+        billsViewModel = viewModelFactory.create(BillsViewModel::class.java)
+//        billsViewModel.init(requireActivity().application as AppApplication)
         billsViewModel.getTrackedLaws()
             .newObserveBy(
                 this,
@@ -67,7 +79,7 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
 
     override fun onResume() {
         super.onResume()
-        (list.adapter as TrackerAdapter).reset()
+        (binding.list.adapter as TrackerAdapter).reset()
         trackedPlaceholder.visibility = View.VISIBLE
         billsViewModel.fetchTrackedLaws()
     }

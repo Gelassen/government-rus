@@ -16,20 +16,23 @@ import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
 import javax.inject.Inject
 
-class BillsViewModel: ViewModel() {
+class BillsViewModel
+@Inject constructor(): ViewModel() {
 
     @Inject
     lateinit var repository: GovernmentRepository
 
+    @Inject
     lateinit var cacheRepository: CacheRepository
 
     val lawsLiveData: MutableLiveData<FetcherResult<GovResponse>> = MutableLiveData<FetcherResult<GovResponse>>()
     val votesLiveData: MutableLiveData<FetcherResult<VotesResponse>> = MutableLiveData<FetcherResult<VotesResponse>>()
     val trackedLiveData: MutableLiveData<FetcherResult<GovResponse>> = MutableLiveData<FetcherResult<GovResponse>>()
 
+    @Deprecated(message = "All fields are initialized now via DI module")
     fun init(application: AppApplication) {
         application.getComponent().inject(this)
-        cacheRepository = CacheRepository(application)
+//        cacheRepository = CacheRepository(application)
     }
 
     override fun onCleared() {
@@ -78,6 +81,7 @@ class BillsViewModel: ViewModel() {
         return trackedLiveData
     }
 
+    @Deprecated("Replaced by flow. You have to ony subscribe on updates of StateFlow")
     fun fetchTrackedLaws() {
         val lawCodes = cacheRepository.getLawCodes().toTypedArray()
         viewModelScope.launch {

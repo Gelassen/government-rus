@@ -5,6 +5,7 @@ import ru.home.government.TestActivity
 import ru.home.government.screens.deputies.DeputiesFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.deputies.DeputiesViewModel
+import ru.home.government.screens.tracker.TrackerFragment
 import javax.inject.Singleton
 
 @Singleton
@@ -16,4 +17,5 @@ interface AppComponent {
     fun inject(testActivity: TestActivity)
 
     fun inject(deputiesFragment: DeputiesFragment)
+    fun inject(trackerFragment: TrackerFragment)
 }

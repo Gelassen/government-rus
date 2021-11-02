@@ -1,5 +1,6 @@
 package ru.home.government.di
 
+import android.app.Application
 import android.content.Context
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -11,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.home.government.network.IApi
 import ru.home.government.R
 import ru.home.government.network.adapter.CustomTypeAdapterFactory
+import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
 import javax.inject.Singleton
 
@@ -48,5 +50,10 @@ open class AppModule(val context: Context) {
     @Provides
     open fun providesNewRepository(client: IApi): GovernmentRepository {
         return GovernmentRepository(context, client)
+    }
+
+    @Provides
+    fun providesCacheRepository(): CacheRepository {
+        return CacheRepository(context)
     }
 }

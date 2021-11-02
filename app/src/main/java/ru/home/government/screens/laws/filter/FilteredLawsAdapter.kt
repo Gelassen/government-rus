@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import ru.home.government.R
+import ru.home.government.databinding.ViewItemLawOverviewBinding
 import ru.home.government.model.Law
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.screens.laws.main.LawsAdapter
@@ -20,9 +21,9 @@ class FilteredLawsAdapter :
         parent: ViewGroup,
         viewType: Int
     ): LawsAdapter.ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.view_item_law_overview, parent, false)
-        return LawsAdapter.ViewHolder(view)
+        val binding = ViewItemLawOverviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding.lawProvider = LawDataProvider()
+        return LawsAdapter.ViewHolder(binding)
     }
 
     override fun onBindViewHolder(
