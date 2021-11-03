@@ -6,27 +6,28 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.text.FieldPosition
+import java.util.*
 
 class Deputy() : Parcelable {
     @SerializedName("id")
     @Expose
-    var id: String? = null
+    var id: String? = ""
 
     @SerializedName("name")
     @Expose
-    var name: String? = null
+    var name: String? = ""
 
     @SerializedName("position")
     @Expose
-    var position: String? = null
+    var position: String? = ""
 
     @SerializedName("isCurrent")
     @Expose
-    var isCurrent: Boolean? = null
+    var isCurrent: Boolean? = false
 
     @SerializedName("factions")
     @Expose
-    var factions: List<Faction>? = null
+    var factions: List<Faction>? = Collections.emptyList()
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readString()

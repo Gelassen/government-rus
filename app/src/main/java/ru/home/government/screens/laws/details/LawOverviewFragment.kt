@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_law_overview.*
 import kotlinx.android.synthetic.main.view_item_deputy.view.*
 import ru.home.government.AppApplication
 import ru.home.government.R
+import ru.home.government.databinding.FragmentLawOverviewBinding
+import ru.home.government.di.ViewModelFactory
+import ru.home.government.model.Deputy
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
 import ru.home.government.screens.BaseFragment
@@ -19,6 +23,7 @@ import ru.home.government.providers.LawDataProvider
 import ru.home.government.providers.VotesDataProvider
 import ru.home.government.util.newObserveBy
 import java.util.ArrayList
+import javax.inject.Inject
 
 class LawOverviewFragment: BaseFragment() {
 
@@ -35,19 +40,33 @@ class LawOverviewFragment: BaseFragment() {
         }
     }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    lateinit var binding: FragmentLawOverviewBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_law_overview, container, false)
+        binding = FragmentLawOverviewBinding.inflate(layoutInflater, container, false)
+        binding.lawDataProvider = LawDataProvider()
+        binding.votesProvider = VotesDataProvider()
+        binding.lawData = Law()
+        binding.deputyData = Deputy()
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
-        billsViewModel.init(activity!!.application as AppApplication)
+        (requireActivity().application as AppApplication).component.inject(this)
+
+        binding.resources = resources // requires fragment attached to instantiated activity
+        binding.executePendingBindings()
+        
+        val billsViewModel: BillsViewModel by viewModels() { viewModelFactory }
         billsViewModel.subscribeOnLawsByNumber()
             .newObserveBy(
                 this,
@@ -66,39 +85,21 @@ class LawOverviewFragment: BaseFragment() {
         if (response.laws == null || response.laws.size == 0) {
             showError(getString(R.string.no_laws_error))
         } else {
-            val dataProvider = LawDataProvider()
-
-            var item = response.laws.get(0)
-            lawTitle.text = item.name
-
-            lawIntroducedDate.text = dataProvider.provideFormattedIntroducedDate(item.introductionDate)
-            lawUpdateDate.text = dataProvider.provideLastEventDate(item.lastEvent)
-            lawResolution.text = dataProvider.provideFormattedResolution(item.lastEvent.solution as String?)
-            lawResponsibleCommittee.text = dataProvider.provideResponsibleCommittee(item.committees)
-            lawLastEventData.text = dataProvider.provideLastEventData(item.lastEvent)
-            processDeputies(item)
+            binding.lawData = response.laws.get(0)
+            processDeputies(binding.lawData as Law)
         }
     }
 
     private fun processDeputies(item: Law) {
-        if (item.subject != null && item.subject.deputies != null && item.subject.deputies.size != 0) {
-            val deputy = item.subject.deputies.get(0)
-            voteDeputies.name.text = deputy.name
-            voteDeputies.position.setText(deputy.position)
-            voteDeputies.fraction.text =  LawDataProvider().provideFractions(deputy)
-
-            voteDeputiesCounter.visibility = if (item.subject.deputies.size > 1) View.VISIBLE else View.GONE
-            voteDeputiesCounter.text = VotesDataProvider().providesVotedDeputiesCounter(resources, item.subject.deputies)
+        if (item.isDeputiesAvailable) {
+            binding.deputyData = item.subject.deputies.get(0)
             voteDeputiesCounter.setOnClickListener { it ->
                 DeputiesOnLawActivity.launch(
-                    activity!! as AppCompatActivity,
+                    requireActivity() as AppCompatActivity,
                     ArrayList(item.subject.deputies.subList(1, item.subject.deputies.size))
                 )
             }
-        } else {
-            voteDeputiesNoData.visibility = View.VISIBLE
-            voteDeputies.visibility = View.GONE
-            voteDeputiesCounter.visibility = View.GONE
         }
+        binding.executePendingBindings()
     }
 }

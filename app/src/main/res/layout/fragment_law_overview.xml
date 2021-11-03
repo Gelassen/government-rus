@@ -1,170 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data>
+
+        <import type="android.view.View" />
+        
+        <variable
+            name="resources"
+            type="android.content.res.Resources" />
+        <variable
+            name="lawData"
+            type="ru.home.government.model.Law" />
+        <variable
+            name="deputyData"
+            type="ru.home.government.model.Deputy" />
+        <variable
+            name="lawDataProvider"
+            type="ru.home.government.providers.LawDataProvider" />
+        <variable
+            name="votesProvider"
+            type="ru.home.government.providers.VotesDataProvider" />
+    </data>
+
+    <ScrollView
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:orientation="vertical">
+            android:background="@color/colorPrimaryDark">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lawTitle"
+                    style="@style/BaseTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/lawDateContainer"
+                    android:padding="4dp"
+                    android:textColor="@color/colorWhite"
+                    android:ellipsize="end"
+                    android:text="@{lawData.name}"
+                    tools:text="О внесении изменений в статьи 346-43 и 346-51 части второй Налогового кодекса Российской Федерации" />
+
+                <TextView
+                    android:id="@+id/lawIntroducedDate"
+                    style="@style/BaseTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lawTitle"
+                    android:layout_toEndOf="@+id/lawDateContainer"
+                    android:padding="4dp"
+                    android:textColor="@color/colorGray"
+                    android:ellipsize="end"
+                    android:text="@{lawDataProvider.provideFormattedIntroducedDate(lawData.introductionDate)}"
+                    tools:text="Внесён:    2020-06-16" />
+
+                <TextView
+                    android:id="@+id/lawUpdateDate"
+                    style="@style/BaseTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lawTitle"
+                    android:layout_toEndOf="@+id/lawDateContainer"
+                    android:padding="4dp"
+                    android:textColor="@color/colorGray"
+                    android:ellipsize="end"
+                    android:text="@{lawDataProvider.provideLastEventDate(lawData.lastEvent)}"
+                    tools:text="Обновление:    2020-06-18" />
+
+                <TextView
+                    android:id="@+id/lawResolution"
+                    style="@style/BaseTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lawIntroducedDate"
+                    android:padding="4dp"
+                    android:textColor="@color/colorGray"
+                    android:ellipsize="end"
+                    android:text="@{lawDataProvider.provideFormattedResolution(((String) lawData.lastEvent.solution))}"
+                    tools:text="Решение: Законопроект отклонён" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="0dp"
+                android:background="@color/textProtector" />
+
+            <RelativeLayout
+                android:id="@+id/voteDeputiesContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/voteDeputiesNoData"
+                    style="@style/BaseTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:text="Нет данных"
+                    android:visibility="@{lawData.isDeputiesAvailable() ? View.GONE : View.VISIBLE}"
+                    />
+
+                <include
+                    android:id="@+id/voteDeputies"
+                    layout="@layout/view_item_deputy"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:layout_toStartOf="@+id/voteDeputiesCounter"
+                    android:visibility="@{lawData.isDeputiesAvailable() ? View.VISIBLE : View.GONE}"
+                    app:dataProvider="@{lawDataProvider}"
+                    app:deputy="@{deputyData}" />
+
+                <TextView
+                    android:id="@+id/voteDeputiesCounter"
+                    style="@style/BaseTextView"
+                    android:layout_width="56dp"
+                    android:layout_height="72dp"
+                    android:gravity="center"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="16sp"
+                    android:clickable="true"
+                    android:background="@color/textProtector"
+                    android:visibility="@{lawData.isDeputiesAvailable() ? View.VISIBLE : View.GONE}"
+                    android:text="@{votesProvider.providesVotedDeputiesCounterSafe(resources, lawData)}"
+                    tools:text="+15 ещё"
+                    />
+
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/lawTitle"
+                android:id="@+id/lawResponsible"
+                style="@style/BaseTextView"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginTop="0dp"
+                android:paddingStart="16dp"
+                android:textAllCaps="true"
+                android:background="@color/colorGray"
+                android:gravity="center_vertical"
+                android:text="@string/title_responsible"/>
+
+            <TextView
+                android:id="@+id/lawResponsibleCommittee"
                 style="@style/BaseTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/lawDateContainer"
-                android:padding="4dp"
+                android:layout_toEndOf="@+id/lawResponsible"
+                android:paddingStart="20dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:textColor="@color/colorWhite"
                 android:ellipsize="end"
-                tools:text="О внесении изменений в статьи 346-43 и 346-51 части второй Налогового кодекса Российской Федерации" />
+                android:text="@{lawDataProvider.provideResponsibleCommittee(lawData.committees)}"
+                tools:text="Комитет ГД по делам национальностей"/>
 
             <TextView
-                android:id="@+id/lawIntroducedDate"
+                android:id="@+id/lawLastEvent"
+                style="@style/BaseTextView"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="16dp"
+                android:textAllCaps="true"
+                android:background="@color/colorGray"
+                android:gravity="center_vertical"
+                android:text="@string/title_last_event"/>
+
+            <TextView
+                android:id="@+id/lawLastEventData"
                 style="@style/BaseTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/lawTitle"
-                android:layout_toEndOf="@+id/lawDateContainer"
-                android:padding="4dp"
-                android:textColor="@color/colorGray"
+                android:layout_toEndOf="@+id/lawLastEvent"
+                android:paddingStart="20dp"
+                android:paddingEnd="16dp"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:textColor="@color/colorWhite"
                 android:ellipsize="end"
-                tools:text="Внесён:    2020-06-16" />
-
-            <TextView
-                android:id="@+id/lawUpdateDate"
-                style="@style/BaseTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lawTitle"
-                android:layout_toEndOf="@+id/lawDateContainer"
-                android:padding="4dp"
-                android:textColor="@color/colorGray"
-                android:ellipsize="end"
-                tools:text="Обновление:    2020-06-18" />
-
-            <TextView
-                android:id="@+id/lawResolution"
-                style="@style/BaseTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/lawIntroducedDate"
-                android:padding="4dp"
-                android:textColor="@color/colorGray"
-                android:ellipsize="end"
-                tools:text="Решение: Законопроект отклонён" />
+                android:text="@{lawDataProvider.provideLastEventData(lawData.lastEvent)}"
+                tools:text="Рассмотрение законопроекта в первом чтении \n\nРассмотрение Советом Государственной Думы законопроекта, представленного ответственным комитетом"/>
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="0dp"
-            android:background="@color/textProtector" />
+    </ScrollView>
+</layout>
 
-        <RelativeLayout
-            android:id="@+id/voteDeputiesContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <TextView
-                android:id="@+id/voteDeputiesNoData"
-                style="@style/BaseTextView"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:text="Нет данных"
-                android:visibility="gone"
-                />
-
-            <include
-                android:id="@+id/voteDeputies"
-                layout="@layout/view_item_deputy"
-                android:layout_width="match_parent"
-                android:layout_height="72dp"
-                android:layout_toStartOf="@+id/voteDeputiesCounter"
-                />
-
-            <TextView
-                android:id="@+id/voteDeputiesCounter"
-                style="@style/BaseTextView"
-                android:layout_width="56dp"
-                android:layout_height="72dp"
-                android:gravity="center"
-                android:layout_alignParentEnd="true"
-                android:textSize="16sp"
-                android:clickable="true"
-                android:background="@color/textProtector"
-                tools:text="+15 ещё"
-                />
-
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/lawResponsible"
-            style="@style/BaseTextView"
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_marginTop="0dp"
-            android:paddingStart="16dp"
-            android:textAllCaps="true"
-            android:background="@color/colorGray"
-            android:gravity="center_vertical"
-            android:text="@string/title_responsible"/>
-
-        <TextView
-            android:id="@+id/lawResponsibleCommittee"
-            style="@style/BaseTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/lawResponsible"
-            android:paddingStart="20dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:textColor="@color/colorWhite"
-            android:ellipsize="end"
-            tools:text="Комитет ГД по делам национальностей"/>
-
-        <TextView
-            android:id="@+id/lawLastEvent"
-            style="@style/BaseTextView"
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_marginTop="8dp"
-            android:paddingLeft="16dp"
-            android:textAllCaps="true"
-            android:background="@color/colorGray"
-            android:gravity="center_vertical"
-            android:text="@string/title_last_event"/>
-
-        <TextView
-            android:id="@+id/lawLastEventData"
-            style="@style/BaseTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/lawLastEvent"
-            android:paddingStart="20dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
-            android:textColor="@color/colorWhite"
-            android:ellipsize="end"
-            tools:text="Рассмотрение законопроекта в первом чтении \n\nРассмотрение Советом Государственной Думы законопроекта, представленного ответственным комитетом"/>
-
-    </LinearLayout>
-
-</ScrollView>

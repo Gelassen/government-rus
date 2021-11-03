@@ -1,5 +1,7 @@
 package ru.home.government.model;
 
+import androidx.databinding.Bindable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,37 +11,37 @@ public class Law {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private Integer id = 0;
     @SerializedName("number")
     @Expose
-    private String number;
+    private String number = "";
     @SerializedName("name")
     @Expose
-    private String name;
+    private String name = "";
     @SerializedName("comments")
     @Expose
-    private Object comments;
+    private Object comments = "";
     @SerializedName("introductionDate")
     @Expose
-    private String introductionDate;
+    private String introductionDate = "";
     @SerializedName("url")
     @Expose
-    private String url;
+    private String url = "";
     @SerializedName("transcriptUrl")
     @Expose
-    private String transcriptUrl;
+    private String transcriptUrl = "";
     @SerializedName("lastEvent")
     @Expose
-    private LastEvent lastEvent;
+    private LastEvent lastEvent = new LastEvent();
     @SerializedName("subject")
     @Expose
-    private Subject subject;
+    private Subject subject = new Subject();
     @SerializedName("committees")
     @Expose
-    private Committees committees;
+    private Committees committees = new Committees();
     @SerializedName("type")
     @Expose
-    private Type type;
+    private Type type = new Type();
 
     public Integer getId() {
         return id;
@@ -127,6 +129,12 @@ public class Law {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public boolean isDeputiesAvailable() {
+        return subject != null
+                && subject.getDeputies() != null
+                && subject.getDeputies().size() != 0;
     }
 
     @Override

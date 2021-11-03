@@ -60,7 +60,6 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
         Log.d(App.TAG, "Tracked laws: " + codes.size);
 
         billsViewModel = viewModelFactory.create(BillsViewModel::class.java)
-//        billsViewModel.init(requireActivity().application as AppApplication)
         billsViewModel.getTrackedLaws()
             .newObserveBy(
                 this,
