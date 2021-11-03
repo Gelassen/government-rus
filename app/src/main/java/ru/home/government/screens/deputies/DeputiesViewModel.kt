@@ -3,8 +3,6 @@ package ru.home.government.screens.deputies
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.dropbox.android.external.store4.FetcherResult
-import com.dropbox.android.external.store4.StoreRequest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.cancel
@@ -45,7 +43,7 @@ class DeputiesViewModel
         /* launch call return Job instance which should be canceled to avoid leak */
         viewModelScope.launch {
             /*this@launch.cancel() -- just test coroutine behaviour*/
-            repository.loadDeputiesV2()
+            repository.getDeputiesV2()
                 /*.cancellable() -- just test coroutine behaviour*/
                 .onCompletion {
                     _isLoading.value = false

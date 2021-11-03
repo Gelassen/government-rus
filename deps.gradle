@@ -17,8 +17,9 @@ ext {
             retrofit           : '2.9.0',
             coroutines         : '1.3.9',
             room               : '2.1.0-beta01',
-            espressoVersion    : '3.3.0',
-            test               : '1.4.0',
+            espressoVersion    : '3.5.0-alpha03',
+            test               : '1.4.1-alpha03',
+            espressoContrib    : '3.5.0-alpha03',
             dagger             : '2.24',
             activityKtx        : '1.3.1',
             fragmentKtx        : '1.3.6',
@@ -75,6 +76,7 @@ ext {
             espressoCore   : "androidx.test.espresso:espresso-core:$versions.espressoVersion",
             junit          : "androidx.test.ext:junit:1.1.1",
             runner         : "androidx.test:runner:$versions.test",
+            espressoContrib: "androidx.test.espresso:espresso-contrib:$versions.espressoContrib",
             rules          : "androidx.test:rules:$versions.test",
             coroutines     : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines"
     ]

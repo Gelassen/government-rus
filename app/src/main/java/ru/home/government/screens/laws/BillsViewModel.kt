@@ -49,11 +49,13 @@ class BillsViewModel
         return repository.loadLawsByName(name)
     }
 
+    @Deprecated("Subscribe on laws StateFlow")
     @Suppress("UNCHECKED_CAST")
     fun subscribeOnLawsByNumber(): LiveData<FetcherResult<GovResponse>> {
         return lawsLiveData
     }
 
+    @Deprecated("Use getLawByNumber()")
     fun fetchLawByNumber(number: String) {
         viewModelScope.launch {
             repository.loadLawsByNumber()
@@ -64,11 +66,31 @@ class BillsViewModel
         }
     }
 
+    private var _law: MutableStateFlow<Response<GovResponse>> = MutableStateFlow(Response.Data(GovResponse()))
+    val law: StateFlow<Response<GovResponse>> = _law
+
+    fun getLawByNumber(billNumber: String) {
+        Log.d(App.BILLS, "[start] getLawByNumber()")
+        viewModelScope.launch {
+            Log.d(App.BILLS, "[launch] getLawByNumber()")
+            repository.getLawByNumber(billNumber)
+                .catch { e ->
+                    Log.d(App.BILLS, "[error catch] getLawByNumber()")
+                    Log.e(App.TAG, "Something went wrong on loading specific law", e)
+                }
+                .collect { result ->
+                    Log.d(App.BILLS, "[collect] getLawByNumber()")
+                    _law.value = result
+                }
+        }
+        Log.d(App.BILLS, "[end] getLawByNumber()")
+    }
+
     fun subscribeOnVotesByLaw(): LiveData<FetcherResult<VotesResponse>> {
         return votesLiveData
     }
 
-    @Deprecated("Use loadVotesByLawV2()")
+    @Deprecated("Use getVotesByLawV2()")
     fun fetchVotesByLaw(lawNumber: String) {
         viewModelScope.launch {
             repository.loadVotesByLaw()
@@ -84,7 +106,7 @@ class BillsViewModel
 
     fun getVotesByLawV2(billNumber: String) {
         viewModelScope.launch {
-            repository.loadVotesByLawV2(billNumber)
+            repository.getVotesByLawV2(billNumber)
                 .catch { e ->
                     Log.e(App.TAG, "Something went wrong on loading deputies", e)
                 }

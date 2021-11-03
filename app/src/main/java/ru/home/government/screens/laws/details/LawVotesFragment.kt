@@ -46,7 +46,6 @@ class LawVotesFragment: BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-
     lateinit var binding: FragmentLawVotesBinding
 
     override fun onCreateView(
@@ -89,20 +88,20 @@ class LawVotesFragment: BaseFragment() {
     private fun processResponse(it: Response<VotesResponse>) {
         when (it) {
             is Response.Data -> {
-                if (it.data.isDataAvailable) {
-                    val votesResponse = it.data
-                    binding.votesResponse = votesResponse
-                    binding.executePendingBindings()
-                    voteDetails.setOnClickListener { it ->
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.data = Uri.parse(
-                            String.format(
-                                resources.getString(R.string.url_vote),
-                                votesResponse.votes.get(0).id
-                            )
+                if (it.data.isDataAvailable) return
+
+                val votesResponse = it.data
+                binding.votesResponse = votesResponse
+                binding.executePendingBindings()
+                voteDetails.setOnClickListener { it ->
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(
+                        String.format(
+                            resources.getString(R.string.url_vote),
+                            votesResponse.votes.get(0).id
                         )
-                        startActivity(intent)
-                    }
+                    )
+                    startActivity(intent)
                 }
             }
             is Response.Error.Message -> {

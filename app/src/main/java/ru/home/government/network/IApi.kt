@@ -23,6 +23,7 @@ interface IApi {
         @Query("page") page: Int
     ): FetcherResult<GovResponse>
 
+    @Deprecated("Use getLawByNumberV2()")
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/search.json")
     suspend fun newGetLawByNumber(
@@ -56,6 +57,14 @@ interface IApi {
         @Path("token") token: String,
         @Query("app_token") appToken: String
     ): FetcherResult<List<Deputy>>
+
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("/api/{token}/search.json")
+    suspend fun getLawByNumberV2(
+        @Path("token") token: String,
+        @Query("app_token") appToken: String,
+        @Query("number") number: String
+    ): Response<GovResponse>
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/deputies.json")

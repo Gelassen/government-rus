@@ -130,6 +130,7 @@ open class GovernmentRepository(
             ).build()
     }
 
+    @Deprecated("Use load laws by number")
     @ExperimentalCoroutinesApi
     @FlowPreview
     fun loadLawsByNumber(): Store<String, FetcherResult<GovResponse>> {
@@ -175,7 +176,22 @@ open class GovernmentRepository(
             ).build()
     }
 
-    open fun loadDeputiesV2(): Flow<Response<List<Deputy>>> {
+    fun getLawByNumber(billNumber: String): Flow<Response<GovResponse>> {
+        return flow {
+            val response = api.getLawByNumberV2(
+                context.getString(R.string.api_key),
+                context.getString(R.string.api_app_token),
+                billNumber
+            )
+            if (response.isSuccessful) {
+                emit(Response.Data(response.body()!!))
+            } else {
+                emit(Response.Error.Message(response.message()))
+            }
+        }//.attachIdlingResource()
+    }
+
+    open fun getDeputiesV2(): Flow<Response<List<Deputy>>> {
         return flow {
             val response = api.getAllDeputiesV2(
                 context.getString(R.string.api_key),
@@ -199,7 +215,7 @@ open class GovernmentRepository(
             }
     }
 
-    open fun loadVotesByLawV2(number: String): Flow<Response<VotesResponse>> {
+    open fun getVotesByLawV2(number: String): Flow<Response<VotesResponse>> {
         return flow {
             val response = api.newGetLawVotesV2(
                 context.getString(R.string.api_key),

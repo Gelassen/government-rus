@@ -12,7 +12,7 @@ import kotlin.collections.ArrayList
 
 class FakeRepository(context: Context, api: IApi): GovernmentRepository(context, api) {
 
-    override fun loadDeputiesV2(): Flow<Response<List<Deputy>>> {
+    override fun getDeputiesV2(): Flow<Response<List<Deputy>>> {
         return flow {
             emit(prepareCorrectResponse())
         }

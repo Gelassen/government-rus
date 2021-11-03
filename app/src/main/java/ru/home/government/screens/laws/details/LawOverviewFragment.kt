@@ -7,9 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.android.synthetic.main.fragment_law_overview.*
 import kotlinx.android.synthetic.main.view_item_deputy.view.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.databinding.FragmentLawOverviewBinding
@@ -21,7 +27,9 @@ import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.providers.VotesDataProvider
+import ru.home.government.repository.Response
 import ru.home.government.util.newObserveBy
+import java.lang.StringBuilder
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -64,42 +72,62 @@ class LawOverviewFragment: BaseFragment() {
         (requireActivity().application as AppApplication).component.inject(this)
 
         binding.resources = resources // requires fragment attached to instantiated activity
+        binding.lifecycleOwner = this
         binding.executePendingBindings()
         
         val billsViewModel: BillsViewModel by viewModels() { viewModelFactory }
-        billsViewModel.subscribeOnLawsByNumber()
-            .newObserveBy(
-                this,
-                onNext = {
-                        it ->
-                    Log.d("TAG", "Data arrived: " + it)
-                    onNewData(it)
-                },
-                onLoading = ::visibleProgress,
-                onError = ::showError
-            )
-        billsViewModel.fetchLawByNumber(requireArguments().get(EXTRA_LAW_CODE).toString())
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                billsViewModel.law.collect { it ->
+                    processResponse(it)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                val lawNumber = requireArguments().get(LawOverviewFragment.EXTRA_LAW_CODE).toString()
+                billsViewModel.getLawByNumber(lawNumber)
+            }
+        }
+    }
+
+    private fun processResponse(it: Response<GovResponse>) {
+        when (it) {
+            is Response.Data -> {
+                onNewData(it.data)
+            }
+            is Response.Error.Message -> {
+                val error = StringBuilder()
+                    .append(getString(R.string.unknown_error) + ". " + it.msg)
+                    .append(". ")
+                    .append(it.msg)
+                    .toString()
+                showError(error)
+            }
+            is Response.Error.Exception -> {
+                Log.e(App.TAG, getString(R.string.unknown_error), it.error)
+                showError(getString(R.string.unknown_error))
+            }
+        }
     }
 
     private fun onNewData(response: GovResponse) {
-        if (response.laws == null || response.laws.size == 0) {
-            showError(getString(R.string.no_laws_error))
-        } else {
-            binding.lawData = response.laws.get(0)
-            processDeputies(binding.lawData as Law)
-        }
+        if (response.laws == null || response.laws.size == 0)  return
+
+        binding.lawData = response.laws.get(0)
+        if ((binding.lawData as Law).isDeputiesAvailable) processDeputies(binding.lawData as Law)
+        binding.executePendingBindings()
     }
 
     private fun processDeputies(item: Law) {
-        if (item.isDeputiesAvailable) {
-            binding.deputyData = item.subject.deputies.get(0)
-            voteDeputiesCounter.setOnClickListener { it ->
-                DeputiesOnLawActivity.launch(
-                    requireActivity() as AppCompatActivity,
-                    ArrayList(item.subject.deputies.subList(1, item.subject.deputies.size))
-                )
-            }
+        if (!item.isDeputiesAvailable) return
+
+        binding.deputyData = item.subject.deputies.get(0)
+        voteDeputiesCounter.setOnClickListener { it ->
+            DeputiesOnLawActivity.launch(
+                requireActivity() as AppCompatActivity,
+                ArrayList(item.subject.deputies.subList(1, item.subject.deputies.size))
+            )
         }
-        binding.executePendingBindings()
     }
 }

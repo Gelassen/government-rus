@@ -2,6 +2,7 @@ package ru.home.government.util
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import ru.home.government.BuildConfig
 import ru.home.government.di.test.NetworkIdlingResource
@@ -15,7 +16,7 @@ fun <T> Flow<T>.attachIdlingResource(): Flow<T> {
                 NetworkIdlingResource.increment()
             }
         }
-        .onCompletion {
+        .onEach {
             if (BuildConfig.DEBUG) {
                 NetworkIdlingResource.decrement()
             }
