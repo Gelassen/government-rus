@@ -123,7 +123,6 @@ class DeputiesFragment: BaseFragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 val viewModel: DeputiesViewModel by viewModels() { viewModelFactory }
-                viewModel.init(activity!!.application as AppApplication)
                 viewModel.isLoading.collect { value ->
                     visibleProgress(value)
                 }
@@ -134,7 +133,6 @@ class DeputiesFragment: BaseFragment() {
     private suspend fun processDeputiesModel() {
         visibleProgress(true)
         val viewModel: DeputiesViewModel by viewModels() { viewModelFactory }
-        viewModel.init(activity!!.application as AppApplication)
         viewModel.deputies.collect { result ->
             when (result) {
                 is Response.Data -> {

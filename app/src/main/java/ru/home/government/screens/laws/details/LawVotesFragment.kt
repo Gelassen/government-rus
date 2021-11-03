@@ -8,17 +8,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.android.synthetic.main.fragment_law_votes.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.databinding.FragmentLawVotesBinding
 import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.VotesResponse
 import ru.home.government.providers.VotesDataProvider
+import ru.home.government.repository.Response
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
-import ru.home.government.util.newObserveBy
+import java.lang.StringBuilder
 import javax.inject.Inject
 
 
@@ -60,34 +66,56 @@ class LawVotesFragment: BaseFragment() {
         (requireActivity().application as AppApplication).component.inject(this)
 
         binding.resources = resources
+        binding.lifecycleOwner = this
         binding.executePendingBindings()
 
         val billsViewModel: BillsViewModel by viewModels() { viewModelFactory }
-        billsViewModel.subscribeOnVotesByLaw()
-            .newObserveBy(
-                this,
-                onNext = {
-                        it ->
-                    Log.d("TAG", "Data arrived: " + it)
-                    onVotesData(it)
-                },
-                onLoading = ::visibleProgress,
-                onError = ::showError
-            )
-        val lawNumber = requireArguments().get(EXTRA_LAW_CODE).toString()
-        billsViewModel.fetchVotesByLaw(lawNumber)
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                billsViewModel.votesResponse.collect { it ->
+                    processResponse(it)
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                val lawNumber = requireArguments().get(EXTRA_LAW_CODE).toString()
+                billsViewModel.getVotesByLawV2(lawNumber)
+            }
+        }
     }
 
-    private fun onVotesData(votesResponse: VotesResponse?) {
-        if (votesResponse != null && votesResponse.isDataAvailable) {
-            binding.votesResponse = votesResponse
-            binding.executePendingBindings()
-            voteDetails.setOnClickListener { it ->
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(
-                    String.format(resources.getString(R.string.url_vote), votesResponse.votes.get(0).id)
-                )
-                startActivity(intent)
+    private fun processResponse(it: Response<VotesResponse>) {
+        when (it) {
+            is Response.Data -> {
+                if (it.data.isDataAvailable) {
+                    val votesResponse = it.data
+                    binding.votesResponse = votesResponse
+                    binding.executePendingBindings()
+                    voteDetails.setOnClickListener { it ->
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(
+                            String.format(
+                                resources.getString(R.string.url_vote),
+                                votesResponse.votes.get(0).id
+                            )
+                        )
+                        startActivity(intent)
+                    }
+                }
+            }
+            is Response.Error.Message -> {
+                val error = StringBuilder()
+                    .append(getString(R.string.unknown_error) + ". " + it.msg)
+                    .append(". ")
+                    .append(it.msg)
+                    .toString()
+                showError(error)
+            }
+            is Response.Error.Exception -> {
+                Log.e(App.TAG, getString(R.string.unknown_error), it.error)
+                showError(getString(R.string.unknown_error))
             }
         }
     }

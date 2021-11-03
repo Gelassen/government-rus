@@ -14,6 +14,7 @@ import ru.home.government.model.Law
 import ru.home.government.model.VotesResponse
 import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
+import ru.home.government.repository.Response
 import javax.inject.Inject
 
 class BillsViewModel
@@ -67,12 +68,28 @@ class BillsViewModel
         return votesLiveData
     }
 
+    @Deprecated("Use loadVotesByLawV2()")
     fun fetchVotesByLaw(lawNumber: String) {
         viewModelScope.launch {
             repository.loadVotesByLaw()
                 .stream(StoreRequest.fresh(lawNumber))
                 .collect{ result ->
                     votesLiveData.postValue(result.dataOrNull())
+                }
+        }
+    }
+
+    private val _votesResponse: MutableStateFlow<Response<VotesResponse>> = MutableStateFlow(Response.Data(VotesResponse()))
+    val votesResponse: StateFlow<Response<VotesResponse>> = _votesResponse
+
+    fun getVotesByLawV2(billNumber: String) {
+        viewModelScope.launch {
+            repository.loadVotesByLawV2(billNumber)
+                .catch { e ->
+                    Log.e(App.TAG, "Something went wrong on loading deputies", e)
+                }
+                .collect { result ->
+                    _votesResponse.value = result
                 }
         }
     }

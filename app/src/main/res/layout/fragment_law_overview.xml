@@ -138,7 +138,7 @@
                     android:textSize="16sp"
                     android:clickable="true"
                     android:background="@color/textProtector"
-                    android:visibility="@{lawData.isDeputiesAvailable() ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{lawData.isExtraDeputiesAvailable() ? View.VISIBLE : View.GONE}"
                     android:text="@{votesProvider.providesVotedDeputiesCounterSafe(resources, lawData)}"
                     tools:text="+15 ещё"
                     />

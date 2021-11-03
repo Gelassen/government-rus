@@ -23,6 +23,7 @@ import ru.home.government.model.VotesResponse
 import ru.home.government.network.IApi
 import ru.home.government.repository.pagination.LawsPageSource
 import ru.home.government.repository.pagination.SearchLawsPageSource
+import ru.home.government.util.attachIdlingResource
 import java.util.*
 
 open class GovernmentRepository(
@@ -85,6 +86,7 @@ open class GovernmentRepository(
         return result
     }
 
+    @Deprecated("Use loadVotesByLawV2() instead")
     @ExperimentalCoroutinesApi
     @FlowPreview
     fun loadVotesByLaw(): Store<String, FetcherResult<VotesResponse>> {
@@ -195,6 +197,21 @@ open class GovernmentRepository(
                     NetworkIdlingResource.decrement()
                 }
             }
+    }
+
+    open fun loadVotesByLawV2(number: String): Flow<Response<VotesResponse>> {
+        return flow {
+            val response = api.newGetLawVotesV2(
+                context.getString(R.string.api_key),
+                context.getString(R.string.api_app_token),
+                number
+            )
+            if (response.isSuccessful) {
+                emit(Response.Data<VotesResponse>(response.body()!!))
+            } else {
+                emit(Response.Error.Message(response.message()))
+            }
+        }.attachIdlingResource()
     }
 }
 

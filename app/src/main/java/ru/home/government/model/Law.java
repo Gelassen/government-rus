@@ -137,6 +137,11 @@ public class Law {
                 && subject.getDeputies().size() != 0;
     }
 
+    public boolean isExtraDeputiesAvailable() {
+        return isDeputiesAvailable()
+                && subject.getDeputies().size() > 1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
