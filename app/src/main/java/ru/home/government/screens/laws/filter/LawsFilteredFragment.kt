@@ -73,7 +73,6 @@ class LawsFilteredFragment: BaseFragment(),
         list.addItemDecoration(dividerItemDecoration)
 
         billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
-        billsViewModel.init(activity!!.application as AppApplication)
 
         val filter = arguments!!.getString(EXTRA_KEY, "")
         onSearch(filter)

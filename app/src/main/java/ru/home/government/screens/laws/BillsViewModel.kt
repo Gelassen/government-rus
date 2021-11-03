@@ -26,15 +26,7 @@ class BillsViewModel
     @Inject
     lateinit var cacheRepository: CacheRepository
 
-    val lawsLiveData: MutableLiveData<FetcherResult<GovResponse>> = MutableLiveData<FetcherResult<GovResponse>>()
-    val votesLiveData: MutableLiveData<FetcherResult<VotesResponse>> = MutableLiveData<FetcherResult<VotesResponse>>()
     val trackedLiveData: MutableLiveData<FetcherResult<GovResponse>> = MutableLiveData<FetcherResult<GovResponse>>()
-
-    @Deprecated(message = "All fields are initialized now via DI module")
-    fun init(application: AppApplication) {
-        application.getComponent().inject(this)
-//        cacheRepository = CacheRepository(application)
-    }
 
     override fun onCleared() {
         super.onCleared()
@@ -49,54 +41,17 @@ class BillsViewModel
         return repository.loadLawsByName(name)
     }
 
-    @Deprecated("Subscribe on laws StateFlow")
-    @Suppress("UNCHECKED_CAST")
-    fun subscribeOnLawsByNumber(): LiveData<FetcherResult<GovResponse>> {
-        return lawsLiveData
-    }
-
-    @Deprecated("Use getLawByNumber()")
-    fun fetchLawByNumber(number: String) {
-        viewModelScope.launch {
-            repository.loadLawsByNumber()
-                .stream(StoreRequest.fresh(number))
-                .collect { result ->
-                    lawsLiveData.postValue(result.dataOrNull())
-                }
-        }
-    }
-
     private var _law: MutableStateFlow<Response<GovResponse>> = MutableStateFlow(Response.Data(GovResponse()))
     val law: StateFlow<Response<GovResponse>> = _law
 
     fun getLawByNumber(billNumber: String) {
-        Log.d(App.BILLS, "[start] getLawByNumber()")
         viewModelScope.launch {
-            Log.d(App.BILLS, "[launch] getLawByNumber()")
             repository.getLawByNumber(billNumber)
                 .catch { e ->
-                    Log.d(App.BILLS, "[error catch] getLawByNumber()")
                     Log.e(App.TAG, "Something went wrong on loading specific law", e)
                 }
                 .collect { result ->
-                    Log.d(App.BILLS, "[collect] getLawByNumber()")
                     _law.value = result
-                }
-        }
-        Log.d(App.BILLS, "[end] getLawByNumber()")
-    }
-
-    fun subscribeOnVotesByLaw(): LiveData<FetcherResult<VotesResponse>> {
-        return votesLiveData
-    }
-
-    @Deprecated("Use getVotesByLawV2()")
-    fun fetchVotesByLaw(lawNumber: String) {
-        viewModelScope.launch {
-            repository.loadVotesByLaw()
-                .stream(StoreRequest.fresh(lawNumber))
-                .collect{ result ->
-                    votesLiveData.postValue(result.dataOrNull())
                 }
         }
     }

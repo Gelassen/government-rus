@@ -58,6 +58,27 @@ open class GovernmentRepository(
             }*/
     }
 
+    @ExperimentalCoroutinesApi
+    @FlowPreview
+    fun loadLawsByNumber(): Store<String, FetcherResult<GovResponse>> {
+        return StoreBuilder
+            .from(
+                Fetcher.of { number: String ->
+                    var result: FetcherResult<GovResponse> = FetcherResult.Data(GovResponse())
+                    try {
+                        result = api.newGetLawByNumber(
+                            context.getString(R.string.api_key),
+                            context.getString(R.string.api_app_token),
+                            number
+                        )
+                    } catch (ex: Exception) {
+                        result = FetcherResult.Error.Exception(ex)
+                    }
+                    result
+                }
+            ).build()
+    }
+
     fun loadLawsByName(name: String): Flow<PagingData<Law>> {
         return Pager(
             config = PagingConfig(pageSize = 20),
@@ -86,27 +107,6 @@ open class GovernmentRepository(
         return result
     }
 
-    @Deprecated("Use loadVotesByLawV2() instead")
-    @ExperimentalCoroutinesApi
-    @FlowPreview
-    fun loadVotesByLaw(): Store<String, FetcherResult<VotesResponse>> {
-        return StoreBuilder
-            .from(Fetcher.of { number: String ->
-                var result: FetcherResult<VotesResponse> = FetcherResult.Data(VotesResponse())
-                try {
-                    result = api.newGetLawVotes(
-                        context.getString(R.string.api_key),
-                        context.getString(R.string.api_app_token),
-                        number
-                    )
-                } catch (ex: Exception) {
-                    result = FetcherResult.Error.Exception(ex)
-                }
-                result
-            })
-            .build()
-    }
-
     @ExperimentalCoroutinesApi
     @FlowPreview
     fun loadLawsByName(): Store<String, FetcherResult<GovResponse>> {
@@ -130,51 +130,7 @@ open class GovernmentRepository(
             ).build()
     }
 
-    @Deprecated("Use load laws by number")
-    @ExperimentalCoroutinesApi
-    @FlowPreview
-    fun loadLawsByNumber(): Store<String, FetcherResult<GovResponse>> {
-        return StoreBuilder
-            .from(
-                Fetcher.of { number: String ->
-                    var result: FetcherResult<GovResponse> = FetcherResult.Data(GovResponse())
-                    try {
-                        result = api.newGetLawByNumber(
-                            context.getString(R.string.api_key),
-                            context.getString(R.string.api_app_token),
-                            number
-                        )
-                    } catch (ex: Exception) {
-                        result = FetcherResult.Error.Exception(ex)
-                    }
-                    result
-                }
-            ).build()
-    }
-
     // TODO move exception handling in catch block in flow, e.g. stream().catch()
-
-    @Deprecated(message = "Use loadDeputiesV2() instead")
-    @ExperimentalCoroutinesApi
-    @FlowPreview
-    open fun loadDeputies(): Store<Int, FetcherResult<List<Deputy>>> {
-        return StoreBuilder
-            .from(
-                Fetcher.of { key: Int ->
-                    var result: FetcherResult<List<Deputy>> = FetcherResult.Data(Collections.emptyList<Deputy>())
-                    try {
-                        result = api.newGetAllDeputies(
-                            context.getString(R.string.api_key),
-                            context.getString(R.string.api_app_token)
-                        )
-                    } catch (ex: Exception) {
-                        Log.e(App.TAG, "Failed to process result", ex);
-                        result = FetcherResult.Error.Exception(ex)
-                    }
-                    result
-                }
-            ).build()
-    }
 
     fun getLawByNumber(billNumber: String): Flow<Response<GovResponse>> {
         return flow {

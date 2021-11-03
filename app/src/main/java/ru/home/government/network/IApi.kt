@@ -41,23 +41,6 @@ interface IApi {
         @Query("name") name: String
     ): FetcherResult<GovResponse>
 
-    @Deprecated("Use newGetLawVotesV2() instead")
-    @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/api/{token}/voteSearch.json")
-    suspend fun newGetLawVotes(
-        @Path("token") token: String,
-        @Query("app_token") appToken: String,
-        @Query("number") number: String
-    ): FetcherResult<VotesResponse>
-
-    @Deprecated(message = "Use getAllDeputiesV2() instead")
-    @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/api/{token}/deputies.json")
-    suspend fun newGetAllDeputies(
-        @Path("token") token: String,
-        @Query("app_token") appToken: String
-    ): FetcherResult<List<Deputy>>
-
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/search.json")
     suspend fun getLawByNumberV2(
