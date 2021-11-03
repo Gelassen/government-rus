@@ -53,7 +53,7 @@ class LawDetailsFragment: BaseFragment() {
         webView.settings.javaScriptCanOpenWindowsAutomatically = false
 
         val url = ServerDataTransformer()
-            .replaceLawUrlWithExplanatoryNote(arguments!!.getString(EXTRA_DETAILS_URL)!!)
+            .replaceLawUrlWithExplanatoryNote(requireArguments().getString(EXTRA_DETAILS_URL)!!)
             .plus("#bh_note")
         webView.loadUrl(url)
     }

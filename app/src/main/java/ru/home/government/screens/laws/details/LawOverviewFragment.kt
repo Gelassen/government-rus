@@ -78,7 +78,7 @@ class LawOverviewFragment: BaseFragment() {
                 onLoading = ::visibleProgress,
                 onError = ::showError
             )
-        billsViewModel.fetchLawByNumber(arguments!!.get(EXTRA_LAW_CODE).toString())
+        billsViewModel.fetchLawByNumber(requireArguments().get(EXTRA_LAW_CODE).toString())
     }
 
     private fun onNewData(response: GovResponse) {

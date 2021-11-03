@@ -4,6 +4,7 @@
     <string name="api_app_token" translatable="false">appa409190224f66043f299efe0d5647f7a5adb2039</string>
 
     <string name="url" translatable="false">http://api.duma.gov.ru/</string>
+    <string name="url_vote" translatable="false">http://vote.duma.gov.ru/vote/%s</string>
     <!--
         В настоящий момент установлено ограничение в 50000 обращений в сутки для одного API-ключа.
         Вы можете отправить запрос на изменение ограничения по адресу webmaster@duma.gov.ru с информацией

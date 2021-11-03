@@ -64,4 +64,8 @@ public class VotesResponse {
         this.votes = votes;
     }
 
+    public boolean isDataAvailable() {
+        return votes != null && votes.size() > 0;
+    }
+
 }

@@ -7,15 +7,19 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.fragment_law_votes.*
 import ru.home.government.AppApplication
 import ru.home.government.R
+import ru.home.government.databinding.FragmentLawVotesBinding
+import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.VotesResponse
 import ru.home.government.providers.VotesDataProvider
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.util.newObserveBy
+import javax.inject.Inject
 
 
 class LawVotesFragment: BaseFragment() {
@@ -33,19 +37,32 @@ class LawVotesFragment: BaseFragment() {
         }
     }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+
+    lateinit var binding: FragmentLawVotesBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_law_votes, container, false)
+        binding = FragmentLawVotesBinding.inflate(inflater, container, false)
+        binding.dataProvider = VotesDataProvider()
+        binding.votesResponse = VotesResponse()
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
-        billsViewModel.init(activity!!.application as AppApplication)
+        (requireActivity().application as AppApplication).component.inject(this)
+
+        binding.resources = resources
+        binding.executePendingBindings()
+
+        val billsViewModel: BillsViewModel by viewModels() { viewModelFactory }
         billsViewModel.subscribeOnVotesByLaw()
             .newObserveBy(
                 this,
@@ -57,26 +74,19 @@ class LawVotesFragment: BaseFragment() {
                 onLoading = ::visibleProgress,
                 onError = ::showError
             )
-        val lawNumber = arguments!!.get(EXTRA_LAW_CODE).toString()
+        val lawNumber = requireArguments().get(EXTRA_LAW_CODE).toString()
         billsViewModel.fetchVotesByLaw(lawNumber)
     }
 
     private fun onVotesData(votesResponse: VotesResponse?) {
-        if (votesResponse == null || votesResponse.votes == null || votesResponse.votes.size == 0) {
-            votesNoData.visibility = View.VISIBLE
-            votesContainer.visibility = View.GONE
-            voteDetails.visibility = View.GONE
-        } else {
-            val dataProvider = VotesDataProvider()
-            val vote = votesResponse.votes.get(0)
-            voteFor.text = dataProvider.providesVotesFor(resources, vote.forCount)
-            voteAgainst.text = dataProvider.providesVotesAgainst(resources, vote.againstCount)
-            voteAbstain.text = dataProvider.providesVotesAbstain(resources, vote.abstainCount)
-
-            voteDetails.visibility = View.VISIBLE
+        if (votesResponse != null && votesResponse.isDataAvailable) {
+            binding.votesResponse = votesResponse
+            binding.executePendingBindings()
             voteDetails.setOnClickListener { it ->
                 val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(String.format("http://vote.duma.gov.ru/vote/%s", vote.id))
+                intent.data = Uri.parse(
+                    String.format(resources.getString(R.string.url_vote), votesResponse.votes.get(0).id)
+                )
                 startActivity(intent)
             }
         }

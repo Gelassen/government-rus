@@ -6,6 +6,7 @@ import ru.home.government.screens.deputies.DeputiesFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.deputies.DeputiesViewModel
 import ru.home.government.screens.laws.details.LawOverviewFragment
+import ru.home.government.screens.laws.details.LawVotesFragment
 import ru.home.government.screens.laws.main.LawsMainFragment
 import ru.home.government.screens.tracker.TrackerFragment
 import javax.inject.Singleton
@@ -22,4 +23,5 @@ interface AppComponent {
     fun inject(trackerFragment: TrackerFragment)
     fun inject(lawsMainFragment: LawsMainFragment)
     fun inject(lawOverviewFragment: LawOverviewFragment)
+    fun inject(lawVotesFragment: LawVotesFragment)
 }
