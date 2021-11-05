@@ -5,27 +5,33 @@ import android.util.Log
 import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_law_main.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
+import ru.home.government.databinding.FragmentLawMainBinding
+import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.Law
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.OnSearchClickListener
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.main.LawsAdapter
 import ru.home.government.screens.laws.details.DetailsActivity
+import ru.home.government.screens.laws.main.LawsAdapterV2
 import java.lang.Exception
+import javax.inject.Inject
 
 class LawsFilteredFragment: BaseFragment(),
-    LawsAdapter.ClickListener,
+    LawsAdapterV2.ClickListener,
     OnSearchClickListener {
 
     companion object {
@@ -44,9 +50,12 @@ class LawsFilteredFragment: BaseFragment(),
         }
     }
 
-    private lateinit var billsViewModel: BillsViewModel
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var filteredLawsAdapter: FilteredLawsAdapter
+    private lateinit var lawsAdapter: LawsAdapterV2
+
+    private lateinit var binding: FragmentLawMainBinding
 
     private var searchJob: Job? = null
 
@@ -56,25 +65,26 @@ class LawsFilteredFragment: BaseFragment(),
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        return layoutInflater.inflate(R.layout.fragment_law_main, container, false)
+        binding = FragmentLawMainBinding.inflate(layoutInflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        filteredLawsAdapter = FilteredLawsAdapter()
+        (requireActivity().application as AppApplication).component.inject(this)
 
-        list.layoutManager = LinearLayoutManager(context)
-        list.adapter = filteredLawsAdapter
-        (list.adapter as FilteredLawsAdapter).listener = this
+        lawsAdapter = LawsAdapterV2(Dispatchers.Main, Dispatchers.Default)
+
+        binding.list.layoutManager = LinearLayoutManager(context)
+        binding.list.adapter = lawsAdapter
+        (binding.list.adapter as LawsAdapterV2).listener = this
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(activity!!, R.drawable.ic_divider)!!)
-        list.addItemDecoration(dividerItemDecoration)
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
+        binding.list.addItemDecoration(dividerItemDecoration)
 
-        billsViewModel = ViewModelProviders.of(this).get(BillsViewModel::class.java)
-
-        val filter = arguments!!.getString(EXTRA_KEY, "")
+        val filter = requireArguments().getString(EXTRA_KEY, "")
         onSearch(filter)
     }
 
@@ -90,11 +100,12 @@ class LawsFilteredFragment: BaseFragment(),
 
     private fun fetchLawsWithFilter(str: String?) {
         searchJob = lifecycleScope.launch {
-            billsViewModel.getLawsByName(str!!).collectLatest { it ->
+            val billsViewModel: BillsViewModel by viewModels() { viewModelFactory }
+            billsViewModel.getLawByNameV2(str!!).collectLatest { it ->
                 visibleProgress(false)
                 try {
-                    (list.adapter as FilteredLawsAdapter).submitData(it)
-                    if ((list.adapter as FilteredLawsAdapter).itemCount == 0) {
+                    (binding.list.adapter as LawsAdapterV2).submitData(it)
+                    if ((binding.list.adapter as LawsAdapterV2).itemCount == 0) {
                         lawsNoData.visibility = View.VISIBLE
                         list.visibility = View.GONE
                     } else {

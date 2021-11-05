@@ -17,11 +17,11 @@ interface IApi {
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/search.json?sort=last_event_date&limit=20")
-    suspend fun newGetIntroducedLaws(
+    suspend fun getIntroducedLaws(
         @Path("token") token: String,
         @Query("app_token") appToken: String,
         @Query("page") page: Int
-    ): FetcherResult<GovResponse>
+    ): Response<GovResponse>
 
     @Deprecated("Use getLawByNumberV2()")
     @Headers("Content-Type: application/json; charset=utf-8")
@@ -32,6 +32,16 @@ interface IApi {
         @Query("number") number: String
     ): FetcherResult<GovResponse>
 
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("/api/{token}/search.json")
+    suspend fun getLawByNameV2(
+        @Path("token") token: String,
+        @Query("app_token") appToken: String,
+        @Query("page") page: Int,
+        @Query("name") name: String
+    ): Response<GovResponse>
+
+    @Deprecated("Use getLawByNameV2() instead")
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/search.json")
     suspend fun newGetLawByName(

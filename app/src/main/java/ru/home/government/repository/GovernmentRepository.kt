@@ -1,7 +1,6 @@
 package ru.home.government.repository
 
 import android.content.Context
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -12,7 +11,6 @@ import com.dropbox.android.external.store4.StoreBuilder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
-import ru.home.government.App
 import ru.home.government.BuildConfig
 import ru.home.government.R
 import ru.home.government.di.test.NetworkIdlingResource
@@ -21,41 +19,32 @@ import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
 import ru.home.government.model.VotesResponse
 import ru.home.government.network.IApi
-import ru.home.government.repository.pagination.LawsPageSource
-import ru.home.government.repository.pagination.SearchLawsPageSource
+import ru.home.government.repository.pagination.BillsPagingSource
+import ru.home.government.repository.pagination.SearchLawsPagingSource
 import ru.home.government.util.attachIdlingResource
-import java.util.*
+
+private const val DEFAULT_PAGE_SIZE = 20
 
 open class GovernmentRepository(
     private val context: Context,
     private val api: IApi) {
 
-    fun loadIntroducedLaws(): Flow<PagingData<Law>> {
+    fun getIntroducedLawsV2(): Flow<PagingData<Law>> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(
+                pageSize = DEFAULT_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
             pagingSourceFactory = {
-                LawsPageSource(
+                BillsPagingSource(
                     api,
                     context.getString(R.string.api_key),
                     context.getString(R.string.api_app_token)
                 )
             }
-        ).flow
-            .onStart {
-                if (BuildConfig.DEBUG) {
-                    NetworkIdlingResource.increment()
-                }
-            }
-            .onEach { it ->
-                if (BuildConfig.DEBUG) {
-                    NetworkIdlingResource.decrement()
-                }
-            }
-/*            .onCompletion {
-                if (BuildConfig.DEBUG) {
-                    NetworkIdlingResource.decrement()
-                }
-            }*/
+        )
+            .flow
+            .attachIdlingResource()
     }
 
     @ExperimentalCoroutinesApi
@@ -79,55 +68,20 @@ open class GovernmentRepository(
             ).build()
     }
 
-    fun loadLawsByName(name: String): Flow<PagingData<Law>> {
+    fun getLawsByNameFilter(filter: String): Flow<PagingData<Law>> {
         return Pager(
-            config = PagingConfig(pageSize = 20),
+            config = PagingConfig(pageSize = DEFAULT_PAGE_SIZE),
             pagingSourceFactory = {
-                SearchLawsPageSource(
+                SearchLawsPagingSource(
                     api,
                     context.getString(R.string.api_key),
                     context.getString(R.string.api_app_token),
-                    name
+                    filter
                 )
             }
-        ).flow
-    }
-
-    @kotlinx.coroutines.ExperimentalCoroutinesApi
-    @FlowPreview
-    fun getData(token: String, appToken: String): Store<Int, FetcherResult<GovResponse>> {
-        val result = StoreBuilder
-            .from(Fetcher.of { page: Int ->
-                api.newGetIntroducedLaws(
-                    context.getString(R.string.api_key),
-                    context.getString(R.string.api_app_token),
-                    page)
-            })
-            .build()
-        return result
-    }
-
-    @ExperimentalCoroutinesApi
-    @FlowPreview
-    fun loadLawsByName(): Store<String, FetcherResult<GovResponse>> {
-        return StoreBuilder
-            .from(
-                Fetcher.of { name: String ->
-                    var result: FetcherResult<GovResponse> = FetcherResult.Data(GovResponse())
-                    try {
-                        result = api.newGetLawByName(
-                            context.getString(R.string.api_key),
-                            context.getString(R.string.api_app_token),
-                            1,
-                            name
-                        )
-                    } catch (ex: Exception) {
-                        Log.e(App.TAG, "Failed to execute API call", ex)
-                        result = FetcherResult.Error.Exception(ex)
-                    }
-                    result
-                }
-            ).build()
+        )
+            .flow
+            .attachIdlingResource()
     }
 
     // TODO move exception handling in catch block in flow, e.g. stream().catch()
@@ -144,7 +98,11 @@ open class GovernmentRepository(
             } else {
                 emit(Response.Error.Message(response.message()))
             }
-        }//.attachIdlingResource()
+        }
+            .catch { ex ->
+                Response.Error.Exception(ex)
+            }
+            .attachIdlingResource()
     }
 
     open fun getDeputiesV2(): Flow<Response<List<Deputy>>> {
@@ -159,16 +117,10 @@ open class GovernmentRepository(
                 emit(Response.Error.Message(response.message()))
             }
         }
-            .onStart {
-                if (BuildConfig.DEBUG) {
-                    NetworkIdlingResource.increment()
-                }
+            .catch { ex ->
+                Response.Error.Exception(ex)
             }
-            .onCompletion {
-                if (BuildConfig.DEBUG) {
-                    NetworkIdlingResource.decrement()
-                }
-            }
+            .attachIdlingResource()
     }
 
     open fun getVotesByLawV2(number: String): Flow<Response<VotesResponse>> {
@@ -183,7 +135,11 @@ open class GovernmentRepository(
             } else {
                 emit(Response.Error.Message(response.message()))
             }
-        }.attachIdlingResource()
+        }
+            .catch { ex ->
+                Response.Error.Exception(ex)
+            }
+            .attachIdlingResource()
     }
 }
 

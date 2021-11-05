@@ -1,15 +1,14 @@
 package ru.home.government.screens.laws.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_law_main.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.home.government.AppApplication
@@ -22,14 +21,14 @@ import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.details.DetailsActivity
 import javax.inject.Inject
 
-class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
+class LawsMainFragment: BaseFragment(), LawsAdapterV2.ClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var billsViewModel: BillsViewModel
 
-    private lateinit var lawsAdapter: LawsAdapter
+    private lateinit var lawsAdapter: LawsAdapterV2
 
     private lateinit var binding: FragmentLawMainBinding
 
@@ -48,11 +47,11 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
         (requireActivity().application as AppApplication).component.inject(this)
 
-        lawsAdapter = LawsAdapter()
+        lawsAdapter = LawsAdapterV2(Dispatchers.Main, Dispatchers.Default)
 
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = lawsAdapter
-        (binding.list.adapter as LawsAdapter).listener = this
+        (binding.list.adapter as LawsAdapterV2).listener = this
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
@@ -69,11 +68,11 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
     private fun fetchLaws() {
         lifecycleScope.launch {
-            val flow = billsViewModel.getLaws()
+            val flow = billsViewModel.getLawsByPage()
             flow.collectLatest {
                     it ->
                 visibleProgress(false)
-                (list.adapter as LawsAdapter).submitData(it)
+                (list.adapter as LawsAdapterV2).submitData(it)
             }
         }
     }

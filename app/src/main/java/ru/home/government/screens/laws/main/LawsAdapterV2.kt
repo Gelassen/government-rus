@@ -1,27 +1,29 @@
 package ru.home.government.screens.laws.main
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineDispatcher
 import ru.home.government.R
-import ru.home.government.databinding.ViewItemDeputyBinding
-import ru.home.government.databinding.ViewItemDeputyBindingImpl
 import ru.home.government.databinding.ViewItemLawOverviewBinding
 import ru.home.government.model.Law
 import ru.home.government.providers.LawDataProvider
 
-class LawsAdapter :
-    PagingDataAdapter<Law, LawsAdapter.ViewHolder>(
-        LAW_COMPARATOR
-    ) {
+class LawsAdapterV2(
+    diffCallback: DiffUtil.ItemCallback<Law> = LawComparator(),
+    mainDispatcher: CoroutineDispatcher,
+    workerDispatcher: CoroutineDispatcher
+) : PagingDataAdapter<Law, LawsAdapterV2.ViewHolder>(
+    diffCallback,
+    mainDispatcher,
+    workerDispatcher
+) {
 
-    interface ClickListener {
-        fun onItemClick(item: Law)
+    constructor(mainDispatcher: CoroutineDispatcher, workerDispatcher: CoroutineDispatcher)
+            : this(LawComparator(), mainDispatcher, workerDispatcher) {
     }
 
     lateinit var listener: ClickListener
@@ -47,26 +49,29 @@ class LawsAdapter :
         }
         holder.binding.executePendingBindings()
     }
-
-    // TODO remove all fields when all screen will be refactored to binding approach
     class ViewHolder(internal val binding: ViewItemLawOverviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val date: TextView
-        val code: TextView
-        val title: TextView
-        val resolution: TextView
         val favIcon: ImageView
 
         init {
-            date = itemView.findViewById(R.id.lawDate)
-            code = itemView.findViewById(R.id.lawCode)
-            title = itemView.findViewById(R.id.lawTitle)
-            resolution = itemView.findViewById(R.id.lawResolution)
             favIcon = itemView.findViewById(R.id.lawFavSign)
         }
     }
 
-    companion object {
+    interface ClickListener {
+        fun onItemClick(item: Law)
+    }
+
+    class LawComparator: DiffUtil.ItemCallback<Law>() {
+        override fun areItemsTheSame(oldItem: Law, newItem: Law): Boolean =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: Law, newItem: Law): Boolean =
+            oldItem == newItem
+
+    }
+
+/*    companion object {
         private val LAW_COMPARATOR = object : DiffUtil.ItemCallback<Law>() {
             override fun areItemsTheSame(oldItem: Law, newItem: Law): Boolean =
                 oldItem.id == newItem.id
@@ -74,5 +79,6 @@ class LawsAdapter :
             override fun areContentsTheSame(oldItem: Law, newItem: Law): Boolean =
                 oldItem == newItem
         }
-    }
+    }*/
+
 }

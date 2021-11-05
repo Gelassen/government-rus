@@ -22,5 +22,16 @@ fun <T> Flow<T>.attachIdlingResource(): Flow<T> {
             }
 
         }
+    // TODO consider this option
+    /*            .onStart {
+                if (BuildConfig.DEBUG) {
+                    NetworkIdlingResource.increment()
+                }
+            }
+            .onCompletion {
+                if (BuildConfig.DEBUG) {
+                    NetworkIdlingResource.decrement()
+                }
+            }*/
     return this
 }

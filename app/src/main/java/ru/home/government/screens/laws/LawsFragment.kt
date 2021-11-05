@@ -27,14 +27,14 @@ class LawsFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fragmentManager!!
+        parentFragmentManager
             .beginTransaction()
             .replace(R.id.container,
                 LawsMainFragment()
             )
             .commit()
 
-        search_view = activity!!.findViewById<MaterialSearchView>(R.id.search_view)
+        search_view = requireActivity().findViewById<MaterialSearchView>(R.id.search_view)
         search_view.setOnQueryTextListener(object: MaterialSearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -60,9 +60,9 @@ class LawsFragment: BaseFragment() {
     fun onSearch(str: String?) {
         if (wasFragmentDestroyed()) return
         
-        val frag = fragmentManager!!.findFragmentByTag(LawsFilteredFragment.TAG)
+        val frag = requireFragmentManager().findFragmentByTag(LawsFilteredFragment.TAG)
         if (frag == null) {
-            fragmentManager!!
+            parentFragmentManager
                 .beginTransaction()
                 .add(R.id.container, LawsFilteredFragment.instance(str!!), LawsFilteredFragment.TAG)
                 .addToBackStack(LawsFilteredFragment.TAG)
@@ -77,7 +77,7 @@ class LawsFragment: BaseFragment() {
     }
 
     fun wasFragmentDestroyed(): Boolean {
-        return fragmentManager == null
+        return parentFragmentManager == null
     }
 
 }
