@@ -6,7 +6,6 @@ import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,14 +23,13 @@ import ru.home.government.model.Law
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.OnSearchClickListener
 import ru.home.government.screens.laws.BillsViewModel
-import ru.home.government.screens.laws.main.LawsAdapter
 import ru.home.government.screens.laws.details.DetailsActivity
-import ru.home.government.screens.laws.main.LawsAdapterV2
+import ru.home.government.screens.laws.main.LawsAdapter
 import java.lang.Exception
 import javax.inject.Inject
 
 class LawsFilteredFragment: BaseFragment(),
-    LawsAdapterV2.ClickListener,
+    LawsAdapter.ClickListener,
     OnSearchClickListener {
 
     companion object {
@@ -53,7 +51,7 @@ class LawsFilteredFragment: BaseFragment(),
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private lateinit var lawsAdapter: LawsAdapterV2
+    private lateinit var lawsAdapter: LawsAdapter
 
     private lateinit var binding: FragmentLawMainBinding
 
@@ -74,11 +72,11 @@ class LawsFilteredFragment: BaseFragment(),
 
         (requireActivity().application as AppApplication).component.inject(this)
 
-        lawsAdapter = LawsAdapterV2(Dispatchers.Main, Dispatchers.Default)
+        lawsAdapter = LawsAdapter(Dispatchers.Main, Dispatchers.Default)
 
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = lawsAdapter
-        (binding.list.adapter as LawsAdapterV2).listener = this
+        (binding.list.adapter as LawsAdapter).listener = this
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
@@ -104,8 +102,8 @@ class LawsFilteredFragment: BaseFragment(),
             billsViewModel.getLawByNameV2(str!!).collectLatest { it ->
                 visibleProgress(false)
                 try {
-                    (binding.list.adapter as LawsAdapterV2).submitData(it)
-                    if ((binding.list.adapter as LawsAdapterV2).itemCount == 0) {
+                    (binding.list.adapter as LawsAdapter).submitData(it)
+                    if ((binding.list.adapter as LawsAdapter).itemCount == 0) {
                         lawsNoData.visibility = View.VISIBLE
                         list.visibility = View.GONE
                     } else {

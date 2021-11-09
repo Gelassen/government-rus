@@ -20,8 +20,8 @@ android {
         targetSdkVersion versions.TARGET_SDK_VERSION
         versionCode 6
         versionName "0.94"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        testInstrumentationRunner "ru.home.government.di.MyCustomTestRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "ru.home.government.MyCustomTestRunner"
     }
 
     flavorDimensions "default"

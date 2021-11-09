@@ -1,6 +1,7 @@
 package ru.home.government.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -11,6 +12,7 @@ import com.dropbox.android.external.store4.StoreBuilder
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
+import ru.home.government.App
 import ru.home.government.BuildConfig
 import ru.home.government.R
 import ru.home.government.di.test.NetworkIdlingResource
@@ -27,20 +29,21 @@ private const val DEFAULT_PAGE_SIZE = 20
 
 open class GovernmentRepository(
     private val context: Context,
-    private val api: IApi) {
+    private val api: IApi,
+    private val billsPagingSource: BillsPagingSource
+) {
 
-    fun getIntroducedLawsV2(): Flow<PagingData<Law>> {
+    open fun getIntroducedLawsV2(): Flow<PagingData<Law>> {
+        Log.d(App.TEST, "GovernmentRepository:" + this.javaClass.name)
+        Log.d(App.TEST, "billsPagingSource:" + billsPagingSource.javaClass.name)
+        Log.d(App.TEST, "billsPagingSource:" + billsPagingSource.javaClass.canonicalName)
         return Pager(
             config = PagingConfig(
                 pageSize = DEFAULT_PAGE_SIZE,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                BillsPagingSource(
-                    api,
-                    context.getString(R.string.api_key),
-                    context.getString(R.string.api_app_token)
-                )
+                billsPagingSource
             }
         )
             .flow

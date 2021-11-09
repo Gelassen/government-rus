@@ -1,4 +1,4 @@
-package ru.home.government.di;
+package ru.home.government.di.modules;
 
 
 import androidx.lifecycle.ViewModel;
@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
+import ru.home.government.di.ViewModelFactory;
 import ru.home.government.screens.deputies.DeputiesViewModel;
 import ru.home.government.screens.laws.BillsViewModel;
 

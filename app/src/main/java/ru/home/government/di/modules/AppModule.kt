@@ -1,6 +1,5 @@
-package ru.home.government.di
+package ru.home.government.di.modules
 
-import android.app.Application
 import android.content.Context
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -46,14 +45,4 @@ open class AppModule(val context: Context) {
         return httpClient
     }
 
-    @Singleton
-    @Provides
-    open fun providesNewRepository(client: IApi): GovernmentRepository {
-        return GovernmentRepository(context, client)
-    }
-
-    @Provides
-    fun providesCacheRepository(): CacheRepository {
-        return CacheRepository(context)
-    }
 }

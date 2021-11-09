@@ -1,13 +1,18 @@
-package ru.home.government.screens.deputies
+package ru.home.government.screens.laws.main
 
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import org.junit.Assert.*
+
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -18,13 +23,12 @@ import ru.home.government.idlingresource.DataBindingIdlingResource
 import ru.home.government.idlingresource.monitorActivity
 import ru.home.government.screens.MainActivity
 
-/**
- * From test coverage perspective this is not complete test case. Its intent
- * to serve as show case of mainstream android testing and foundation for future work.
- * */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class DeputiesFragmentTest {
+class LawsMainFragmentTest {
+
+//    @get:Rule
+//    var detailsActivityIntentsRule = IntentsTestRule<DetailsActivity>(DetailsActivity::class.java)
 
     private val dataBindingIdlingResource = DataBindingIdlingResource()
 
@@ -41,17 +45,23 @@ class DeputiesFragmentTest {
     }
 
     @Test
-    fun onStart_openDeputies_successfullyComplete() {
+    fun onStart_openMainScreen_checkThereIsAnListItem() {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
-        Espresso.onView(ViewMatchers.withId(R.id.nav_view))
+        onView(ViewMatchers.withId(R.id.nav_view))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(R.id.list))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<LawsAdapter.ViewHolder>(12, scrollTo()))
+        onView(withId(R.id.list))
+            .perform(RecyclerViewActions.actionOnItemAtPosition<LawsAdapter.ViewHolder>(12, click()))
 
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_home))
-            .perform(ViewActions.click())
+        // TODO check details activity has been launched
+//        intended(hasComponent(DetailsActivity::class.java!!.getName()))
+        // view check as a workaround to track launched activity
+        onView(withId(R.id.viewpager))
+            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
         activityScenario.close()
     }
-
 }

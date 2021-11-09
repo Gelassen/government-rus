@@ -1,4 +1,4 @@
-package ru.home.government.di;
+package ru.home.government.di.modules;
 
 import androidx.lifecycle.ViewModel;
 

@@ -12,11 +12,11 @@ import ru.home.government.databinding.ViewItemLawOverviewBinding
 import ru.home.government.model.Law
 import ru.home.government.providers.LawDataProvider
 
-class LawsAdapterV2(
+class LawsAdapter(
     diffCallback: DiffUtil.ItemCallback<Law> = LawComparator(),
     mainDispatcher: CoroutineDispatcher,
     workerDispatcher: CoroutineDispatcher
-) : PagingDataAdapter<Law, LawsAdapterV2.ViewHolder>(
+) : PagingDataAdapter<Law, LawsAdapter.ViewHolder>(
     diffCallback,
     mainDispatcher,
     workerDispatcher

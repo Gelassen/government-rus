@@ -21,14 +21,14 @@ import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.details.DetailsActivity
 import javax.inject.Inject
 
-class LawsMainFragment: BaseFragment(), LawsAdapterV2.ClickListener {
+class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var billsViewModel: BillsViewModel
 
-    private lateinit var lawsAdapter: LawsAdapterV2
+    private lateinit var lawsAdapter: LawsAdapter
 
     private lateinit var binding: FragmentLawMainBinding
 
@@ -47,11 +47,11 @@ class LawsMainFragment: BaseFragment(), LawsAdapterV2.ClickListener {
 
         (requireActivity().application as AppApplication).component.inject(this)
 
-        lawsAdapter = LawsAdapterV2(Dispatchers.Main, Dispatchers.Default)
+        lawsAdapter = LawsAdapter(Dispatchers.Main, Dispatchers.Default)
 
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = lawsAdapter
-        (binding.list.adapter as LawsAdapterV2).listener = this
+        (binding.list.adapter as LawsAdapter).listener = this
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
@@ -72,7 +72,7 @@ class LawsMainFragment: BaseFragment(), LawsAdapterV2.ClickListener {
             flow.collectLatest {
                     it ->
                 visibleProgress(false)
-                (list.adapter as LawsAdapterV2).submitData(it)
+                (list.adapter as LawsAdapter).submitData(it)
             }
         }
     }

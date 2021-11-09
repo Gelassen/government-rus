@@ -32,12 +32,6 @@ class BillsViewModel
         super.onCleared()
     }
 
-    @Deprecated("Use getLawByNameV2()")
-    fun getLawsByName(name: String): Flow<PagingData<Law>> {
-        // TODO on name == '' use getLaws() as search call would not work here
-        return repository.getLawsByNameFilter(name)
-    }
-
     fun getLawByNameV2(name: String): Flow<PagingData<Law>> {
         return repository
             .getLawsByNameFilter(name)

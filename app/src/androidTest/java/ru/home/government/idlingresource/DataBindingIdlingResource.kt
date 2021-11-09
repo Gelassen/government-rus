@@ -1,4 +1,4 @@
-package ru.home.government
+package ru.home.government.idlingresource
 
 import android.view.View
 import androidx.databinding.DataBindingUtil
