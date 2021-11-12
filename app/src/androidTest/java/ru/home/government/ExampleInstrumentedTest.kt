@@ -37,40 +37,23 @@ import javax.inject.Inject
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
 
-/*    inner class CustomFakeRepositoryModule(context: Context) : FakeRepositoryModule(context) {
-
-        override fun providesBillsPagingSource(client: IApi): BillsPagingSource {
-            return pagingSource
-        }
-    }
-
-//    @Inject
-//    lateinit var module: FakeRepositoryModule*/
-
-    private val dataBindingIdlingResource = DataBindingIdlingResource()
-
     @Inject
     lateinit var pagingSource: FakeBillPagingSource
+
+    private val dataBindingIdlingResource = DataBindingIdlingResource()
 
     @Before
     fun setUp() {
         IdlingRegistry.getInstance().register(NetworkIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().register(dataBindingIdlingResource)
 
-        // TODO implement custom test runner https://developer.android.com/codelabs/android-dagger#13
+        // implement custom test runner https://developer.android.com/codelabs/android-dagger#13
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
         ((appContext as TestApplication)
             .getComponent() as TestApplicationComponent)
             .inject(this)
+
         pagingSource.setOkWithFullPayloadResponse()
-
-/*        DaggerAppComponent
-            .builder()
-            .appModule(AppModule(appContext))
-            .repositoryModule(RepositoryModule(appContext))
-            .build()*/
-
-//        component.inject(this)
     }
 
     @After

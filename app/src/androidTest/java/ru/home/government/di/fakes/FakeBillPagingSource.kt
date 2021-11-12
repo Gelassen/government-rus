@@ -22,6 +22,10 @@ class FakeBillPagingSource(api: IApi, apiKey: String, apiAppToken: String)
         apiResponse = Response.error(500, ResponseBody.create(MediaType.parse("application/json"), "{}"))
     }
 
+    fun setOkWithEmptyPayload() {
+        apiResponse = preparePositiveResponseWithEmptyPayload()
+    }
+
     override suspend fun execute(page: Int): Response<GovResponse> {
         return apiResponse
     }
@@ -34,6 +38,15 @@ class FakeBillPagingSource(api: IApi, apiKey: String, apiAppToken: String)
         val gson = Gson()
         val json = Stubs.ApiResponse.lawsOkV2ApiRes
         val body = gson.fromJson<GovResponse>(json, GovResponse::class.java)
+        return Response.success(body)
+    }
+
+    private fun preparePositiveResponseWithEmptyPayload(): Response<GovResponse> {
+        val body = GovResponse()
+        body.count = 0
+        body.page = 2
+        body.laws = emptyList()
+        body.wording = ""
         return Response.success(body)
     }
 }

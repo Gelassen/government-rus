@@ -1,7 +1,5 @@
 package ru.home.government
 
-import android.app.Application
-import ru.home.government.di.AppComponent
 import ru.home.government.di.DaggerTestApplicationComponent
 import ru.home.government.di.FakeRepositoryModule
 import ru.home.government.di.modules.AppModule

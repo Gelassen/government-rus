@@ -10,13 +10,11 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.home.government.App
 import ru.home.government.R
 
 class MainActivity : AppCompatActivity() {
@@ -45,6 +43,27 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(navView, navController)
 //
         navController.navigate(R.id.navigation_dashboard)
+        Log.d(App.LF, "MainActivity::onCreate()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(App.LF, "MainActivity::onResume()")
+    }
+
+    override fun onPostResume() {
+        super.onPostResume()
+        Log.d(App.LF, "MainActivity::onPostResume()")
+    }
+
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        Log.d(App.LF, "MainActivity::onResumeFragments()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(App.LF, "MainActivity::onPause()")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

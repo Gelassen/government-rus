@@ -6,15 +6,12 @@ import org.junit.Test
 import org.junit.Assert.*
 import org.junit.Before
 import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.mock
 import ru.home.government.model.Deputy
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.screens.deputies.DeputiesViewModel
 import java.io.File
-import java.util.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).

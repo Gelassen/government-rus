@@ -25,7 +25,7 @@ class RepositoryModule(val context: Context) {
 
     @Singleton
     @Provides
-    open fun providesNewRepository(client: IApi, pagingSource: BillsPagingSource): GovernmentRepository {
+    fun providesNewRepository(client: IApi, pagingSource: BillsPagingSource): GovernmentRepository {
         return GovernmentRepository(context, client, pagingSource)
     }
 
@@ -33,4 +33,5 @@ class RepositoryModule(val context: Context) {
     fun providesCacheRepository(): CacheRepository {
         return CacheRepository(context)
     }
+
 }

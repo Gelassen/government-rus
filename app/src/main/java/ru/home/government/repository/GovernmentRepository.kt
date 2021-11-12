@@ -34,9 +34,6 @@ open class GovernmentRepository(
 ) {
 
     open fun getIntroducedLawsV2(): Flow<PagingData<Law>> {
-        Log.d(App.TEST, "GovernmentRepository:" + this.javaClass.name)
-        Log.d(App.TEST, "billsPagingSource:" + billsPagingSource.javaClass.name)
-        Log.d(App.TEST, "billsPagingSource:" + billsPagingSource.javaClass.canonicalName)
         return Pager(
             config = PagingConfig(
                 pageSize = DEFAULT_PAGE_SIZE,

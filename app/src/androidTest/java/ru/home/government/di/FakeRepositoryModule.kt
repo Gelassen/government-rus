@@ -12,11 +12,12 @@ import ru.home.government.di.modules.AppModule
 import ru.home.government.network.IApi
 import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
-import ru.home.government.repository.pagination.BillsPagingSource
 import javax.inject.Singleton
 
 @Module(includes = [AppModule::class])
-open class FakeRepositoryModule(val context: Context) {
+open class FakeRepositoryModule(
+    val context: Context
+) {
 
     @Singleton
     @Provides
@@ -40,4 +41,5 @@ open class FakeRepositoryModule(val context: Context) {
     fun providesCacheRepository(): CacheRepository {
         return CacheRepository(context)
     }
+
 }

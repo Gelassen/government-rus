@@ -1,6 +1,5 @@
 package ru.home.government.screens
 
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment

@@ -7,4 +7,8 @@ public class App {
     public static final String TAG = "TAG";
 
     public static final String TEST = "TEST";
+
+    public static final String STATE = "STATE";
+
+    public static final String LF = "LIFECYCLE";
 }

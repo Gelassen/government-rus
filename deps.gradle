@@ -27,6 +27,9 @@ ext {
             paging             : '3.1.0-beta01',
             pagingCompose      : '1.0.0-alpha14',
             espressoIntents    : '3.4.0',
+            mockitoCore        : '3.12.4',
+            mockitoKotlin      : '3.2.0',
+            mocktioDexmaker    : '2.28.1',
     ]
 
     androidx = [
@@ -71,9 +74,9 @@ ext {
             mockwebserver : "com.squareup.okhttp3:mockwebserver:$versions.mockwebserver",
             coroutines    : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines",
             unitTest      : "junit:junit:4.12",
-            mockito       : "org.mockito:mockito-core:3.12.4",
-            mockitoKotlin : "org.mockito.kotlin:mockito-kotlin:3.2.0",
-            mockitoInline : "org.mockito:mockito-inline:3.12.4",
+            mockitoCore   : "org.mockito:mockito-core:$versions.mockitoCore",
+            mockitoKotlin : "org.mockito.kotlin:mockito-kotlin:$versions.mockitoKotlin",
+            mockitoInline : "org.mockito:mockito-inline:$versions.mockitoCore",
             coreTesting   : "androidx.arch.core:core-testing:2.1.0",
     ]
     androidTests = [
@@ -83,7 +86,10 @@ ext {
             runner            : "androidx.test:runner:$versions.test",
             espressoContrib   : "androidx.test.espresso:espresso-contrib:$versions.espressoContrib",
             rules             : "androidx.test:rules:$versions.test",
-            coroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines"
+//            coroutines        : "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines",
+            dexMaker          : "com.linkedin.dexmaker:dexmaker-mockito:$versions.mocktioDexmaker",
+            mockitoKotlin     : "org.mockito.kotlin:mockito-kotlin:$versions.mockitoKotlin",
+            mockitoCore       : "org.mockito:mockito-core:$versions.mockitoCore"
     ]
     di = [
             dagger               : "com.google.dagger:dagger:$versions.dagger",

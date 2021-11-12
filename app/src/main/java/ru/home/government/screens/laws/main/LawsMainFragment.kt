@@ -1,16 +1,20 @@
 package ru.home.government.screens.laws.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_law_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.databinding.FragmentLawMainBinding
@@ -68,13 +72,29 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
     private fun fetchLaws() {
         lifecycleScope.launch {
-            val flow = billsViewModel.getLawsByPage()
-            flow.collectLatest {
-                    it ->
-                visibleProgress(false)
-                (list.adapter as LawsAdapter).submitData(it)
+            billsViewModel
+                .getLawsByPage()
+                .collectLatest { it ->
+                    (binding.list.adapter as LawsAdapter).submitData(it)
+                }
+        }
+        lifecycleScope.launch {
+            (list.adapter as LawsAdapter).loadStateFlow.collectLatest { loadState ->
+                when (loadState.refresh) {
+                    is LoadState.Loading -> {
+                        // no op
+                    }
+                    is LoadState.Error -> {
+                        showError((loadState.refresh as LoadState.Error).error.localizedMessage)
+                    }
+                    is LoadState.NotLoading -> {
+                        visibleProgress(false)
+                        binding.lawsNoData.visibility = if (binding.list.adapter!!.itemCount == 0) View.VISIBLE else View.GONE
+                    }
+                }
             }
         }
     }
+
 
 }
