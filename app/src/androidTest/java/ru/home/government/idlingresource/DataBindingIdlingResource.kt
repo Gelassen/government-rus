@@ -1,6 +1,7 @@
 package ru.home.government.idlingresource
 
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.FragmentActivity
@@ -76,6 +77,8 @@ fun DataBindingIdlingResource.monitorActivity(
         this.activity = it
     }
 }
+
+
 
 /**
  * Sets the fragment from a [FragmentScenario] to be used from [DataBindingIdlingResource].

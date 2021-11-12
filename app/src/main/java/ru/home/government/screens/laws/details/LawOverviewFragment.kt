@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.android.synthetic.main.fragment_law_overview.*
@@ -28,7 +27,6 @@ import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.providers.VotesDataProvider
 import ru.home.government.repository.Response
-import ru.home.government.util.newObserveBy
 import java.lang.StringBuilder
 import java.util.ArrayList
 import javax.inject.Inject
@@ -59,7 +57,7 @@ class LawOverviewFragment: BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentLawOverviewBinding.inflate(layoutInflater, container, false)
-        binding.lawDataProvider = LawDataProvider()
+        binding.lawDataProvider = LawDataProvider(container!!.context.applicationContext)
         binding.votesProvider = VotesDataProvider()
         binding.lawData = Law()
         binding.deputyData = Deputy()

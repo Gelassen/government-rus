@@ -1,5 +1,8 @@
 package ru.home.government.stubs
 
+import com.google.gson.Gson
+import ru.home.government.model.GovResponse
+
 object Stubs {
 
     object ApiResponse {
@@ -127,6 +130,78 @@ object Stubs {
                     "    }" +
                     "]\n" +
     "}"
+
+        const val incompleteLawV2ApiRes = "{\n" +
+                "   \"count\":1,\n" +
+                "   \"page\":1,\n" +
+                "   \"wording\":\"Законопроекты, где номер \\\"16493-8\\\", отсортированные по дате последнего события (по убыванию)\",\n" +
+                "   \"laws\":[\n" +
+                "      {\n" +
+                "         \"id\":33758,\n" +
+                "         \"number\":\"16493-8\",\n" +
+                "         \"name\":\"О внесении изменений в Федеральный закон \\\"Об охране озера Байкал\\\"\",\n" +
+                "         \"comments\":null,\n" +
+                "         \"introductionDate\":\"2021-11-11\",\n" +
+                "         \"url\":\"http:\\/\\/sozd.parlament.gov.ru\\/bill\\/16493-8\",\n" +
+                "         \"transcriptUrl\":null,\n" +
+                "         \"lastEvent\":{\n" +
+                "            \n" +
+                "         },\n" +
+                "         \"subject\":{\n" +
+                "            \"deputies\":[\n" +
+                "               {\n" +
+                "                  \"id\":\"99112913\",\n" +
+                "                  \"name\":\"Будуев Николай Робертович\",\n" +
+                "                  \"position\":\"Депутат ГД\",\n" +
+                "                  \"isCurrent\":false\n" +
+                "               },\n" +
+                "               {\n" +
+                "                  \"id\":\"99111804\",\n" +
+                "                  \"name\":\"Валуев Николай Сергеевич\",\n" +
+                "                  \"position\":\"Депутат ГД\",\n" +
+                "                  \"isCurrent\":false\n" +
+                "               },\n" +
+                "               {\n" +
+                "                  \"id\":\"99112007\",\n" +
+                "                  \"name\":\"Тен Сергей Юрьевич\",\n" +
+                "                  \"position\":\"Депутат ГД\",\n" +
+                "                  \"isCurrent\":false\n" +
+                "               }\n" +
+                "            ],\n" +
+                "            \"departments\":[\n" +
+                "               \n" +
+                "            ],\n" +
+                "            \"factions\":[\n" +
+                "               {\n" +
+                "                  \"id\":\"72100024\",\n" +
+                "                  \"name\":\"Фракция Всероссийской политической партии \\\"ЕДИНАЯ РОССИЯ\\\"\"\n" +
+                "               }\n" +
+                "            ]\n" +
+                "         },\n" +
+                "         \"committees\":{\n" +
+                "            \"responsible\":null,\n" +
+                "            \"profile\":[\n" +
+                "               \n" +
+                "            ],\n" +
+                "            \"soexecutor\":[\n" +
+                "               \n" +
+                "            ]\n" +
+                "         },\n" +
+                "         \"type\":{\n" +
+                "            \"id\":38,\n" +
+                "            \"name\":\"Федеральный закон\"\n" +
+                "         }\n" +
+                "      }\n" +
+                "   ]\n" +
+                "}"
+
+        fun getPositiveServerResponse(): GovResponse {
+            return Gson().fromJson<GovResponse>(lawsOkV2ApiRes, GovResponse::class.java)
+        }
+
+        fun getPositiveButIncompleteServerResponse(): GovResponse {
+            return Gson().fromJson(incompleteLawV2ApiRes, GovResponse::class.java)
+        }
 
  /*       public const val lawsOkApiRes =
             "{\n" +

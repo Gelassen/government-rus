@@ -19,7 +19,7 @@ class TrackerAdapter(private val listener: ClickListener) :
 
     private val model: MutableList<Law> = ArrayList()
 
-    private val provider = LawDataProvider()
+    lateinit var provider: LawDataProvider
 
     fun reset() {
         this.model.clear()
@@ -38,7 +38,8 @@ class TrackerAdapter(private val listener: ClickListener) :
         viewType: Int
     ): LawsAdapter.ViewHolder {
         val binding = ViewItemLawOverviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        binding.lawProvider = LawDataProvider()
+        provider = LawDataProvider(parent.context.applicationContext)
+        binding.lawProvider = provider
         return LawsAdapter.ViewHolder(binding)
     }
 

@@ -33,7 +33,7 @@ class LawsAdapter(
         viewType: Int
     ): ViewHolder {
         val binding = ViewItemLawOverviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        binding.lawProvider = LawDataProvider()
+        binding.lawProvider = LawDataProvider(parent.context.applicationContext)
         return ViewHolder(binding)
     }
 

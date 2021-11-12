@@ -1,10 +1,12 @@
 package ru.home.government.providers
 
+import android.content.Context
+import ru.home.government.R
 import ru.home.government.model.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class LawDataProvider {
+class LawDataProvider(val context: Context) {
 
     companion object {
 
@@ -34,33 +36,41 @@ class LawDataProvider {
     }
 
     fun provideFormattedIntroducedDate(date: String?): String {
-        return String.format("Внесён: %s",
-            if (date.isNullOrEmpty()) "Нет данных" else introducedDateFormat.format(originDateFormat.parse(date))
+        return String.format("${context.getString(R.string.title_introduced)} %s",
+            if (date.isNullOrEmpty()) {
+                context.getString(R.string.placeholder_no_data)
+            } else {
+                introducedDateFormat.format(originDateFormat.parse(date))
+            }
         )
     }
 
     fun provideLastEventDate(lastEvent: LastEvent?): String {
-        val textFormat = "Обновление: %s"
+        val textFormat = "${context.getString(R.string.title_update)} %s"
         if (lastEvent == null) {
-            return String.format(textFormat, "Нет данных")
+            return String.format(textFormat, context.getString(R.string.placeholder_no_data))
         } else {
             val date: String? = lastEvent.date
-            return String.format("Обновление: %s",
-                if (date.isNullOrEmpty()) "Нет данных" else introducedDateFormat.format(originDateFormat.parse(date)))
+            return String.format("${context.getString(R.string.title_update)} %s",
+                if (date.isNullOrEmpty()) {
+                    context.getString(R.string.placeholder_no_data)
+                } else {
+                    introducedDateFormat.format(originDateFormat.parse(date))
+                })
         }
 
     }
 
     fun provideLastEventData(lastEvent: LastEvent?): String {
         if (lastEvent == null) {
-            return "Нет данных"
+            return context.getString(R.string.placeholder_no_data)
         } else {
             return provideLastEventData(lastEvent.stage, lastEvent.phase)
         }
     }
 
     fun provideLastEventData(stage: Stage?, phase: Phase?): String {
-        val noDataPlaceholder = "Нет данных"
+        val noDataPlaceholder = context.getString(R.string.placeholder_no_data)
         if (stage == null && phase == null) {
             return noDataPlaceholder
         } else if (stage != null && phase == null) {
@@ -73,11 +83,16 @@ class LawDataProvider {
     }
 
     fun provideFormattedResolution(resolution: String?): String {
-        return String.format("Решение: %s", if (resolution.isNullOrEmpty()) "Нет данных" else resolution)
+        return String.format("${context.getString(R.string.title_resolution)} %s",
+            if (resolution.isNullOrEmpty()) context.getString(R.string.law_no_data) else resolution)
     }
 
     fun provideResponsibleCommittee(committees: Committees?): String {
-        return if (committees == null || committees.responsible == null) "Нет данных" else committees.responsible.name
+        return if (committees == null || committees.responsible == null) {
+            context.getString(R.string.placeholder_no_data)
+        } else {
+            committees.responsible.name
+        }
     }
 
     fun provideFractions(deputy: Deputy): String {

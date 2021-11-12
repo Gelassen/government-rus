@@ -13,6 +13,9 @@
     <string name="title_law_tab_details">Details</string>
     <string name="title_law_tab_votes">Votes</string>
 
+    <string name="title_introduced">Introduced:</string>
+    <string name="title_update">Updated:</string>
+    <string name="title_resolution">Resolution:</string>
     <string name="title_responsible">Responsible</string>
     <string name="title_last_event">Last event</string>
 
@@ -23,8 +26,12 @@
     <string name="votes_abstain">%s\n---\n abstain</string>
     <string name="votes_deputies_counter">+%s\n others</string>
 
+    <string name="law_no_data">No data</string>
+
     <string name="laws_placeholder">Any law you follow will be added here. \n\nWhile viewing a law, follow it by tapping star icon at the top right corner. </string>
     <string name="laws_no_data_for_this_filter">There is no data for this request</string>
+
+    <string name="placeholder_no_data">No data</string>
 
     <!-- Menu -->
     <string name="menu_privacy_policy">Privacy policy</string>

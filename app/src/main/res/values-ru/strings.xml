@@ -13,6 +13,9 @@
     <string name="title_law_tab_details">Подробнее</string>
     <string name="title_law_tab_votes">Голосование</string>
 
+    <string name="title_introduced">Внесён: </string>
+    <string name="title_update">Обновление: </string>
+    <string name="title_resolution">Решение: </string>
     <string name="title_responsible">Ответственный</string>
     <string name="title_last_event">Последнее событие</string>
 
@@ -23,8 +26,12 @@
     <string name="votes_abstain">%s\n---\n воздержались</string>
     <string name="votes_deputies_counter">+%s\n ещё</string>
 
+    <string name="law_no_data">Нет данных</string>
+
     <string name="laws_placeholder">Каждый законопроект, который вы отслеживаете, будет добавлен сюда. \n\nКогда просматриваете законопроект, начните отслеживтаь его, кликнув на пиктограмму звезды в правом верхнем углу.</string>
     <string name="laws_no_data_for_this_filter">Здесь нет данных для этого запроса</string>
+
+    <string name="placeholder_no_data">Нет данных</string>
 
     <!-- Menu -->
     <string name="menu_privacy_policy">Политика конфиденциальности</string>

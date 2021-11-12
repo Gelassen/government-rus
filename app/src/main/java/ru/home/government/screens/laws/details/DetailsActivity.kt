@@ -19,9 +19,9 @@ class DetailsActivity : AppCompatActivity() {
 
     companion object {
 
-        private const val EXTRA_LAW_CODE = "EXTRA_LAW_CODE"
-        private const val EXTRA_DISCUSSIONS_URL = "EXTRA_DISCUSSIONS_URL"
-        private const val EXTRA_DETAILS_URL = "EXTRA_DETAILS_URL"
+        const val EXTRA_LAW_CODE = "EXTRA_LAW_CODE"
+        const val EXTRA_DISCUSSIONS_URL = "EXTRA_DISCUSSIONS_URL"
+        const val EXTRA_DETAILS_URL = "EXTRA_DETAILS_URL"
 
         fun start(context: ComponentActivity, item: Law) {
             val intent = Intent(context, DetailsActivity::class.java)

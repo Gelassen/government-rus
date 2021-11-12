@@ -81,6 +81,8 @@ class LawsMainFragmentTest {
             .seesNavigationBar()
             .seesListViewComponentIsVisible()
             .seesListItems(2)
+
+        activityScenario.close()
     }
 
     @Test
@@ -94,6 +96,8 @@ class LawsMainFragmentTest {
             .seesListViewComponentIsVisible()
             .doesNotSeeListItems()
             .seesNoDataView(InstrumentationRegistry.getInstrumentation().targetContext)
+
+        activityScenario.close()
     }
 
     @Test
@@ -106,6 +110,8 @@ class LawsMainFragmentTest {
             .seesNavigationBar()
             .seesListViewComponentIsVisible()
             .doesNotSeeListItems()
+
+        activityScenario.close()
     }
 
     @Test

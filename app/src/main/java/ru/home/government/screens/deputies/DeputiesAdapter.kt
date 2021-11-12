@@ -1,11 +1,8 @@
 package ru.home.government.screens.deputies
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import ru.home.government.R
 import ru.home.government.databinding.ViewItemDeputyBinding
 import ru.home.government.model.Deputy
 import ru.home.government.providers.LawDataProvider
@@ -29,7 +26,7 @@ class DeputiesAdapter :
         val binding = ViewItemDeputyBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        binding.dataProvider = LawDataProvider()
+        binding.dataProvider = LawDataProvider(parent.context.applicationContext)
         return ViewHolder(binding)
     }
 

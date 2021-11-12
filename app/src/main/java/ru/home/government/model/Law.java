@@ -1,7 +1,5 @@
 package ru.home.government.model;
 
-import androidx.databinding.Bindable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
