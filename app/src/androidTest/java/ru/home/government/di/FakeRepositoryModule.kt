@@ -22,7 +22,6 @@ open class FakeRepositoryModule(
     @Singleton
     @Provides
     open fun providesBillsPagingSource(client: IApi): FakeBillPagingSource {
-        Log.d(App.TEST, "FakeRepositoryModule::providesBillsPagingSource()")
         return FakeBillPagingSource(
             client,
             context.getString(R.string.api_key),
@@ -33,7 +32,6 @@ open class FakeRepositoryModule(
     @Singleton
     @Provides
     fun providesNewRepository(client: IApi, billsPagingSource: FakeBillPagingSource): GovernmentRepository {
-        Log.d(App.TEST, "FakeRepositoryModule::providesNewRepository()")
         return FakeRepository(context, client, billsPagingSource)
     }
 

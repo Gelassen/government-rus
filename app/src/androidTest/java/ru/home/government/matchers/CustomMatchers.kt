@@ -11,7 +11,7 @@ class CustomMatchers {
     fun recyclerViewSizeMatch(matcherSize: Int): Matcher<View?>? {
         return object : BoundedMatcher<View?, RecyclerView>(RecyclerView::class.java) {
             override fun describeTo(description: Description) {
-                description.appendText("with list size: $matcherSize")
+                description.appendText("RecyclerView with list size: $matcherSize")
             }
 
             override fun matchesSafely(recyclerView: RecyclerView): Boolean {

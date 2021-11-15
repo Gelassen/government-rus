@@ -51,6 +51,7 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
         (requireActivity().application as AppApplication).component.inject(this)
 
+
         lawsAdapter = LawsAdapter(Dispatchers.Main, Dispatchers.Default)
 
         binding.list.layoutManager = LinearLayoutManager(context)

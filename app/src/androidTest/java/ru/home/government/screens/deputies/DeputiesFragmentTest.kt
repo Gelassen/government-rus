@@ -8,15 +8,23 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.home.government.R
+import ru.home.government.TestApplication
+import ru.home.government.di.DaggerTestApplicationComponent
+import ru.home.government.di.FakeRepositoryModule
+import ru.home.government.di.TestApplicationComponent
+import ru.home.government.di.fakes.FakeBillPagingSource
+import ru.home.government.di.modules.AppModule
 import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.idlingresource.DataBindingIdlingResource
 import ru.home.government.idlingresource.monitorActivity
 import ru.home.government.screens.MainActivity
+import javax.inject.Inject
 
 /**
  * From test coverage perspective this is not complete test case. Its intent
@@ -26,12 +34,25 @@ import ru.home.government.screens.MainActivity
 @RunWith(AndroidJUnit4::class)
 class DeputiesFragmentTest {
 
+    @Inject
+    lateinit var pagingSource: FakeBillPagingSource
+
     private val dataBindingIdlingResource = DataBindingIdlingResource()
 
     @Before
     fun setUp() {
         IdlingRegistry.getInstance().register(NetworkIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().register(dataBindingIdlingResource)
+
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
+        val application = appContext as TestApplication
+        application.component = DaggerTestApplicationComponent
+            .builder()
+            .appModule(AppModule(appContext))
+            .fakeRepositoryModule(FakeRepositoryModule(appContext))
+            .build()
+
+        (application.component as TestApplicationComponent).inject(this)
     }
 
     @After
@@ -42,6 +63,7 @@ class DeputiesFragmentTest {
 
     @Test
     fun onStart_openDeputies_successfullyComplete() {
+        pagingSource.setOkWithFullPayloadResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 

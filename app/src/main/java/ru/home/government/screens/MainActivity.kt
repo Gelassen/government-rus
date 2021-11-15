@@ -41,29 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         NavigationUI.setupWithNavController(navView, navController)
-//
         navController.navigate(R.id.navigation_dashboard)
-        Log.d(App.LF, "MainActivity::onCreate()")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.d(App.LF, "MainActivity::onResume()")
-    }
-
-    override fun onPostResume() {
-        super.onPostResume()
-        Log.d(App.LF, "MainActivity::onPostResume()")
-    }
-
-    override fun onResumeFragments() {
-        super.onResumeFragments()
-        Log.d(App.LF, "MainActivity::onResumeFragments()")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d(App.LF, "MainActivity::onPause()")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

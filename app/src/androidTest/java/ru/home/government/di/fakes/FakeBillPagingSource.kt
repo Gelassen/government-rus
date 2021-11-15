@@ -27,6 +27,17 @@ class FakeBillPagingSource(api: IApi, apiKey: String, apiAppToken: String)
     }
 
     override suspend fun execute(page: Int): Response<GovResponse> {
+        val startTestPage = 2
+        val nextPage = 3
+        when (page) {
+            startTestPage -> {
+                // no op, use response set up in test
+            }
+            nextPage -> {
+                // set response with empty payload to page library it was the last page
+                setOkWithEmptyPayload()
+            }
+        }
         return apiResponse
     }
 
