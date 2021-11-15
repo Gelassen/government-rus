@@ -13,18 +13,29 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.home.government.TestApplication
+import ru.home.government.di.DaggerTestApplicationComponent
+import ru.home.government.di.FakeRepositoryModule
+import ru.home.government.di.TestApplicationComponent
+import ru.home.government.di.fakes.FakeRepository
+import ru.home.government.di.modules.AppModule
 import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.idlingresource.DataBindingIdlingResource
 import ru.home.government.idlingresource.monitorActivity
 import ru.home.government.model.Law
 import ru.home.government.providers.LawDataProvider
+import ru.home.government.repository.GovernmentRepository
 import ru.home.government.robots.LawDetailsRobot
 import ru.home.government.stubs.Stubs.ApiResponse.getPositiveButIncompleteServerResponse
 import ru.home.government.stubs.Stubs.ApiResponse.getPositiveServerResponse
+import javax.inject.Inject
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class LawDetailsFragmentTest {
+
+    @Inject
+    lateinit var repository: GovernmentRepository
 
     lateinit var dataProvider: LawDataProvider
 
@@ -38,6 +49,19 @@ class LawDetailsFragmentTest {
         IdlingRegistry.getInstance().register(dataBindingIdlingResource)
 
         dataProvider = LawDataProvider(withContext())
+
+        val application = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TestApplication
+        application.component = DaggerTestApplicationComponent
+            .builder()
+            .appModule(AppModule(application))
+            .fakeRepositoryModule(FakeRepositoryModule(application))
+            .build()
+
+        (application
+            .getComponent() as TestApplicationComponent)
+            .inject(this)
+
+        (repository as FakeRepository).setPositiveLawByNumberResponse()
     }
 
     @After
@@ -67,11 +91,11 @@ class LawDetailsFragmentTest {
 
     @Test
     fun onStart_withPositiveScenarioAndIncompleteData_seesData() {
+        (repository as FakeRepository).setPositiveButIncompleteLawByNumberResponse()
         val input = getPositiveButIncompleteServerResponse().laws.get(0)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
-        // TODO fragment would request law by id passed to activity, response should be mocked on view model level as well
         robot
             .withContext(ApplicationProvider.getApplicationContext())
             .seesTitle(input.name)

@@ -84,9 +84,7 @@ open class GovernmentRepository(
             .attachIdlingResource()
     }
 
-    // TODO move exception handling in catch block in flow, e.g. stream().catch()
-
-    fun getLawByNumber(billNumber: String): Flow<Response<GovResponse>> {
+    open fun getLawByNumber(billNumber: String): Flow<Response<GovResponse>> {
         return flow {
             val response = api.getLawByNumberV2(
                 context.getString(R.string.api_key),
