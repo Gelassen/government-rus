@@ -1,4 +1,4 @@
-package ru.home.government.stubs
+package ru.home.government.util
 
 import com.google.gson.Gson
 import ru.home.government.model.GovResponse

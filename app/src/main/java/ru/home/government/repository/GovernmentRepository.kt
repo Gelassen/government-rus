@@ -123,16 +123,19 @@ open class GovernmentRepository(
 
     open fun getVotesByLawV2(number: String): Flow<Response<VotesResponse>> {
         return flow {
+            Log.d(App.TAG, "[start] getVotesByLawV2()")
             val response = api.newGetLawVotesV2(
                 context.getString(R.string.api_key),
                 context.getString(R.string.api_app_token),
                 number
             )
+            Log.d(App.TAG, "getVotesByLawV2() - get response ${response.isSuccessful}")
             if (response.isSuccessful) {
                 emit(Response.Data<VotesResponse>(response.body()!!))
             } else {
                 emit(Response.Error.Message(response.message()))
             }
+            Log.d(App.TAG, "[end] getVotesByLawV2()")
         }
             .catch { ex ->
                 Response.Error.Exception(ex)

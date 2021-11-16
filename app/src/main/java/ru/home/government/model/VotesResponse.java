@@ -1,10 +1,14 @@
 package ru.home.government.model;
 
+import android.util.Log;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collections;
 import java.util.List;
+
+import ru.home.government.App;
 
 public class VotesResponse {
 
@@ -65,7 +69,18 @@ public class VotesResponse {
     }
 
     public boolean isDataAvailable() {
+        Log.d(App.TAG, "isDataAvailable: " + (votes != null && votes.size() > 0));
         return votes != null && votes.size() > 0;
     }
 
+    @Override
+    public String toString() {
+        return "VotesResponse{" +
+                "totalCount='" + totalCount + '\'' +
+                ", page='" + page + '\'' +
+                ", pageSize='" + pageSize + '\'' +
+                ", wording='" + wording + '\'' +
+                ", votes=" + votes +
+                '}';
+    }
 }

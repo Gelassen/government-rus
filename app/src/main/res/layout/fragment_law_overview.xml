@@ -133,15 +133,14 @@
                     style="@style/BaseTextView"
                     android:layout_width="56dp"
                     android:layout_height="72dp"
-                    android:gravity="center"
                     android:layout_alignParentEnd="true"
-                    android:textSize="16sp"
-                    android:clickable="true"
                     android:background="@color/textProtector"
-                    android:visibility="@{lawData.isExtraDeputiesAvailable() ? View.VISIBLE : View.GONE}"
+                    android:clickable="true"
+                    android:gravity="center"
                     android:text="@{votesProvider.providesVotedDeputiesCounterSafe(resources, lawData)}"
-                    tools:text="+15 ещё"
-                    />
+                    android:textSize="16sp"
+                    android:visibility="@{lawData.isExtraDeputiesAvailable() ? View.VISIBLE : View.GONE}"
+                    tools:text="+15 ещё" />
 
             </RelativeLayout>
 

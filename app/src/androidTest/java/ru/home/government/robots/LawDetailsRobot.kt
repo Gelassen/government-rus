@@ -2,10 +2,12 @@ package ru.home.government.robots
 
 import android.content.Context
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.core.IsNot.not
 import ru.home.government.R
+import ru.home.government.model.Vote
 
 class LawDetailsRobot {
 
@@ -87,6 +89,71 @@ class LawDetailsRobot {
         onView(withId(R.id.lawLastEventData))
             .check(matches(isDisplayed()))
             .check(matches(withText(lastEvent)))
+        return this
+    }
+
+    fun clickOnDeputiesCounter(): LawDetailsRobot {
+        onView(withId(R.id.voteDeputiesCounter))
+            .check(matches(isDisplayed()))
+            .perform(ViewActions.click())
+        return this
+    }
+
+    fun seesLawPageTitle(): LawDetailsRobot {
+        onView(withText(R.string.title_law_tab_law))
+            .check(matches(isDisplayed()))
+        return this
+    }
+
+    fun seesLawDetailsPageTitle() : LawDetailsRobot {
+        onView(withText(R.string.title_law_tab_details))
+            .check(matches(isDisplayed()))
+        return this
+    }
+
+    fun openLawDetailsPage() : LawDetailsRobot {
+        onView(withText(R.string.title_law_tab_details))
+            .perform(ViewActions.click())
+
+        onView(withId(R.id.webView))
+            .check(matches(isDisplayed()))
+        return this
+    }
+
+    fun seesLawVotesPageTitle() : LawDetailsRobot {
+        onView(withText(R.string.title_law_tab_votes))
+            .check(matches(isDisplayed()))
+        return this
+    }
+
+    fun openLawVotesPages(): LawDetailsRobot {
+        onView(withText(R.string.title_law_tab_votes))
+            .perform(ViewActions.click())
+        return this
+    }
+
+    fun seesVotesPlaceholder(): LawDetailsRobot {
+        onView(withId(R.id.votesNoData))
+            .check(matches(isDisplayed()))
+        return this
+    }
+
+    fun seesVotesCard(data: Vote): LawDetailsRobot {
+        onView(withId(R.id.votesContainer))
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.voteFor))
+            .check(matches(withSubstring(data.forCount.toString())))
+
+        onView(withId(R.id.voteAbstain))
+            .check(matches(withSubstring(data.abstainCount.toString())))
+
+        onView(withId(R.id.voteAgainst))
+            .check(matches(withSubstring(data.againstCount.toString())))
+
+        onView(withId(R.id.voteDetails))
+            .check(matches(isDisplayed()))
+            .check(matches(withText(R.string.votes_details)))
         return this
     }
 }

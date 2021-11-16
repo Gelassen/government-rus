@@ -1,11 +1,9 @@
-package ru.home.government.di.fakes
+package ru.home.government.util
 
 import android.content.Context
-import android.util.Log
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import ru.home.government.App
 import ru.home.government.model.Deputy
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
@@ -14,7 +12,6 @@ import ru.home.government.network.IApi
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.Response
 import ru.home.government.repository.pagination.BillsPagingSource
-import ru.home.government.stubs.Stubs
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -67,7 +64,6 @@ class FakeRepository(context: Context, api: IApi, billsPagingSource: BillsPaging
 
     override fun getVotesByLawV2(number: String): Flow<Response<VotesResponse>> {
         return flow {
-            Log.d(App.TAG, "Fake getVotesByLawV2()")
             emit(votesResponse)
         }
     }

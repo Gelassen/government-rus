@@ -69,6 +69,7 @@ class BillsViewModel
                     Log.e(App.TAG, "Something went wrong on loading deputies", e)
                 }
                 .collect { result ->
+                    Log.d(App.TAG, "getVotesByLawV2()::collect{}")
                     _votesResponse.value = result
                 }
         }

@@ -20,10 +20,14 @@ import ru.home.government.R
 import ru.home.government.databinding.FragmentLawVotesBinding
 import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.VotesResponse
+import ru.home.government.network.IApi
 import ru.home.government.providers.VotesDataProvider
+import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.Response
+import ru.home.government.repository.pagination.BillsPagingSource
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
+import ru.home.government.util.FakeRepository
 import java.lang.StringBuilder
 import javax.inject.Inject
 
@@ -88,21 +92,28 @@ class LawVotesFragment: BaseFragment() {
     private fun processResponse(it: Response<VotesResponse>) {
         when (it) {
             is Response.Data -> {
-                if (it.data.isDataAvailable) return
-
-                val votesResponse = it.data
-                binding.votesResponse = votesResponse
-                binding.executePendingBindings()
-                voteDetails.setOnClickListener { it ->
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(
-                        String.format(
-                            resources.getString(R.string.url_vote),
-                            votesResponse.votes.get(0).id
+                Log.d(App.TAG, "processResponse::onData")
+                Log.d(App.TAG, "${it.data}")
+                if (!it.data.isDataAvailable) {
+                    binding.votesResponse = VotesResponse()
+                    binding.executePendingBindings()
+                } else {
+                    val votesResponse = it.data
+                    binding.votesResponse = votesResponse
+                    binding.executePendingBindings()
+                    voteDetails.setOnClickListener { it ->
+                        val intent = Intent(Intent.ACTION_VIEW)
+                        intent.data = Uri.parse(
+                                String.format(
+                                        resources.getString(R.string.url_vote),
+                                        votesResponse.votes.get(0).id
+                                )
                         )
-                    )
-                    startActivity(intent)
+                        startActivity(intent)
+                    }
                 }
+
+
             }
             is Response.Error.Message -> {
                 val error = StringBuilder()
