@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Государственная Дума</string>
+   <!-- <string name="app_name">Государственная Дума</string>
 
     <string name="title_deputies" translatable="false">Депутаты</string>
     <string name="title_laws" translatable="false">Законопроекты</string>
@@ -21,9 +21,9 @@
 
     <string name="votes_no_data" translatable="false">Нет данных по голосованию</string>
     <string name="votes_details" translatable="false">Подробнее (нажмите, чтобы увидеть детали)</string>
-    <string name="votes_support" translatable="false">%s\n---\n поддержали</string>
-    <string name="votes_against" translatable="false">%s\n---\n против</string>
-    <string name="votes_abstain" translatable="false">%s\n---\n воздержались</string>
+    <string name="votes_support" translatable="false">%s\n-&#45;&#45;\n поддержали</string>
+    <string name="votes_against" translatable="false">%s\n-&#45;&#45;\n против</string>
+    <string name="votes_abstain" translatable="false">%s\n-&#45;&#45;\n воздержались</string>
     <string name="votes_deputies_counter" translatable="false">+%s\n ещё</string>
 
     <string name="law_no_data" translatable="false">Нет данных</string>
@@ -33,11 +33,11 @@
 
     <string name="placeholder_no_data" translatable="false">Нет данных</string>
 
-    <!-- Menu -->
+    &lt;!&ndash; Menu &ndash;&gt;
     <string name="menu_privacy_policy" translatable="false">Политика конфиденциальности</string>
     <string name="menu_disclaimer" translatable="false">Отказ от ответственности</string>
 
-    <!--Error messages -->
+    &lt;!&ndash;Error messages &ndash;&gt;
     <string name="unknown_error" translatable="false">Неизвестаня ошибка</string>
     <string name="network_error" translatable="false">Проблема доступа в интернет</string>
     <string name="not_modified_error" >304 Not Modified</string>
@@ -49,6 +49,6 @@
     <string name="conflict_error">409 Conflict</string>
     <string name="server_error_error">500 Server Error</string>
     <string name="msg_no_discussions" translatable="false">Здесь пока нет доступных обсуждений</string>
-    <string name="no_laws_error" translatable="false">Ответ сервера не содержит данных. Это ошибка. Пожалуйста попробуйте перезагрузить приложение и сообщите об ошибке.</string>
+    <string name="no_laws_error" translatable="false">Ответ сервера не содержит данных. Это ошибка. Пожалуйста попробуйте перезагрузить приложение и сообщите об ошибке.</string>-->
 
 </resources>

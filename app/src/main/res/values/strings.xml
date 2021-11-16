@@ -1,49 +1,50 @@
 <resources>
-    <string name="app_name">Government</string>
+    <string name="app_name">Государственная Дума</string>
 
-    <string name="title_deputies">Deputies</string>
-    <string name="title_laws">Laws</string>
-    <string name="title_tracker">Tracker</string>
+    <string name="title_deputies" translatable="false">Депутаты</string>
+    <string name="title_laws" translatable="false">Законопроекты</string>
+    <string name="title_tracker" translatable="false">Трекер</string>
 
-    <string name="title_favorite">Favorite</string>
-    <string name="title_search">Search</string>
-    <string name="title_transcription">Discussions</string>
+    <string name="title_favorite" translatable="false">Избранное</string>
+    <string name="title_search" translatable="false">Поиск</string>
+    <string name="title_transcription" translatable="false">Обсуждения</string>
 
-    <string name="title_law_tab_law">Laws</string>
-    <string name="title_law_tab_details">Details</string>
-    <string name="title_law_tab_votes">Votes</string>
+    <string name="title_law_tab_law" translatable="false">Законопроект</string>
+    <string name="title_law_tab_details" translatable="false">Подробнее</string>
+    <string name="title_law_tab_votes" translatable="false">Голосование</string>
 
-    <string name="title_introduced">Introduced:</string>
-    <string name="title_update">Updated:</string>
-    <string name="title_resolution">Resolution:</string>
-    <string name="title_responsible">Responsible</string>
-    <string name="title_last_event">Last event</string>
+    <string name="title_introduced" translatable="false">Внесён: </string>
+    <string name="title_update" translatable="false">Обновление: </string>
+    <string name="title_resolution" translatable="false">Решение: </string>
+    <string name="title_responsible" translatable="false">Ответственный</string>
+    <string name="title_last_event" translatable="false">Последнее событие</string>
 
-    <string name="votes_no_data">No votes data</string>
-    <string name="votes_details">Details (click to view)</string>
-    <string name="votes_support">%s\n---\n support</string>
-    <string name="votes_against">%s\n---\n against</string>
-    <string name="votes_abstain">%s\n---\n abstain</string>
-    <string name="votes_deputies_counter">+%s\n others</string>
+    <string name="votes_no_data" translatable="false">Нет данных по голосованию</string>
+    <string name="votes_details" translatable="false">Подробнее (нажмите, чтобы увидеть детали)</string>
+    <string name="votes_support" translatable="false">%s\n---\n поддержали</string>
+    <string name="votes_against" translatable="false">%s\n---\n против</string>
+    <string name="votes_abstain" translatable="false">%s\n---\n воздержались</string>
+    <string name="votes_deputies_counter" translatable="false">+%s\n ещё</string>
 
-    <string name="law_no_data">No data</string>
+    <string name="law_no_data" translatable="false">Нет данных</string>
 
-    <string name="laws_placeholder">Any law you follow will be added here. \n\nWhile viewing a law, follow it by tapping star icon at the top right corner. </string>
-    <string name="laws_no_data_for_this_filter">There is no data for this request</string>
+    <string name="laws_placeholder" translatable="false">Каждый законопроект, который вы отслеживаете, будет добавлен сюда. \n\nКогда просматриваете законопроект, начните отслеживтаь его, кликнув на пиктограмму звезды в правом верхнем углу.</string>
+    <string name="laws_no_data_for_this_filter" translatable="false">Здесь нет данных для этого запроса</string>
 
-    <string name="placeholder_no_data">No data</string>
+    <string name="placeholder_no_data" translatable="false">Нет данных</string>
 
     <!-- Menu -->
-    <string name="menu_privacy_policy">Privacy policy</string>
-    <string name="menu_disclaimer">Disclaimer</string>
+    <string name="menu_privacy_policy" translatable="false">Политика конфиденциальности</string>
+    <string name="menu_disclaimer" translatable="false">Отказ от ответственности</string>
 
     <string name="privacyPolicy" translatable="false">https://gelassen.github.io/blog/2020/08/25/google-play-privacy-policy.html</string>
     <string name="disclaimer" translatable="false">https://github.com/Gelassen/government-rus/blob/master/README.md</string>
 
+
     <!--Error messages -->
-    <string name="unknown_error">Unknown error</string>
-    <string name="network_error">Error connecting to the internet</string>
-    <string name="not_modified_error">304 Not Modified</string>
+    <string name="unknown_error" translatable="false">Неизвестаня ошибка</string>
+    <string name="network_error" translatable="false">Проблема доступа в интернет</string>
+    <string name="not_modified_error" >304 Not Modified</string>
     <string name="bad_request_error">400 Bad Request</string>
     <string name="unauthorized_error">Unauthorized</string>
     <string name="forbidden_error">403 Forbidden</string>
@@ -51,7 +52,7 @@
     <string name="method_not_allowed_error">405 Method Not Allowed</string>
     <string name="conflict_error">409 Conflict</string>
     <string name="server_error_error">500 Server Error</string>
-    <string name="msg_no_discussions">There is no available discussions yet</string>
-    <string name="no_laws_error">Server response doesn\'t have data. It is not correct. Please try to restart and report the error.</string>
+    <string name="msg_no_discussions" translatable="false">Здесь пока нет доступных обсуждений</string>
+    <string name="no_laws_error" translatable="false">Ответ сервера не содержит данных. Это ошибка. Пожалуйста попробуйте перезагрузить приложение и сообщите об ошибке.</string>
 
 </resources>
