@@ -10,8 +10,11 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
+import org.hamcrest.MatcherAssert
 
 import org.junit.After
+import org.junit.Assert.assertNotEquals
+import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,6 +31,8 @@ import ru.home.government.model.Law
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.robots.LawDetailsRobot
+import ru.home.government.stubs.Stubs.ApiResponse.getAnotherPositiveSingleLawResponse
+import ru.home.government.stubs.Stubs.ApiResponse.getAnotherPositiveWithPayloadVotesByLawResponse
 import ru.home.government.stubs.Stubs.ApiResponse.getPositiveButIncompleteSingleLawServerResponse
 import ru.home.government.stubs.Stubs.ApiResponse.getPositiveSingleLawServerResponse
 import ru.home.government.stubs.Stubs.ApiResponse.getPositiveSingleLawWithDeputiesServerResponse
@@ -133,7 +138,7 @@ class LawDetailsFragmentTest {
     }
 
     @Test
-    fun onStart_withPositiveResponseAndOpenOverviewPage_seesOverviewPage() {
+    fun onOpenDetailsPage_withPositiveResponse_seesOverviewPage() {
         (repository as FakeRepository).setPositiveLawByNumberResponse()
         val input = getPositiveSingleLawServerResponse().laws.get(0)!!
         val activityScenario = startActivityScenario(input)
@@ -149,7 +154,7 @@ class LawDetailsFragmentTest {
     }
 
     @Test
-    fun onStart_withPositiveResponseAndOpenVotesPage_seesVotesPage() {
+    fun onOpenVotesPage_withPositiveResponseAndOpenVotesPage_seesVotesPage() {
         (repository as FakeRepository).setPositiveLawByNumberResponse()
         (repository as FakeRepository).setPositiveWithPayloadVotesByLawResponse()
         val votesFromResponse = getPositiveWithPayloadVotesBylawResponse()
@@ -166,7 +171,7 @@ class LawDetailsFragmentTest {
     }
 
     @Test
-    fun onStart_withPositiveButNoVotesResponseAndOpenVotesPage_seesVotesPageWithPlaceholder() {
+    fun onOpenVotesPage_withPositiveButNoVotesResponse_seesVotesPageWithPlaceholder() {
         (repository as FakeRepository).setPositiveLawByNumberResponse()
         val input = getPositiveSingleLawServerResponse().laws.get(0)!!
         val activityScenario = startActivityScenario(input)
@@ -180,6 +185,59 @@ class LawDetailsFragmentTest {
 
         activityScenario.close()
     }
+
+    // test response on two different law ids
+    @Test
+    fun onOpenVotesPage_withPositiveResponseAndCheckTwoDifferentLaws_seesTwoDistinguishedLaws() {
+        (repository as FakeRepository).setPositiveLawByNumberResponse()
+        (repository as FakeRepository).setPositiveWithPayloadVotesByLawResponse()
+        val votesFromResponse = getPositiveWithPayloadVotesBylawResponse()
+        val input = getPositiveSingleLawServerResponse().laws.get(0)!!
+        val activityScenario = startActivityScenario(input)
+        dataBindingIdlingResource.monitorActivity(activityScenario!!)
+
+        robot
+                .withContext(ApplicationProvider.getApplicationContext())
+                .seesTitle(input.name)
+                .seesIntroducedDate(dataProvider.provideFormattedIntroducedDate(input.introductionDate))
+                .seesUpdateDate(dataProvider.provideLastEventDate(input.lastEvent))
+                .seesResolution(dataProvider.provideFormattedResolution(input.lastEvent.solution as String?))
+                .doesNotSeeDeputies()
+                .seesResponsible(dataProvider.provideResponsibleCommittee(input.committees))
+                .seesLastEvent(dataProvider.provideLastEventData(input.lastEvent))
+                .openLawVotesPages()
+                .seesVotesCard(votesFromResponse.votes.get(0))
+
+        activityScenario.close()
+
+        (repository as FakeRepository).setPositiveAnotherLawByNumberResponse()
+        (repository as FakeRepository).setPositiveWithPayloadAnotherVotesByLawResponse()
+        val anotherVotesFromResponse = getAnotherPositiveWithPayloadVotesByLawResponse()
+        val anotherInput = getAnotherPositiveSingleLawResponse().laws.get(0)!!
+        val anotherActivityScenario = startActivityScenario(anotherInput)
+        dataBindingIdlingResource.monitorActivity(anotherActivityScenario!!)
+
+        robot
+                .withContext(ApplicationProvider.getApplicationContext())
+                .seesTitle(anotherInput.name)
+                .seesIntroducedDate(dataProvider.provideFormattedIntroducedDate(anotherInput.introductionDate))
+                .seesUpdateDate(dataProvider.provideLastEventDate(anotherInput.lastEvent))
+                .seesResolution(dataProvider.provideFormattedResolution(anotherInput.lastEvent.solution as String?))
+                .doesNotSeeDeputies()
+                .seesResponsible(dataProvider.provideResponsibleCommittee(anotherInput.committees))
+                .seesLastEvent(dataProvider.provideLastEventData(anotherInput.lastEvent))
+                .openLawVotesPages()
+                .seesVotesCard(anotherVotesFromResponse.votes.get(0))
+
+        anotherActivityScenario.close()
+
+        assertNotEquals(anotherInput.id, input.id)
+        assertNotEquals(anotherVotesFromResponse.votes.get(0).forCount, votesFromResponse.votes.get(0).forCount)
+    }
+
+
+    // test response on server error
+    // test with load webpage as idle resource
 
     private fun withContext(): Context {
         return InstrumentationRegistry.getInstrumentation().targetContext!!

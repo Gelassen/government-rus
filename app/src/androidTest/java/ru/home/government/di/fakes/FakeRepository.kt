@@ -1,11 +1,9 @@
 package ru.home.government.di.fakes
 
 import android.content.Context
-import android.util.Log
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import ru.home.government.App
 import ru.home.government.model.Deputy
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
@@ -39,6 +37,12 @@ class FakeRepository(context: Context, api: IApi, billsPagingSource: BillsPaging
         )
     }
 
+    fun setPositiveAnotherLawByNumberResponse() {
+        this.lawByNumberResponse = Response.Data(
+                Stubs.ApiResponse.getAnotherPositiveSingleLawResponse()
+        )
+    }
+
     fun setPositiveButIncompleteLawByNumberResponse() {
         this.lawByNumberResponse = Response.Data(
             Stubs.ApiResponse.getPositiveButIncompleteSingleLawServerResponse()
@@ -65,9 +69,14 @@ class FakeRepository(context: Context, api: IApi, billsPagingSource: BillsPaging
         )
     }
 
+    fun setPositiveWithPayloadAnotherVotesByLawResponse() {
+        this.votesResponse = Response.Data(
+                Stubs.ApiResponse.getAnotherPositiveWithPayloadVotesByLawResponse()
+        )
+    }
+
     override fun getVotesByLawV2(number: String): Flow<Response<VotesResponse>> {
         return flow {
-            Log.d(App.TAG, "Fake getVotesByLawV2()")
             emit(votesResponse)
         }
     }
