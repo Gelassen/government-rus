@@ -7,6 +7,7 @@ import retrofit2.Response
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
 import ru.home.government.network.IApi
+import ru.home.government.network.IApi.Const.PAGE_SIZE
 import java.io.IOException
 import java.lang.IllegalStateException
 
@@ -29,14 +30,14 @@ open class BillsPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Law> {
         try {
             val page = params.key ?: DEFAULT_START_PAGE
+
             val response = execute(page)
             if (response.isSuccessful) {
                 val govResponse = response.body()
-//            val nextKey = if (govResponse?.laws?.isEmpty()!!)  null else govResponse.page.plus(1)
                 return LoadResult.Page(
                     data = govResponse!!.laws,
                     prevKey = if (page == DEFAULT_START_PAGE) null else  page.minus(1),
-                    nextKey = if (govResponse?.laws?.isEmpty()!!)  null else govResponse.page.plus(1)
+                    nextKey = if (govResponse?.laws?.isEmpty()!!)  null else govResponse.page.plus(params.loadSize / PAGE_SIZE)
                 )
             } else {
                 return LoadResult.Error(IllegalStateException("Server returned response, but it wasn't successful."))

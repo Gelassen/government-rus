@@ -1,9 +1,6 @@
 package ru.home.government.network
 
 import com.dropbox.android.external.store4.FetcherResult
-import io.reactivex.Observable
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -16,7 +13,7 @@ import ru.home.government.model.VotesResponse
 interface IApi {
 
     @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("/api/{token}/search.json?sort=last_event_date&limit=20")
+    @GET("/api/{token}/search.json?sort=last_event_date&limit=${Const.PAGE_SIZE}")
     suspend fun getIntroducedLaws(
         @Path("token") token: String,
         @Query("app_token") appToken: String,
@@ -73,5 +70,9 @@ interface IApi {
         @Query("app_token") appToken: String,
         @Query("number") number: String
     ): Response<VotesResponse>
+
+    object Const {
+        const val PAGE_SIZE = 20
+    }
 
 }

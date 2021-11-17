@@ -69,7 +69,6 @@ public class VotesResponse {
     }
 
     public boolean isDataAvailable() {
-        Log.d(App.TAG, "isDataAvailable: " + (votes != null && votes.size() > 0));
         return votes != null && votes.size() > 0;
     }
 
