@@ -25,7 +25,7 @@ class TestActivity: FragmentActivity() {
 
     fun experimentalFetcher() {
 //        val lawCodes = cacheRepository.getLawCodes().toTypedArray()
-        lifecycleScope.launch {
+/*        lifecycleScope.launch {
             repo
                 .loadLawsByNumber()
                 .stream(StoreRequest.fresh("1000975-7"))
@@ -35,7 +35,7 @@ class TestActivity: FragmentActivity() {
                     Log.d(App.TAG, "Collect call: " + (it is StoreResponse.Loading));
                     Log.d(App.TAG, "Collect call: [type] " + it.toString())
                 }
-        }
+        }*/
     }
 
     @ExperimentalCoroutinesApi

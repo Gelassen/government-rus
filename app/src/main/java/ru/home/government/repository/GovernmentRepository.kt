@@ -47,27 +47,6 @@ open class GovernmentRepository(
             .attachIdlingResource()
     }
 
-    @ExperimentalCoroutinesApi
-    @FlowPreview
-    fun loadLawsByNumber(): Store<String, FetcherResult<GovResponse>> {
-        return StoreBuilder
-            .from(
-                Fetcher.of { number: String ->
-                    var result: FetcherResult<GovResponse> = FetcherResult.Data(GovResponse())
-                    try {
-                        result = api.newGetLawByNumber(
-                            context.getString(R.string.api_key),
-                            context.getString(R.string.api_app_token),
-                            number
-                        )
-                    } catch (ex: Exception) {
-                        result = FetcherResult.Error.Exception(ex)
-                    }
-                    result
-                }
-            ).build()
-    }
-
     fun getLawsByNameFilter(filter: String): Flow<PagingData<Law>> {
         return Pager(
             config = PagingConfig(pageSize = DEFAULT_PAGE_SIZE),
@@ -119,6 +98,7 @@ open class GovernmentRepository(
                 Response.Error.Exception(ex)
             }
             .attachIdlingResource()
+
     }
 
     open fun getVotesByLawV2(number: String): Flow<Response<VotesResponse>> {

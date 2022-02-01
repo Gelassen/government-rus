@@ -26,8 +26,6 @@ class BillsViewModel
     @Inject
     lateinit var cacheRepository: CacheRepository
 
-    val trackedLiveData: MutableLiveData<FetcherResult<GovResponse>> = MutableLiveData<FetcherResult<GovResponse>>()
-
     override fun onCleared() {
         super.onCleared()
     }
@@ -74,23 +72,19 @@ class BillsViewModel
         }
     }
 
-    fun getTrackedLaws(): LiveData<FetcherResult<GovResponse>> {
-        return trackedLiveData
-    }
+    private val _trackedLaws: MutableStateFlow<Response<GovResponse>>
+        = MutableStateFlow(Response.Data(GovResponse()))
+    val trackedLaws: StateFlow<Response<GovResponse>> = _trackedLaws
 
-    @Deprecated("Replaced by flow. You have to ony subscribe on updates of StateFlow")
-    fun fetchTrackedLaws() {
+    fun fetchedTrackedLawsV2() {
         val lawCodes = cacheRepository.getLawCodes().toTypedArray()
         viewModelScope.launch {
             flowOf(*lawCodes)
                 .flatMapMerge { it ->
-                    repository
-                        .loadLawsByNumber()
-                        .stream(StoreRequest.fresh(it))
+                    repository.getLawByNumber(it)
                 }
                 .collect { it ->
-                    Log.d(App.TAG, "experimentalFetcher call")
-                    trackedLiveData.postValue(it.dataOrNull())
+                    _trackedLaws.value = it
                 }
         }
     }
