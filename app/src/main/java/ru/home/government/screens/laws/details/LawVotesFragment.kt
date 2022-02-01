@@ -80,7 +80,7 @@ class LawVotesFragment: BaseFragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 val lawNumber = requireArguments().get(EXTRA_LAW_CODE).toString()
-                billsViewModel.getVotesByLawV2(lawNumber)
+                billsViewModel.getVotesByLaw(lawNumber)
             }
         }
     }

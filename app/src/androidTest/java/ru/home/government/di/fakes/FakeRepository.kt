@@ -19,14 +19,14 @@ import kotlin.collections.ArrayList
 class FakeRepository(context: Context, api: IApi, billsPagingSource: BillsPagingSource)
     : GovernmentRepository(context, api, billsPagingSource) {
 
-    override fun getDeputiesV2(): Flow<Response<List<Deputy>>> {
+    override fun getDeputies(): Flow<Response<List<Deputy>>> {
         return flow {
             emit(prepareCorrectResponse())
         }
     }
 
-    override fun getIntroducedLawsV2(): Flow<PagingData<Law>> {
-        return super.getIntroducedLawsV2()
+    override fun getIntroducedLaws(): Flow<PagingData<Law>> {
+        return super.getIntroducedLaws()
     }
 
     private lateinit var lawByNumberResponse: Response<GovResponse>
@@ -75,7 +75,7 @@ class FakeRepository(context: Context, api: IApi, billsPagingSource: BillsPaging
         )
     }
 
-    override fun getVotesByLawV2(number: String): Flow<Response<VotesResponse>> {
+    override fun getVotesByLaw(number: String): Flow<Response<VotesResponse>> {
         return flow {
             emit(votesResponse)
         }

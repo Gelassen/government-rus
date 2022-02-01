@@ -99,7 +99,7 @@ class LawsFilteredFragment: BaseFragment(),
     private fun fetchLawsWithFilter(str: String?) {
         searchJob = lifecycleScope.launch {
             val billsViewModel: BillsViewModel by viewModels() { viewModelFactory }
-            billsViewModel.getLawByNameV2(str!!).collectLatest { it ->
+            billsViewModel.getLawByName(str!!).collectLatest { it ->
                 visibleProgress(false)
                 try {
                     (binding.list.adapter as LawsAdapter).submitData(it)

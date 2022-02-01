@@ -60,7 +60,7 @@ class DeputiesViewModelTest {
     @Test
     fun onSubjectSubscribe_allOk_returnNonEmptyCollection() = mainCoroutineRule.runBlockingTest {
         lateinit var actual: Response<List<Deputy>>
-        repository.getDeputiesV2().collect { it ->
+        repository.getDeputies().collect { it ->
             actual = it
         }
 

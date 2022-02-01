@@ -4,8 +4,6 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.dropbox.android.external.store4.FetcherResult
-import com.dropbox.android.external.store4.StoreRequest
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.home.government.App
@@ -30,7 +28,7 @@ class BillsViewModel
         super.onCleared()
     }
 
-    fun getLawByNameV2(name: String): Flow<PagingData<Law>> {
+    fun getLawByName(name: String): Flow<PagingData<Law>> {
         return repository
             .getLawsByNameFilter(name)
             .cachedIn(viewModelScope)
@@ -38,7 +36,7 @@ class BillsViewModel
 
     fun getLawsByPage(): Flow<PagingData<Law>> {
         return repository
-            .getIntroducedLawsV2()
+            .getIntroducedLaws()
             .cachedIn(viewModelScope)
     }
 
@@ -60,9 +58,9 @@ class BillsViewModel
     private val _votesResponse: MutableStateFlow<Response<VotesResponse>> = MutableStateFlow(Response.Data(VotesResponse()))
     val votesResponse: StateFlow<Response<VotesResponse>> = _votesResponse
 
-    fun getVotesByLawV2(billNumber: String) {
+    fun getVotesByLaw(billNumber: String) {
         viewModelScope.launch {
-            repository.getVotesByLawV2(billNumber)
+            repository.getVotesByLaw(billNumber)
                 .catch { e ->
                     Log.e(App.TAG, "Something went wrong on loading deputies", e)
                 }
@@ -76,7 +74,7 @@ class BillsViewModel
         = MutableStateFlow(Response.Data(GovResponse()))
     val trackedLaws: StateFlow<Response<GovResponse>> = _trackedLaws
 
-    fun fetchedTrackedLawsV2() {
+    fun fetchedTrackedLaws() {
         val lawCodes = cacheRepository.getLawCodes().toTypedArray()
         viewModelScope.launch {
             flowOf(*lawCodes)

@@ -33,7 +33,7 @@ open class GovernmentRepository(
     private val billsPagingSource: BillsPagingSource
 ) {
 
-    open fun getIntroducedLawsV2(): Flow<PagingData<Law>> {
+    open fun getIntroducedLaws(): Flow<PagingData<Law>> {
         return Pager(
             config = PagingConfig(
                 pageSize = DEFAULT_PAGE_SIZE,
@@ -82,7 +82,7 @@ open class GovernmentRepository(
             .attachIdlingResource()
     }
 
-    open fun getDeputiesV2(): Flow<Response<List<Deputy>>> {
+    open fun getDeputies(): Flow<Response<List<Deputy>>> {
         return flow {
             val response = api.getAllDeputiesV2(
                 context.getString(R.string.api_key),
@@ -101,7 +101,7 @@ open class GovernmentRepository(
 
     }
 
-    open fun getVotesByLawV2(number: String): Flow<Response<VotesResponse>> {
+    open fun getVotesByLaw(number: String): Flow<Response<VotesResponse>> {
         return flow {
             val response = api.newGetLawVotesV2(
                 context.getString(R.string.api_key),

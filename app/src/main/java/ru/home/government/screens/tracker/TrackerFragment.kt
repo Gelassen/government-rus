@@ -5,14 +5,12 @@ import android.util.Log
 import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_tracker.*
 import kotlinx.android.synthetic.main.layout_tracked_laws_placeholder.*
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.home.government.App
@@ -26,7 +24,6 @@ import ru.home.government.repository.Response
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.details.DetailsActivity
-import ru.home.government.util.newObserveBy
 import java.lang.IllegalStateException
 import javax.inject.Inject
 
@@ -94,7 +91,7 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                billsViewModel.fetchedTrackedLawsV2()
+                billsViewModel.fetchedTrackedLaws()
             }
         }
     }

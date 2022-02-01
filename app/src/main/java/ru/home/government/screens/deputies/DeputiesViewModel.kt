@@ -43,7 +43,7 @@ class DeputiesViewModel
         /* launch call return Job instance which should be canceled to avoid leak */
         viewModelScope.launch {
             /*this@launch.cancel() -- just test coroutine behaviour*/
-            repository.getDeputiesV2()
+            repository.getDeputies()
                 /*.cancellable() -- just test coroutine behaviour*/
                 .onCompletion {
                     _isLoading.value = false
