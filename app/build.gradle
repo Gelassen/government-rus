@@ -5,13 +5,13 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion versions.TARGET_SDK_VERSION
-    buildToolsVersion versions.BUILD_TOOLS_VERSION
+    packagingOptions {
+        resources {
+            excludes += ['META-INF/AL2.0', 'META-INF/LGPL2.1']
+        }
+    }
 //    ext.kotlin_version = versions.kotlin
 
-    packagingOptions {
-        exclude "META-INF/AL2.0"
-        exclude "META-INF/LGPL2.1"
-    }
 
     defaultConfig {
         applicationId "ru.home.government"

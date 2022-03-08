@@ -1,7 +1,6 @@
 package ru.home.government.di
 
 import dagger.Component
-import ru.home.government.TestActivity
 import ru.home.government.di.modules.AppModule
 import ru.home.government.di.modules.RepositoryModule
 import ru.home.government.di.modules.ViewModelModule
@@ -21,7 +20,6 @@ interface AppComponent {
 
     fun inject(context: DeputiesViewModel)
     fun inject(context: BillsViewModel)
-    fun inject(testActivity: TestActivity)
 
     fun inject(deputiesFragment: DeputiesFragment)
     fun inject(trackerFragment: TrackerFragment)
