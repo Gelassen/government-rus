@@ -3,13 +3,9 @@ package ru.home.government.screens.laws.details
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginBottom
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_deputies.*
 import ru.home.government.R
+import ru.home.government.databinding.ActivityLawDeputiesBinding
 import ru.home.government.model.Deputy
 import ru.home.government.screens.deputies.DeputiesFragment
 
@@ -26,11 +22,14 @@ class DeputiesOnLawActivity: AppCompatActivity() {
         }
     }
 
+    private lateinit var binding: ActivityLawDeputiesBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_law_deputies)
+        binding = ActivityLawDeputiesBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         val dr = ColorDrawable(resources.getColor(R.color.colorActionBar))
         supportActionBar!!.setBackgroundDrawable(dr)

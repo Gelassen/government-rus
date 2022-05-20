@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ComponentActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import kotlinx.android.synthetic.main.activity_main.*
 import ru.home.government.R
+import ru.home.government.databinding.ActivityLawDetailsBinding
 import ru.home.government.model.Law
 import ru.home.government.repository.CacheRepository
 
@@ -36,11 +36,14 @@ class DetailsActivity : AppCompatActivity() {
     lateinit var lawCode: String
     var extras: Bundle? = null
 
+    private lateinit var binding: ActivityLawDetailsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_law_details)
+        binding = ActivityLawDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setSupportActionBar(toolbar)
+        setSupportActionBar(binding.toolbar)
 
         val dr = ColorDrawable(resources.getColor(R.color.colorActionBar))
         supportActionBar!!.setBackgroundDrawable(dr)

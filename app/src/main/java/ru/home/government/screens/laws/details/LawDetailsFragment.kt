@@ -6,9 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
-import kotlinx.android.synthetic.main.fragment_law_details.*
-import ru.home.government.R
 import ru.home.government.choir.ServerDataTransformer
+import ru.home.government.databinding.FragmentLawDetailsBinding
 import ru.home.government.screens.BaseFragment
 
 class LawDetailsFragment: BaseFragment() {
@@ -26,35 +25,36 @@ class LawDetailsFragment: BaseFragment() {
         }
     }
 
+    private lateinit var binding: FragmentLawDetailsBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_law_details, container, false)
+        binding = FragmentLawDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        webView.webViewClient = WebViewClient()
-        webView.isClickable = true
-        webView.settings.loadsImagesAutomatically = true
-        webView.settings.domStorageEnabled = true
-        webView.settings.javaScriptEnabled = true
-        webView.settings.allowContentAccess = true
-        webView.settings.allowFileAccess = true
-        webView.settings.allowFileAccessFromFileURLs = true
-        webView.settings.allowUniversalAccessFromFileURLs = true
-        webView.settings.loadsImagesAutomatically = true
-        webView.settings.javaScriptCanOpenWindowsAutomatically = false
+        binding.webView.webViewClient = WebViewClient()
+        binding.webView.isClickable = true
+        binding.webView.settings.loadsImagesAutomatically = true
+        binding.webView.settings.domStorageEnabled = true
+        binding.webView.settings.javaScriptEnabled = true
+        binding.webView.settings.allowContentAccess = true
+        binding.webView.settings.allowFileAccess = true
+        binding.webView.settings.allowFileAccessFromFileURLs = true
+        binding.webView.settings.allowUniversalAccessFromFileURLs = true
+        binding.webView.settings.loadsImagesAutomatically = true
+        binding.webView.settings.javaScriptCanOpenWindowsAutomatically = false
 
         val url = ServerDataTransformer()
             .replaceLawUrlWithExplanatoryNote(requireArguments().getString(EXTRA_DETAILS_URL)!!)
             .plus("#bh_note")
-        webView.loadUrl(url)
+        binding.webView.loadUrl(url)
     }
 }

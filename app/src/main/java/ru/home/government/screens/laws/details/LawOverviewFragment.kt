@@ -10,8 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.android.synthetic.main.fragment_law_overview.*
-import kotlinx.android.synthetic.main.view_item_deputy.view.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.home.government.App
@@ -49,7 +47,7 @@ class LawOverviewFragment: BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    lateinit var binding: FragmentLawOverviewBinding
+    private lateinit var binding: FragmentLawOverviewBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -121,7 +119,7 @@ class LawOverviewFragment: BaseFragment() {
         if (!item.isDeputiesAvailable) return
 
         binding.deputyData = item.subject.deputies.get(0)
-        voteDeputiesCounter.setOnClickListener { it ->
+        binding.voteDeputiesCounter.setOnClickListener { it ->
             DeputiesOnLawActivity.launch(
                 requireActivity() as AppCompatActivity,
                 ArrayList(item.subject.deputies.subList(1, item.subject.deputies.size))

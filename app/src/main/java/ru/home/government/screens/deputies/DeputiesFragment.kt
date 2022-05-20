@@ -6,19 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.dropbox.android.external.store4.FetcherResult
-import kotlinx.android.synthetic.main.fragment_deputies.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -106,7 +100,7 @@ class DeputiesFragment: BaseFragment() {
             FrameLayout.LayoutParams.MATCH_PARENT
         )
         layoutParams.topMargin = resources.getDimension(R.dimen.actionBarSize).toInt()
-        deputiesContainer.layoutParams = layoutParams
+        binding.deputiesContainer.layoutParams = layoutParams
 
         val activeDeputies: ArrayList<Deputy> = arguments!!.getParcelableArrayList(EXTRA_DEPUTIES)!!
         (binding.list.adapter as DeputiesAdapter).update(activeDeputies)
@@ -137,7 +131,7 @@ class DeputiesFragment: BaseFragment() {
             when (result) {
                 is Response.Data -> {
                     val activeDeputies = result.data.filter { it -> it.isCurrent!! }
-                    (list.adapter as DeputiesAdapter).update(activeDeputies)
+                    (binding.list.adapter as DeputiesAdapter).update(activeDeputies)
                 }
                 is Response.Error.Message -> {
                     val error = StringBuilder()

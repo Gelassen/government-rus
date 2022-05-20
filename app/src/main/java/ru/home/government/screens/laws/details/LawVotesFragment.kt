@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.android.synthetic.main.fragment_law_votes.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.home.government.App
@@ -95,7 +94,7 @@ class LawVotesFragment: BaseFragment() {
                     val votesResponse = it.data
                     binding.votesResponse = votesResponse
                     binding.executePendingBindings()
-                    voteDetails.setOnClickListener { it ->
+                    binding.voteDetails.setOnClickListener { it ->
                         val intent = Intent(Intent.ACTION_VIEW)
                         intent.data = Uri.parse(
                                 String.format(

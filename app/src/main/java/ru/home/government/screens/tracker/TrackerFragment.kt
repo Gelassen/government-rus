@@ -8,8 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_tracker.*
-import kotlinx.android.synthetic.main.layout_tracked_laws_placeholder.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -73,8 +71,9 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
                     visibleProgress(false)
                     when(it) {
                         is Response.Data -> {
-                            (list.adapter as TrackerAdapter).update(it.data.laws)
-                            trackedPlaceholder.visibility = if (it.data.laws.size == 0) View.VISIBLE else View.GONE
+                            (binding.list.adapter as TrackerAdapter).update(it.data.laws)
+                            binding.trackedPlaceholderContainer.trackedPlaceholder.visibility =
+                                if (it.data.laws.size == 0) View.VISIBLE else View.GONE
                         }
                         is Response.Error -> {
                             if (it is Response.Error.Message) {
@@ -99,7 +98,7 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
     override fun onResume() {
         super.onResume()
         (binding.list.adapter as TrackerAdapter).reset()
-        trackedPlaceholder.visibility = View.VISIBLE
+        binding.trackedPlaceholderContainer.trackedPlaceholder.visibility = View.VISIBLE
     }
 
     override fun onItemClick(item: Law) {

@@ -17,7 +17,9 @@
 
         <include layout="@layout/layout_progress_view" />
 
-        <include layout="@layout/layout_tracked_laws_placeholder" />
+        <include
+            android:id="@+id/trackedPlaceholderContainer"
+            layout="@layout/layout_tracked_laws_placeholder" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

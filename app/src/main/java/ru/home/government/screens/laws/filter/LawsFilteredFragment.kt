@@ -9,7 +9,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_law_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -104,11 +103,11 @@ class LawsFilteredFragment: BaseFragment(),
                 try {
                     (binding.list.adapter as LawsAdapter).submitData(it)
                     if ((binding.list.adapter as LawsAdapter).itemCount == 0) {
-                        lawsNoData.visibility = View.VISIBLE
-                        list.visibility = View.GONE
+                        binding.lawsNoData.visibility = View.VISIBLE
+                        binding.list.visibility = View.GONE
                     } else {
-                        lawsNoData.visibility = View.GONE
-                        list.visibility = View.VISIBLE
+                        binding.lawsNoData.visibility = View.GONE
+                        binding.list.visibility = View.VISIBLE
                     }
                 } catch (ex: Exception) {
                     Log.e(App.TAG, "Search job exception", ex)

@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -18,8 +17,8 @@ android {
         compileSdkVersion versions.COMPILE_SDK_VERSION
         minSdkVersion versions.MIN_SDK_VERSION
         targetSdkVersion versions.TARGET_SDK_VERSION
-        versionCode 7
-        versionName "0.95"
+        versionCode 8
+        versionName "0.96"
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "ru.home.government.MyCustomTestRunner"
     }
@@ -28,6 +27,7 @@ android {
 
     buildFeatures {
         dataBinding = true
+        viewBinding true
     }
     buildTypes {
         release {
@@ -53,6 +53,7 @@ android {
             applicationIdSuffix ".beta"
         }
     }
+    namespace 'ru.home.government'
 //    resolutionStrategy {
 //        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
 //    }
