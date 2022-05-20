@@ -1,6 +1,7 @@
 package ru.home.government.screens.laws
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import com.miguelcatalan.materialsearchview.MaterialSearchView
@@ -33,21 +34,11 @@ class LawsFragment: BaseFragment() {
                 LawsMainFragment()
             )
             .commit()
+    }
 
-        search_view = requireActivity().findViewById<MaterialSearchView>(R.id.search_view)
-        search_view.setOnQueryTextListener(object: MaterialSearchView.OnQueryTextListener {
-
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                onSearch(query)
-                search_view.closeSearch()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-//                TODO("Not yet implemented")
-                return true
-            }
-        })
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initActivityDependentViews()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -78,6 +69,23 @@ class LawsFragment: BaseFragment() {
 
     fun wasFragmentDestroyed(): Boolean {
         return parentFragmentManager == null
+    }
+
+    private fun initActivityDependentViews() {
+        search_view = requireActivity().findViewById<MaterialSearchView>(R.id.search_view)
+        search_view.setOnQueryTextListener(object: MaterialSearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                onSearch(query)
+                search_view.closeSearch()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+//                TODO("Not yet implemented")
+                return true
+            }
+        })
     }
 
 }

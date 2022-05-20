@@ -1,6 +1,5 @@
 package ru.home.government.network
 
-import com.dropbox.android.external.store4.FetcherResult
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
