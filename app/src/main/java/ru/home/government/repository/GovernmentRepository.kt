@@ -37,6 +37,7 @@ open class GovernmentRepository(
         return Pager(
             config = PagingConfig(
                 pageSize = DEFAULT_PAGE_SIZE,
+                initialLoadSize = DEFAULT_PAGE_SIZE,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {

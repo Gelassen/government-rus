@@ -71,14 +71,4 @@ class LawsAdapter(
 
     }
 
-/*    companion object {
-        private val LAW_COMPARATOR = object : DiffUtil.ItemCallback<Law>() {
-            override fun areItemsTheSame(oldItem: Law, newItem: Law): Boolean =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: Law, newItem: Law): Boolean =
-                oldItem == newItem
-        }
-    }*/
-
 }
