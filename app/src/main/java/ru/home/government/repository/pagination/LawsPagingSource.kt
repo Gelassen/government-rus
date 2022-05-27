@@ -37,7 +37,7 @@ open class BillsPagingSource(
                 return LoadResult.Page(
                     data = govResponse!!.laws,
                     prevKey = if (page == DEFAULT_START_PAGE) null else  page.minus(1),
-                    nextKey = if (govResponse?.laws?.isEmpty()!!)  null else govResponse.page.plus(params.loadSize / PAGE_SIZE)
+                    nextKey = if (govResponse.laws?.isEmpty()!!)  null else govResponse.page.plus(params.loadSize / PAGE_SIZE)
                 )
             } else {
                 return LoadResult.Error(IllegalStateException("Server returned response, but it wasn't successful."))
