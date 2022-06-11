@@ -9,7 +9,13 @@
         android:id="@+id/navigation_home"
         android:name="ru.home.government.screens.deputies.DeputiesFragment"
         android:label="@string/title_deputies"
-        tools:layout="@layout/fragment_deputies" />
+        tools:layout="@layout/fragment_deputies">
+        <argument
+            android:name="EXTRA_NO_BOTTOM_VIEW"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"

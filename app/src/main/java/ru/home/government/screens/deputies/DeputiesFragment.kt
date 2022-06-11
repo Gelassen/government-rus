@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
@@ -13,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collect
@@ -25,7 +27,6 @@ import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.Deputy
 import ru.home.government.repository.Response
 import ru.home.government.screens.BaseFragment
-import java.lang.StringBuilder
 import javax.inject.Inject
 
 
@@ -39,10 +40,13 @@ class DeputiesFragment: BaseFragment() {
 
         private const val EXTRA_DEPUTIES = "EXTRA_DEPUTIES"
 
+        private const val EXTRA_NO_BOTTOM_VIEW = "EXTRA_NO_BOTTOM_VIEW"
+
         fun instance() : DeputiesFragment {
             val fragment = DeputiesFragment()
             val args = Bundle()
             args.putBoolean(EXTRA_LAUNCH_WITH_CONTENT, false)
+            args.putBoolean(EXTRA_NO_BOTTOM_VIEW, false)
             fragment.arguments = args
             return fragment
         }
@@ -51,6 +55,7 @@ class DeputiesFragment: BaseFragment() {
             val fragment = DeputiesFragment()
             val args = Bundle()
             args.putBoolean(EXTRA_LAUNCH_WITH_CONTENT, true)
+            args.putBoolean(EXTRA_NO_BOTTOM_VIEW, true)
             args.putParcelableArrayList(EXTRA_DEPUTIES, deputies)
             fragment.arguments = args
             return fragment
@@ -84,12 +89,16 @@ class DeputiesFragment: BaseFragment() {
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(activity!!, R.drawable.ic_divider)!!)
         binding.list.addItemDecoration(dividerItemDecoration)
+    }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         if (arguments != null
             && arguments!!.containsKey(EXTRA_LAUNCH_WITH_CONTENT)
             && arguments!!.getBoolean(EXTRA_LAUNCH_WITH_CONTENT)) {
             processWithExistingData()
         } else {
+            decorView()
             processWithRequestForData()
         }
     }
@@ -120,6 +129,31 @@ class DeputiesFragment: BaseFragment() {
                 viewModel.isLoading.collect { value ->
                     visibleProgress(value)
                 }
+            }
+        }
+    }
+
+    /**
+     * This method should be called only when parent activity has bottom navigation view.
+     *
+     * findViewById(R.id.nav_view) throws an exception if nav_view is not presented in the
+     * layout, I didn't find an option to check it existence in other way, so I added extra
+     * flag to explicitly tell API users to consider it due using this fragment.
+     * */
+    private fun decorView() {
+        if (arguments != null && !arguments!!.getBoolean(EXTRA_NO_BOTTOM_VIEW)) {
+            val bottomNavigation: BottomNavigationView = activity!!.findViewById(R.id.nav_view)
+            val viewTreeObserver = bottomNavigation.viewTreeObserver
+            if (viewTreeObserver.isAlive) {
+                viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        val viewHeight = bottomNavigation.height
+                        if (viewHeight != 0) {
+                            bottomNavigation.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                            (binding.deputiesContainer.layoutParams as FrameLayout.LayoutParams).bottomMargin = viewHeight
+                        }
+                    }
+                })
             }
         }
     }
