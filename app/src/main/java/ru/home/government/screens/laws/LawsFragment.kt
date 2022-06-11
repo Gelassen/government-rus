@@ -30,7 +30,7 @@ class LawsFragment: BaseFragment() {
 
         parentFragmentManager
             .beginTransaction()
-            .replace(R.id.container,
+            .replace(R.id.container_laws,
                 LawsMainFragment()
             )
             .commit()
@@ -50,12 +50,12 @@ class LawsFragment: BaseFragment() {
 
     fun onSearch(str: String?) {
         if (wasFragmentDestroyed()) return
-        
-        val frag = requireFragmentManager().findFragmentByTag(LawsFilteredFragment.TAG)
+
+        val frag = childFragmentManager.findFragmentByTag(LawsFilteredFragment.TAG)
         if (frag == null) {
-            parentFragmentManager
+            childFragmentManager
                 .beginTransaction()
-                .add(R.id.container, LawsFilteredFragment.instance(str!!), LawsFilteredFragment.TAG)
+                .add(R.id.container_laws, LawsFilteredFragment.instance(str!!), LawsFilteredFragment.TAG)
                 .addToBackStack(LawsFilteredFragment.TAG)
                 .commit()
         } else {
@@ -68,7 +68,7 @@ class LawsFragment: BaseFragment() {
     }
 
     fun wasFragmentDestroyed(): Boolean {
-        return parentFragmentManager == null
+        return childFragmentManager == null
     }
 
     private fun initActivityDependentViews() {
@@ -82,7 +82,6 @@ class LawsFragment: BaseFragment() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-//                TODO("Not yet implemented")
                 return true
             }
         })

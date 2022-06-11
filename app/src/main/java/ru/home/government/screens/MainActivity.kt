@@ -3,6 +3,7 @@ package ru.home.government.screens
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -13,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import ru.home.government.BuildConfig
 import ru.home.government.R
 import ru.home.government.databinding.ActivityMainBinding
 
@@ -27,7 +29,12 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val dr = ColorDrawable(resources.getColor(R.color.colorActionBar))
+        val dr = ColorDrawable(
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                resources.getColor(R.color.colorActionBar, theme)
+            else
+                resources.getColor(R.color.colorActionBar)
+            )
         supportActionBar!!.setBackgroundDrawable(dr)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)

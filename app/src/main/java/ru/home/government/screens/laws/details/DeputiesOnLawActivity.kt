@@ -38,7 +38,7 @@ class DeputiesOnLawActivity: AppCompatActivity() {
 
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.container, DeputiesFragment.instance(deputies))
+            .replace(R.id.container_deputies, DeputiesFragment.instance(deputies))
             .commit()
     }
 }
