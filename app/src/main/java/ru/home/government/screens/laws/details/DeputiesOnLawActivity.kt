@@ -7,9 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import ru.home.government.R
 import ru.home.government.databinding.ActivityLawDeputiesBinding
 import ru.home.government.model.Deputy
+import ru.home.government.screens.BaseActivity
 import ru.home.government.screens.deputies.DeputiesFragment
 
-class DeputiesOnLawActivity: AppCompatActivity() {
+class DeputiesOnLawActivity: BaseActivity() {
 
     companion object {
 
@@ -31,7 +32,7 @@ class DeputiesOnLawActivity: AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val dr = ColorDrawable(resources.getColor(R.color.colorActionBar))
+        val dr = ColorDrawable(getApiSupportColor())
         supportActionBar!!.setBackgroundDrawable(dr)
 
         val deputies: java.util.ArrayList<Deputy> = intent.getParcelableArrayListExtra(EXTRA_DEPUTIES)!!

@@ -18,7 +18,7 @@ import ru.home.government.BuildConfig
 import ru.home.government.R
 import ru.home.government.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -29,12 +29,7 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val dr = ColorDrawable(
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                resources.getColor(R.color.colorActionBar, theme)
-            else
-                resources.getColor(R.color.colorActionBar)
-            )
+        val dr = ColorDrawable(getApiSupportColor())
         supportActionBar!!.setBackgroundDrawable(dr)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
