@@ -79,7 +79,7 @@ class DeputiesFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity!!.application as AppApplication).component.inject(this)
+        (requireActivity().application as AppApplication).component.inject(this)
 
         progressView = view.findViewById<View>(R.id.progressView)
 
@@ -87,7 +87,7 @@ class DeputiesFragment: BaseFragment() {
         binding.list.adapter = DeputiesAdapter()
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(activity!!, R.drawable.ic_divider)!!)
+        dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
         binding.list.addItemDecoration(dividerItemDecoration)
     }
 
@@ -95,8 +95,8 @@ class DeputiesFragment: BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (arguments != null
-            && arguments!!.containsKey(EXTRA_LAUNCH_WITH_CONTENT)
-            && arguments!!.getBoolean(EXTRA_LAUNCH_WITH_CONTENT)) {
+            && requireArguments().containsKey(EXTRA_LAUNCH_WITH_CONTENT)
+            && requireArguments().getBoolean(EXTRA_LAUNCH_WITH_CONTENT)) {
             processWithExistingData()
         } else {
             decorView()
@@ -112,7 +112,7 @@ class DeputiesFragment: BaseFragment() {
         layoutParams.topMargin = resources.getDimension(R.dimen.actionBarSize).toInt()
         binding.deputiesContainer.layoutParams = layoutParams
 
-        val activeDeputies: ArrayList<Deputy> = arguments!!.getParcelableArrayList(EXTRA_DEPUTIES)!!
+        val activeDeputies: ArrayList<Deputy> = requireArguments().getParcelableArrayList(EXTRA_DEPUTIES)!!
         (binding.list.adapter as DeputiesAdapter).update(activeDeputies)
     }
 
@@ -142,8 +142,8 @@ class DeputiesFragment: BaseFragment() {
      * flag to explicitly tell API users to consider it due using this fragment.
      * */
     private fun decorView() {
-        if (arguments != null && !arguments!!.getBoolean(EXTRA_NO_BOTTOM_VIEW)) {
-            val bottomNavigation: BottomNavigationView = activity!!.findViewById(R.id.nav_view)
+        if (arguments != null && !requireArguments().getBoolean(EXTRA_NO_BOTTOM_VIEW)) {
+            val bottomNavigation: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
             val viewTreeObserver = bottomNavigation.viewTreeObserver
             if (viewTreeObserver.isAlive) {
                 viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
