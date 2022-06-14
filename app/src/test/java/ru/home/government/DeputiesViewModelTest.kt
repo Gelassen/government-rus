@@ -16,6 +16,7 @@ import org.mockito.kotlin.mock
 import ru.home.government.model.Deputy
 import ru.home.government.network.IApi
 import ru.home.government.repository.Response
+import ru.home.government.repository.pagination.BillsPagingSource
 import ru.home.government.screens.deputies.DeputiesViewModel
 
 /**
@@ -42,11 +43,13 @@ class DeputiesViewModelTest {
 
     private val api: IApi = mock()
 
+    private val billsPagingSource: BillsPagingSource = mock()
+
     @Before
     fun setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this)
 
-        repository = FakeRepository(context, api)
+        repository = FakeRepository(context, api, billsPagingSource)
 
         `when`(context.getString(any()))
             .thenReturn("https://honeypot.com")

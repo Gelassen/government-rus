@@ -9,8 +9,6 @@ android {
             excludes += ['META-INF/AL2.0', 'META-INF/LGPL2.1']
         }
     }
-//    ext.kotlin_version = versions.kotlin
-
 
     defaultConfig {
         applicationId "ru.home.government"

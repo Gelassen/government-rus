@@ -91,6 +91,7 @@ class DeputiesFragment: BaseFragment() {
         binding.list.addItemDecoration(dividerItemDecoration)
     }
 
+    @Deprecated(message = "It should be urgently replaced with valid implementation")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (arguments != null

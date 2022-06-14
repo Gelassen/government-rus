@@ -7,10 +7,12 @@ import ru.home.government.model.Deputy
 import ru.home.government.network.IApi
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.Response
+import ru.home.government.repository.pagination.BillsPagingSource
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FakeRepository(context: Context, api: IApi): GovernmentRepository(context, api) {
+class FakeRepository(context: Context, api: IApi, billsPagingSource: BillsPagingSource)
+    : GovernmentRepository(context, api, billsPagingSource) {
 
     override fun getDeputies(): Flow<Response<List<Deputy>>> {
         return flow {

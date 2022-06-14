@@ -1,8 +1,6 @@
 package ru.home.government
 
-import android.util.Log
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.assertion.ViewAssertions
@@ -17,9 +15,7 @@ import org.junit.runner.RunWith
 
 import org.junit.Assert.*
 import org.junit.Before
-import ru.home.government.di.modules.AppModule
-import ru.home.government.di.DaggerTestApplicationComponent
-import ru.home.government.di.FakeRepositoryModule
+import org.junit.Ignore
 import ru.home.government.di.TestApplicationComponent
 import ru.home.government.di.fakes.FakeBillPagingSource
 import ru.home.government.di.test.NetworkIdlingResource
@@ -35,6 +31,7 @@ import javax.inject.Inject
  * See [testing documentation](http://d.android.com/tools/testing).
  */
 @RunWith(AndroidJUnit4::class)
+@Ignore
 class ExampleInstrumentedTest {
 
     @Inject

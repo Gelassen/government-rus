@@ -36,6 +36,7 @@ class LawsFragment: BaseFragment() {
             .commit()
     }
 
+    @Deprecated(message = "It should be urgently replaced with valid implementation")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initActivityDependentViews()
