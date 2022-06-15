@@ -19,6 +19,13 @@ android {
         versionName "0.96"
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "ru.home.government.MyCustomTestRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments << ["dagger.gradle.incremental": "true"]
+            }
+        }
+
     }
 
     flavorDimensions "default"
@@ -121,7 +128,6 @@ dependencies {
     /* others */
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
-    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
     implementation('com.dropbox.mobile.store:store4:4.0.2-KT15') {
         exclude group: 'org.jetbrains.kotlinx', module: 'kotlinx-coroutines-core'
