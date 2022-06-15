@@ -17,7 +17,7 @@ public class CacheRepository {
 
     private static final String KEY_LAWS = "KEY_LAWS";
     
-    private SharedPreferences pref;
+    private final SharedPreferences pref;
 
     public CacheRepository(Context context) {
         pref = PreferenceManager.getDefaultSharedPreferences(context);

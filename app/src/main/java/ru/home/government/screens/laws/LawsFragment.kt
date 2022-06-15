@@ -1,10 +1,7 @@
 package ru.home.government.screens.laws
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
-import com.miguelcatalan.materialsearchview.MaterialSearchView
 import ru.home.government.R
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.OnSearchClickListener
@@ -14,7 +11,7 @@ import java.lang.RuntimeException
 
 class LawsFragment: BaseFragment() {
 
-    private lateinit var search_view: MaterialSearchView
+//    private lateinit var search_view: MaterialSearchView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,8 +42,8 @@ class LawsFragment: BaseFragment() {
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.menu_law, menu)
 
-        val menuItem = menu.findItem(R.id.action_search)
-        search_view.setMenuItem(menuItem)
+//        val menuItem = menu.findItem(R.id.action_search)
+//        search_view.setMenuItem(menuItem)
     }
 
     fun onSearch(str: String?) {
@@ -73,7 +70,7 @@ class LawsFragment: BaseFragment() {
     }
 
     private fun initActivityDependentViews() {
-        search_view = requireActivity().findViewById<MaterialSearchView>(R.id.search_view)
+/*        search_view = requireActivity().findViewById<MaterialSearchView>(R.id.search_view)
         search_view.setOnQueryTextListener(object: MaterialSearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -85,7 +82,7 @@ class LawsFragment: BaseFragment() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 return true
             }
-        })
+        })*/
     }
 
 }
