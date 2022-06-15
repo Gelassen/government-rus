@@ -48,7 +48,7 @@ class MainActivity : BaseActivity() {
         navController.navigate(R.id.navigation_dashboard)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         MenuInflater(this).inflate(R.menu.menu_main, menu)
         return true
     }
