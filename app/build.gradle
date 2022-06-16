@@ -20,11 +20,11 @@ android {
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "ru.home.government.MyCustomTestRunner"
 
-        javaCompileOptions {
+/*        javaCompileOptions {
             annotationProcessorOptions {
                 arguments << ["dagger.gradle.incremental": "true"]
             }
-        }
+        }*/
 
     }
 
@@ -115,8 +115,8 @@ dependencies {
     androidTestImplementation 'org.mockito.kotlin:mockito-kotlin:3.2.0'
     androidTestImplementation 'org.mockito:mockito-core:3.12.4'
     /* DI */
-    implementation 'com.google.dagger:dagger:2.28.3'
-    implementation 'com.google.dagger:dagger-android-support:2.24'
+    implementation 'com.google.dagger:dagger:2.36'
+    implementation 'com.google.dagger:dagger-android-support:2.36'
     /* kapt */
     kapt 'androidx.room:room-compiler:2.4.2'
     kapt 'androidx.lifecycle:lifecycle-compiler:2.4.1'
