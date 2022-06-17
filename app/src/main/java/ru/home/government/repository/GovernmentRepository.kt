@@ -50,7 +50,11 @@ open class GovernmentRepository(
 
     fun getLawsByNameFilter(filter: String): Flow<PagingData<Law>> {
         return Pager(
-            config = PagingConfig(pageSize = DEFAULT_PAGE_SIZE),
+            config = PagingConfig(
+                pageSize = DEFAULT_PAGE_SIZE,
+                initialLoadSize = DEFAULT_PAGE_SIZE,
+                enablePlaceholders = false
+            ),
             pagingSourceFactory = {
                 SearchLawsPagingSource(
                     api,

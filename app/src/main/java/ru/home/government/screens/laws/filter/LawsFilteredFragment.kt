@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
+import ru.home.government.databinding.FragmentLawFilteredBinding
 import ru.home.government.databinding.FragmentLawMainBinding
 import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.Law
@@ -52,7 +53,7 @@ class LawsFilteredFragment: BaseFragment(),
 
     private lateinit var lawsAdapter: LawsAdapter
 
-    private lateinit var binding: FragmentLawMainBinding
+    private lateinit var binding: FragmentLawFilteredBinding
 
     private var searchJob: Job? = null
 
@@ -62,7 +63,7 @@ class LawsFilteredFragment: BaseFragment(),
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        binding = FragmentLawMainBinding.inflate(layoutInflater, container, false)
+        binding = FragmentLawFilteredBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -73,13 +74,13 @@ class LawsFilteredFragment: BaseFragment(),
 
         lawsAdapter = LawsAdapter(Dispatchers.Main, Dispatchers.Default)
 
-        binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = lawsAdapter
-        (binding.list.adapter as LawsAdapter).listener = this
+        binding.listLawsFiltered.layoutManager = LinearLayoutManager(context)
+        binding.listLawsFiltered.adapter = lawsAdapter
+        (binding.listLawsFiltered.adapter as LawsAdapter).listener = this
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
-        binding.list.addItemDecoration(dividerItemDecoration)
+        binding.listLawsFiltered.addItemDecoration(dividerItemDecoration)
 
         val filter = requireArguments().getString(EXTRA_KEY, "")
         onSearch(filter)
@@ -101,13 +102,13 @@ class LawsFilteredFragment: BaseFragment(),
             billsViewModel.getLawByName(str!!).collectLatest { it ->
                 visibleProgress(false)
                 try {
-                    (binding.list.adapter as LawsAdapter).submitData(it)
-                    if ((binding.list.adapter as LawsAdapter).itemCount == 0) {
+                    (binding.listLawsFiltered.adapter as LawsAdapter).submitData(it)
+                    if ((binding.listLawsFiltered.adapter as LawsAdapter).itemCount == 0) {
                         binding.lawsNoData.visibility = View.VISIBLE
-                        binding.list.visibility = View.GONE
+                        binding.listLawsFiltered.visibility = View.GONE
                     } else {
                         binding.lawsNoData.visibility = View.GONE
-                        binding.list.visibility = View.VISIBLE
+                        binding.listLawsFiltered.visibility = View.VISIBLE
                     }
                 } catch (ex: Exception) {
                     Log.e(App.TAG, "Search job exception", ex)

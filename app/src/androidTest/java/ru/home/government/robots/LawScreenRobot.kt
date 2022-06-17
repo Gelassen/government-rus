@@ -1,8 +1,11 @@
 package ru.home.government.robots
 
 import android.content.Context
+import android.view.KeyEvent
+import android.widget.EditText
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -20,6 +23,13 @@ class LawScreenRobot {
     fun seesListItems(count: Int): LawScreenRobot {
         onView(withId(R.id.list))
             .check(matches(CustomMatchers().recyclerViewSizeMatch(count)))
+        seesListItems(resId = R.id.list, count)
+        return this
+    }
+
+    fun seesListItems(resId: Int, count: Int): LawScreenRobot {
+        onView(withId(resId))
+            .check(matches(CustomMatchers().recyclerViewSizeMatch(count)))
         return this
     }
 
@@ -30,7 +40,12 @@ class LawScreenRobot {
     }
 
     fun seesListViewComponentIsVisible(): LawScreenRobot {
-        onView(withId(R.id.list))
+        seesListViewComponentIsVisible(R.id.list)
+        return this
+    }
+
+    fun seesListViewComponentIsVisible(resId: Int): LawScreenRobot {
+        onView(withId(resId))
             .check(matches(isDisplayed()))
         return this
     }
@@ -61,5 +76,17 @@ class LawScreenRobot {
                     ViewActions.click()
                 )
             )
+    }
+
+    fun clickSearchItem() {
+        onView(withId(R.id.action_search))
+            .perform(click())
+    }
+
+    fun enterSearchQuery(query: String) {
+        onView(withId(R.id.searchView))
+            .check(matches(isDisplayed()))
+        onView(isAssignableFrom(EditText::class.java))
+            .perform(typeText(query), pressKey(KeyEvent.KEYCODE_ENTER))
     }
 }

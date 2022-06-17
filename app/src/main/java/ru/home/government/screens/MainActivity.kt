@@ -3,18 +3,15 @@ package ru.home.government.screens
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import com.ferfalk.simplesearchview.SimpleSearchView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import ru.home.government.BuildConfig
 import ru.home.government.R
 import ru.home.government.databinding.ActivityMainBinding
 
@@ -69,6 +66,14 @@ class MainActivity : BaseActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onBackPressed() {
+        val searchView = findViewById<SimpleSearchView>(R.id.searchView)
+        if (searchView.onBackPressed()) {
+            return
+        }
+        super.onBackPressed()
     }
 }
 
