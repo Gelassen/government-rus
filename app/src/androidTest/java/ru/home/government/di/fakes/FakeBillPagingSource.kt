@@ -9,6 +9,7 @@ import ru.home.government.model.GovResponse
 import ru.home.government.network.IApi
 import ru.home.government.repository.pagination.BillsPagingSource
 
+// TODO project requirements become more wide and complex, this solution should be refactored to be relevant to new conditions
 class FakeBillPagingSource(api: IApi, apiKey: String, apiAppToken: String)
     : BillsPagingSource(api, apiKey, apiAppToken) {
 

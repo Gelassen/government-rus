@@ -15,8 +15,8 @@ android {
         compileSdkVersion versions.COMPILE_SDK_VERSION
         minSdkVersion versions.MIN_SDK_VERSION
         targetSdkVersion versions.TARGET_SDK_VERSION
-        versionCode 8
-        versionName "0.96"
+        versionCode 9
+        versionName "0.97"
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "ru.home.government.MyCustomTestRunner"
 
