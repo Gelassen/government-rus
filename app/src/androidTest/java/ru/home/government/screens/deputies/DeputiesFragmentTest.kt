@@ -15,9 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ru.home.government.R
 import ru.home.government.TestApplication
-import ru.home.government.di.DaggerTestApplicationComponent
-import ru.home.government.di.FakeRepositoryModule
-import ru.home.government.di.TestApplicationComponent
+import ru.home.government.di.*
 import ru.home.government.di.fakes.FakeBillPagingSource
 import ru.home.government.di.modules.AppModule
 import ru.home.government.di.test.NetworkIdlingResource
@@ -48,8 +46,9 @@ class DeputiesFragmentTest {
         val application = appContext as TestApplication
         application.component = DaggerTestApplicationComponent
             .builder()
-            .appModule(AppModule(appContext))
-            .fakeRepositoryModule(FakeRepositoryModule(appContext))
+            .testAppModule(TestAppModule(appContext))
+            .testCustomNetworkModule(TestCustomNetworkModule())
+            .testRepositoryModule(TestRepositoryModule(appContext))
             .build()
 
         (application.component as TestApplicationComponent).inject(this)

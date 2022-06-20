@@ -9,15 +9,12 @@ import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
 
 import org.junit.After
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
 import ru.home.government.TestApplication
-import ru.home.government.di.DaggerTestApplicationComponent
-import ru.home.government.di.FakeRepositoryModule
-import ru.home.government.di.TestApplicationComponent
+import ru.home.government.di.*
 import ru.home.government.di.fakes.FakeBillPagingSource
 import ru.home.government.di.modules.AppModule
 import ru.home.government.di.test.NetworkIdlingResource
@@ -54,8 +51,9 @@ class LawsMainFragmentTest {
         val application = appContext as TestApplication
         application.component = DaggerTestApplicationComponent
             .builder()
-            .appModule(AppModule(appContext))
-            .fakeRepositoryModule(FakeRepositoryModule(appContext))
+            .testAppModule(TestAppModule(application))
+            .testCustomNetworkModule(TestCustomNetworkModule())
+            .testRepositoryModule(TestRepositoryModule(application))
             .build()
 
         (application

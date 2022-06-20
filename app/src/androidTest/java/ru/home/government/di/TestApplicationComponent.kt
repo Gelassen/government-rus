@@ -11,7 +11,7 @@ import ru.home.government.screens.laws.main.LawsMainFragmentTest
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [FakeRepositoryModule::class, AppModule::class, ViewModelModule::class])
+@Component(modules = [TestRepositoryModule::class, TestAppModule::class, ViewModelModule::class])
 interface TestApplicationComponent: AppComponent {
     fun inject(subject: ExampleInstrumentedTest)
     fun inject(subject: LawsMainFragmentTest)

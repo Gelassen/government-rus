@@ -12,9 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ru.home.government.R
 import ru.home.government.TestApplication
-import ru.home.government.di.DaggerTestApplicationComponent
-import ru.home.government.di.FakeRepositoryModule
-import ru.home.government.di.TestApplicationComponent
+import ru.home.government.di.*
 import ru.home.government.di.fakes.FakeBillPagingSource
 import ru.home.government.di.modules.AppModule
 import ru.home.government.di.test.NetworkIdlingResource
@@ -47,8 +45,9 @@ class LawsFragmentTest {
         val application = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TestApplication
         application.component = DaggerTestApplicationComponent
             .builder()
-            .appModule(AppModule(application))
-            .fakeRepositoryModule(FakeRepositoryModule(application))
+            .testAppModule(TestAppModule(application))
+            .testCustomNetworkModule(TestCustomNetworkModule())
+            .testRepositoryModule(TestRepositoryModule(application))
             .build()
 
         (application

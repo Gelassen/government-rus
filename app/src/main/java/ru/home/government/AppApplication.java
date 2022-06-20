@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import ru.home.government.di.AppComponent;
 import ru.home.government.di.modules.AppModule;
 import ru.home.government.di.DaggerAppComponent;
+import ru.home.government.di.modules.CustomNetworkModule;
+import ru.home.government.di.modules.NetworkModule;
 import ru.home.government.di.modules.RepositoryModule;
 
 public class AppApplication extends Application {
@@ -38,6 +40,7 @@ public class AppApplication extends Application {
         component = DaggerAppComponent
                 .builder()
                 .appModule(new AppModule(getBaseContext()))
+                .customNetworkModule(new CustomNetworkModule(getBaseContext()))
                 .repositoryModule(new RepositoryModule(this))
                 .build();
     }

@@ -1,24 +1,27 @@
 package ru.home.government
 
 import ru.home.government.di.DaggerTestApplicationComponent
-import ru.home.government.di.FakeRepositoryModule
+import ru.home.government.di.TestAppModule
+import ru.home.government.di.TestCustomNetworkModule
+import ru.home.government.di.TestRepositoryModule
 import ru.home.government.di.modules.AppModule
 
 class TestApplication: AppApplication() {
 
-    lateinit var fakeRepositoryModule: FakeRepositoryModule
+    lateinit var testRepositoryModule: TestRepositoryModule
 
     @JvmName("getFakeRepositoryModule1")
-    fun getFakeRepositoryModule(): FakeRepositoryModule {
-        return fakeRepositoryModule
+    fun getFakeRepositoryModule(): TestRepositoryModule {
+        return testRepositoryModule
     }
 
     override fun initializeComponent() {
-        fakeRepositoryModule = FakeRepositoryModule(this)
+        testRepositoryModule = TestRepositoryModule(this)
         component = DaggerTestApplicationComponent
             .builder()
-            .appModule(AppModule(this))
-            .fakeRepositoryModule(fakeRepositoryModule)
+            .testAppModule(TestAppModule(this))
+            .testCustomNetworkModule(TestCustomNetworkModule())
+            .testRepositoryModule(testRepositoryModule)
             .build()
     }
 }

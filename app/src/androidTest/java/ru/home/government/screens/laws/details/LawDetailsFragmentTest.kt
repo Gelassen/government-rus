@@ -10,18 +10,14 @@ import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
-import org.hamcrest.MatcherAssert
 
 import org.junit.After
 import org.junit.Assert.assertNotEquals
-import org.junit.Assert.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.home.government.TestApplication
-import ru.home.government.di.DaggerTestApplicationComponent
-import ru.home.government.di.FakeRepositoryModule
-import ru.home.government.di.TestApplicationComponent
+import ru.home.government.di.*
 import ru.home.government.di.fakes.FakeRepository
 import ru.home.government.di.modules.AppModule
 import ru.home.government.di.test.NetworkIdlingResource
@@ -62,8 +58,9 @@ class LawDetailsFragmentTest {
         val application = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TestApplication
         application.component = DaggerTestApplicationComponent
             .builder()
-            .appModule(AppModule(application))
-            .fakeRepositoryModule(FakeRepositoryModule(application))
+            .testAppModule(TestAppModule(application))
+            .testCustomNetworkModule(TestCustomNetworkModule())
+            .testRepositoryModule(TestRepositoryModule(application))
             .build()
 
         (application

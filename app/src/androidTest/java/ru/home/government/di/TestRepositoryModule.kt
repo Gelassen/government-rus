@@ -14,8 +14,8 @@ import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
 import javax.inject.Singleton
 
-@Module(includes = [AppModule::class])
-open class FakeRepositoryModule(
+@Module(includes = [TestCustomNetworkModule::class])
+open class TestRepositoryModule(
     val context: Context
 ) {
 
