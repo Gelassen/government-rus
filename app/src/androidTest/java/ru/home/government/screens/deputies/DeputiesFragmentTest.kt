@@ -13,6 +13,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.home.government.BaseApiTest
 import ru.home.government.R
 import ru.home.government.TestApplication
 import ru.home.government.di.*
@@ -30,7 +31,7 @@ import javax.inject.Inject
  * */
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class DeputiesFragmentTest {
+class DeputiesFragmentTest: BaseApiTest() {
 
     @Inject
     lateinit var pagingSource: FakeBillPagingSource
@@ -38,7 +39,8 @@ class DeputiesFragmentTest {
     private val dataBindingIdlingResource = DataBindingIdlingResource()
 
     @Before
-    fun setUp() {
+    override fun setUp() {
+        super.setUp()
         IdlingRegistry.getInstance().register(NetworkIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().register(dataBindingIdlingResource)
 
@@ -55,7 +57,8 @@ class DeputiesFragmentTest {
     }
 
     @After
-    fun tearDown() {
+    override fun tearDown() {
+        super.tearDown()
         IdlingRegistry.getInstance().unregister(NetworkIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
     }
