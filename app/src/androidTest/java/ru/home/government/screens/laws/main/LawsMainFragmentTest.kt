@@ -13,13 +13,13 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
+import ru.home.government.BaseApiTest
 import ru.home.government.TestApplication
 import ru.home.government.di.*
-import ru.home.government.di.fakes.FakeBillPagingSource
-import ru.home.government.di.modules.AppModule
 import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.idlingresource.DataBindingIdlingResource
 import ru.home.government.idlingresource.monitorActivity
+import ru.home.government.network.ServerErrorUtil
 import ru.home.government.robots.LawScreenRobot
 import ru.home.government.screens.MainActivity
 import ru.home.government.screens.laws.details.DetailsActivity
@@ -27,110 +27,90 @@ import javax.inject.Inject
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class LawsMainFragmentTest {
+class LawsMainFragmentTest: BaseApiTest() {
 
     @Inject
-    lateinit var pagingSource: FakeBillPagingSource
+    lateinit var serverErrorUtil: ServerErrorUtil
 
     private val dataBindingIdlingResource = DataBindingIdlingResource()
 
     private val robot = LawScreenRobot()
 
-    private lateinit var autoCloseable: AutoCloseable
-
-
     @Before
-    fun setUp() {
-        autoCloseable = MockitoAnnotations.openMocks(this)
+    override fun setUp() {
+        super.setUp()
+        ((InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TestApplication)
+            .component as TestApplicationComponent).inject(this)
 
         IdlingRegistry.getInstance().register(NetworkIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().register(dataBindingIdlingResource)
-
-        // implement custom test runner https://developer.android.com/codelabs/android-dagger#13
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
-        val application = appContext as TestApplication
-        application.component = DaggerTestApplicationComponent
-            .builder()
-            .testAppModule(TestAppModule(application))
-            .testCustomNetworkModule(TestCustomNetworkModule())
-            .testRepositoryModule(TestRepositoryModule(application))
-            .build()
-
-        (application
-            .getComponent() as TestApplicationComponent)
-            .inject(this)
-
-        pagingSource.setOkWithFullPayloadResponse()
     }
 
     @After
-    fun tearDown() {
-        autoCloseable.close()
+    override fun tearDown() {
+        super.tearDown()
         IdlingRegistry.getInstance().unregister(NetworkIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
     }
 
+
     @Test
     fun onStart_withPositiveResponseFromServer_showsAllData() {
-        pagingSource.setOkWithFullPayloadResponse()
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
         robot
             .seesNavigationBar()
             .seesListViewComponentIsVisible()
-            .seesListItems(2)
+            .seesListItems(40)
 
         activityScenario.close()
     }
 
     @Test
-    fun onStart_withPositiveResponseAndEmptyPayload_showsEmptyScreen() {
-        pagingSource.setOkWithEmptyPayload()
+    fun onStart_withNegativeResponseFromServer_showsNoContentViewWithErrorView() {
+        dispatcher.getApiResponse().billsApi.setServerErrorResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
         robot
             .seesNavigationBar()
-            .seesListViewComponentIsVisible()
+            .seesNoDataView(appContext)
+            .seesErrorMessage(serverErrorUtil.getErrorMessageByServerResponseCode(500))
             .doesNotSeeListItems()
-            .seesNoDataView(InstrumentationRegistry.getInstrumentation().targetContext)
+            .doesNotSeeProgressIndicator()
 
         activityScenario.close()
     }
 
     @Test
-    fun onStart_withNegativeResponseFromServer_showsError() {
-        pagingSource.setErrorResponse()
+    fun onStart_withOkButEmptyResponseFromServer_showsNoContentView() {
+        dispatcher.getApiResponse().billsApi.setOkWithNoBillsResponse(appContext)
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
         robot
             .seesNavigationBar()
-            .seesListViewComponentIsVisible()
+            .seesNoDataView(appContext)
             .doesNotSeeListItems()
+            .doesNotSeeProgressIndicator()
 
         activityScenario.close()
-    }
-
-    @Test
-    fun onStart_withPositiveResponseFromServerAndTurnOffNetwork_showsError() {
-        // no test
-    }
-
-    @Test
-    fun onStart_whenServerIsUnavailable_showsError() {
-        // no test
     }
 
     @Test
     fun onStart_withPositiveResponseAndClickOnItem_openDetailScreen() {
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
         robot
             .seesNavigationBar()
             .seesListViewComponentIsVisible()
+            .seesListItems(40)
             .scrollToItem(1)
 
         Intents.init()
@@ -140,5 +120,7 @@ class LawsMainFragmentTest {
 
         activityScenario.close()
     }
+
+    // TODO add on no network test case
 
 }

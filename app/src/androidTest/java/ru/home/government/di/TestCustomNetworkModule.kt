@@ -14,16 +14,28 @@ import javax.inject.Singleton
 @Module(includes = [NetworkModule::class])
 class TestCustomNetworkModule {
 
+    object Const {
+        const val PORT: Int = 3100
+    }
+
+/*    @Singleton
+    @Provides
+    @Named("Test port")
+    fun providesServerTestPort(): Integer {
+        return Integer(3100)
+    }*/
+
     @Singleton
     @Provides
     @Named("API endpoint")
     fun providesApiEndpoint(): String {
-        return "https://testapi.com"
+        val testApiEndpoint = "http://127.0.0.1"
+        return "${testApiEndpoint}:${Const.PORT}"
     }
 
     @Singleton
     @Provides
     fun provideInterceptor(context: Context): Interceptor {
-        return MockInterceptor()
+        return PlainInterceptor()
     }
 }

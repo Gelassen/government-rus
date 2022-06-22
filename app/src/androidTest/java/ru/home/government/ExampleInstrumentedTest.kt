@@ -17,11 +17,11 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Ignore
 import ru.home.government.di.TestApplicationComponent
-import ru.home.government.di.fakes.FakeBillPagingSource
 import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.idlingresource.DataBindingIdlingResource
 import ru.home.government.idlingresource.monitorActivity
 import ru.home.government.matchers.CustomMatchers
+import ru.home.government.repository.pagination.BillsPagingSource
 import ru.home.government.screens.MainActivity
 import javax.inject.Inject
 
@@ -34,8 +34,10 @@ import javax.inject.Inject
 @Ignore
 class ExampleInstrumentedTest {
 
+    // TODO fix me after disabling FakeBillsPagingSource and migrating to mock web server
+
     @Inject
-    lateinit var pagingSource: FakeBillPagingSource
+    lateinit var pagingSource: BillsPagingSource
 
     private val dataBindingIdlingResource = DataBindingIdlingResource()
 
@@ -50,7 +52,9 @@ class ExampleInstrumentedTest {
             .getComponent() as TestApplicationComponent)
             .inject(this)
 
-        pagingSource.setOkWithFullPayloadResponse()
+
+        // FIXME
+        /*pagingSource.setOkWithFullPayloadResponse()*/
     }
 
     @After
@@ -61,7 +65,8 @@ class ExampleInstrumentedTest {
 
     @Test
     fun useAppContext() {
-        pagingSource.setErrorResponse()
+        // FIXME
+        /*pagingSource.setErrorResponse()*/
 
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
@@ -77,5 +82,14 @@ class ExampleInstrumentedTest {
             .check(matches(CustomMatchers().recyclerViewSizeMatch(0)))
 
         activityScenario.close()
+    }
+
+    @Test
+    fun onOpenAssets_withNonEmptyAssets_receivesAsset() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        assertNotNull(context)
+
+        val result = context.assets.open("mocks/mock_api_deputies.json")
+        assertNotNull(result)
     }
 }

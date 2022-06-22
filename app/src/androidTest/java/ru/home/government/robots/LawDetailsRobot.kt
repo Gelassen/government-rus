@@ -9,7 +9,7 @@ import org.hamcrest.core.IsNot.not
 import ru.home.government.R
 import ru.home.government.model.Vote
 
-class LawDetailsRobot {
+class LawDetailsRobot : BaseRobot() {
 
     private lateinit var context: Context
 

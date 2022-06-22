@@ -8,6 +8,7 @@ import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
 import ru.home.government.network.IApi
 import ru.home.government.network.IApi.Const.PAGE_SIZE
+import ru.home.government.network.ServerErrorUtil
 import java.io.IOException
 import java.lang.IllegalStateException
 
@@ -15,6 +16,7 @@ const val DEFAULT_START_PAGE = 1
 
 open class BillsPagingSource(
     private val api: IApi,
+    private val errorMessageUtil: ServerErrorUtil,
     private val apiKey: String,
     private val apiAppToken: String
 )
@@ -40,7 +42,8 @@ open class BillsPagingSource(
                     nextKey = if (govResponse.laws?.isEmpty()!!)  null else govResponse.page.plus(params.loadSize / PAGE_SIZE)
                 )
             } else {
-                return LoadResult.Error(IllegalStateException("Server returned response, but it wasn't successful."))
+                val msg = errorMessageUtil.getErrorMessageByServerResponseCode(response.code())
+                return LoadResult.Error(IllegalStateException(msg))
             }
         } catch (ex: IOException) {
             return LoadResult.Error(ex)

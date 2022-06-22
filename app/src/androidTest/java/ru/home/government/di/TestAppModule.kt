@@ -8,7 +8,7 @@ import ru.home.government.di.modules.AppModule
 import ru.home.government.network.MockInterceptor
 import javax.inject.Singleton
 
-@Module(includes = [TestCustomNetworkModule::class])
+@Module(includes = [])
 class TestAppModule(val context: Context) {
 
     @Singleton

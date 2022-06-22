@@ -1,29 +1,25 @@
 package ru.home.government.repository
 
 import android.content.Context
-import android.util.Log
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.dropbox.android.external.store4.Fetcher
-import com.dropbox.android.external.store4.FetcherResult
-import com.dropbox.android.external.store4.Store
-import com.dropbox.android.external.store4.StoreBuilder
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
-import ru.home.government.App
-import ru.home.government.BuildConfig
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 import ru.home.government.R
-import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.model.Deputy
 import ru.home.government.model.GovResponse
 import ru.home.government.model.Law
 import ru.home.government.model.VotesResponse
 import ru.home.government.network.IApi
+import ru.home.government.network.ServerErrorUtil
 import ru.home.government.repository.pagination.BillsPagingSource
 import ru.home.government.repository.pagination.SearchLawsPagingSource
 import ru.home.government.util.attachIdlingResource
+
 
 private const val DEFAULT_PAGE_SIZE = 20
 
@@ -58,6 +54,7 @@ open class GovernmentRepository(
             pagingSourceFactory = {
                 SearchLawsPagingSource(
                     api,
+                    ServerErrorUtil(context),
                     context.getString(R.string.api_key),
                     context.getString(R.string.api_app_token),
                     filter
@@ -89,14 +86,18 @@ open class GovernmentRepository(
 
     open fun getDeputies(): Flow<Response<List<Deputy>>> {
         return flow {
-            val response = api.getAllDeputiesV2(
-                context.getString(R.string.api_key),
-                context.getString(R.string.api_app_token)
-            )
-            if (response.isSuccessful) {
-                emit(Response.Data<List<Deputy>>(response.body()!!))
+            if (isConnected()) {
+                val response = api.getAllDeputiesV2(
+                    context.getString(R.string.api_key),
+                    context.getString(R.string.api_app_token)
+                )
+                if (response.isSuccessful) {
+                    emit(Response.Data<List<Deputy>>(response.body()!!))
+                } else {
+                    emit(Response.Error.Message(response.message()))
+                }
             } else {
-                emit(Response.Error.Message(response.message()))
+                emit(Response.Error.Message(context.getString(R.string.no_internet_connection_error)))
             }
         }
             .catch { ex ->
@@ -124,6 +125,13 @@ open class GovernmentRepository(
             }
             .attachIdlingResource()
     }
+
+    private fun isConnected(): Boolean {
+        val connMgr = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo: NetworkInfo? = connMgr.activeNetworkInfo
+        return networkInfo?.isConnected == true
+    }
+
 }
 
 sealed class Response<out T: Any> {

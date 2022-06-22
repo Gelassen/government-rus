@@ -1,14 +1,10 @@
 package ru.home.government.model;
 
-import android.util.Log;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Collections;
 import java.util.List;
-
-import ru.home.government.App;
 
 public class VotesResponse {
 

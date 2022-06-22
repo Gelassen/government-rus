@@ -114,11 +114,11 @@ class LawVotesFragment: BaseFragment() {
                     .append(". ")
                     .append(it.msg)
                     .toString()
-                showError(error)
+                showError(binding.voteDetails, error)
             }
             is Response.Error.Exception -> {
                 Log.e(App.TAG, getString(R.string.unknown_error), it.error)
-                showError(getString(R.string.unknown_error))
+                showError(binding.voteDetails, getString(R.string.unknown_error))
             }
         }
     }

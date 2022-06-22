@@ -3,33 +3,42 @@ package ru.home.government.robots
 import android.content.Context
 import android.view.KeyEvent
 import android.widget.EditText
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
+import org.hamcrest.Matchers
 import ru.home.government.R
 import ru.home.government.matchers.CustomMatchers
 import ru.home.government.screens.laws.main.LawsAdapter
 
-class LawScreenRobot {
+class LawScreenRobot : BaseRobot(){
 
-    fun doesNotSeeListItems(): LawScreenRobot {
-        seesListItems(0)
-        return this
+    override fun doesNotSeeListItems(): LawScreenRobot {
+        return super.doesNotSeeListItems() as LawScreenRobot
     }
 
-    fun seesListItems(count: Int): LawScreenRobot {
-        onView(withId(R.id.list))
-            .check(matches(CustomMatchers().recyclerViewSizeMatch(count)))
-        seesListItems(resId = R.id.list, count)
-        return this
+    override fun doesNotSeeProgressIndicator(): BaseRobot {
+        return super.doesNotSeeProgressIndicator() as LawScreenRobot
     }
 
-    fun seesListItems(resId: Int, count: Int): LawScreenRobot {
-        onView(withId(resId))
-            .check(matches(CustomMatchers().recyclerViewSizeMatch(count)))
+    override fun seesErrorMessage(context: Context): LawScreenRobot {
+        return super.seesErrorMessage(context) as LawScreenRobot
+    }
+
+    override fun seesListItems(count: Int): LawScreenRobot {
+        return super.seesListItems(count) as LawScreenRobot
+    }
+
+    fun seesErrorMessage(string: String): LawScreenRobot {
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(isDisplayed()))
+            .check(matches(withText(Matchers.containsString(string))))
         return this
     }
 
@@ -67,6 +76,8 @@ class LawScreenRobot {
             )
         return this
     }
+
+    /* actions */
 
     fun clickOnItem(idx: Int) {
         onView(withId(R.id.list))

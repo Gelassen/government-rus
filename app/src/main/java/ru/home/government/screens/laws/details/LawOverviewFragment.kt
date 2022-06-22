@@ -98,11 +98,11 @@ class LawOverviewFragment: BaseFragment() {
                     .append(". ")
                     .append(it.msg)
                     .toString()
-                showError(error)
+                showError(binding.lawLastEvent, error)
             }
             is Response.Error.Exception -> {
                 Log.e(App.TAG, getString(R.string.unknown_error), it.error)
-                showError(getString(R.string.unknown_error))
+                showError(binding.lawLastEvent, getString(R.string.unknown_error))
             }
         }
     }

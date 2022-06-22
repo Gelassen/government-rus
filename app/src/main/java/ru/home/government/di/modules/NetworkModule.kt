@@ -1,5 +1,6 @@
 package ru.home.government.di.modules
 
+import android.content.Context
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -9,6 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.home.government.network.IApi
+import ru.home.government.network.ServerErrorUtil
 import ru.home.government.network.adapter.CustomTypeAdapterFactory
 import javax.inject.Named
 import javax.inject.Singleton
@@ -42,5 +44,11 @@ class NetworkModule() {
             .build()
 
         return httpClient
+    }
+
+    @Singleton
+    @Provides
+    fun provideErrorMessageUtil(context: Context): ServerErrorUtil {
+        return ServerErrorUtil(context)
     }
 }

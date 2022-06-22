@@ -16,7 +16,7 @@ import ru.home.government.network.adapter.CustomTypeAdapterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
-@Module(includes = [CustomNetworkModule::class])
+@Module(includes = [])
 open class AppModule(val context: Context) {
 
     @Singleton

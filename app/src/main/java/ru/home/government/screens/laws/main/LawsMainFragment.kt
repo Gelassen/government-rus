@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.home.government.AppApplication
 import ru.home.government.R
@@ -48,7 +50,6 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
         (requireActivity().application as AppApplication).component.inject(this)
 
-
         lawsAdapter = LawsAdapter(Dispatchers.Main, Dispatchers.Default)
 
         binding.list.layoutManager = LinearLayoutManager(context)
@@ -72,8 +73,13 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
         lifecycleScope.launch {
             billsViewModel
                 .getLawsByPage()
+                .onStart {
+                    visibleProgress(true)
+                }
                 .collectLatest { it ->
+                    visibleProgress(false)
                     (binding.list.adapter as LawsAdapter).submitData(it)
+                    showNoDataView()
                 }
         }
         lifecycleScope.launch {
@@ -83,16 +89,25 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
                         // no op
                     }
                     is LoadState.Error -> {
-                        showError((loadState.refresh as LoadState.Error).error.localizedMessage)
+                        visibleProgress(false)
+                        showNoDataView()
+                        showError(requireActivity().findViewById(R.id.nav_view), (loadState.refresh as LoadState.Error).error.localizedMessage)
                     }
                     is LoadState.NotLoading -> {
                         visibleProgress(false)
-                        binding.lawsNoData.visibility = if (binding.list.adapter!!.itemCount == 0) View.VISIBLE else View.GONE
+                        showNoDataView()
                     }
                 }
             }
         }
     }
 
+    private fun showNoDataView() {
+        if ((binding.list.adapter as LawsAdapter).itemCount == 0) {
+            binding.lawsNoData.visibility = View.VISIBLE
+        } else {
+            binding.lawsNoData.visibility = View.GONE
+        }
+    }
 
 }

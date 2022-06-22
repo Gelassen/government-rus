@@ -15,6 +15,7 @@ import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.Response
 import javax.inject.Inject
 
+// TODO refactor viewmodel to have single source of truth (single model) and subscribers listen updates on it
 class BillsViewModel
 @Inject constructor(): ViewModel() {
 

@@ -42,8 +42,10 @@
 
 
     <!--Error messages -->
+    <string name="backend_error">Сервер вернул ответ, но он с ошибкой. Ошибка: </string>
     <string name="unknown_error" translatable="false">Неизвестаня ошибка</string>
     <string name="network_error" translatable="false">Проблема доступа в интернет</string>
+    <string name="no_internet_connection_error">Нет доступа в интернет.</string>
     <string name="not_modified_error" >304 Not Modified</string>
     <string name="bad_request_error">400 Bad Request</string>
     <string name="unauthorized_error">Unauthorized</string>

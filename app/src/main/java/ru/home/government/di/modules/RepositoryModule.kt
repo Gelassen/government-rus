@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import ru.home.government.R
 import ru.home.government.network.IApi
+import ru.home.government.network.ServerErrorUtil
 import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.pagination.BillsPagingSource
@@ -15,9 +16,10 @@ class RepositoryModule(val context: Context) {
 
     @Singleton
     @Provides
-    fun providesBillsPagingSource(client: IApi): BillsPagingSource {
+    fun providesBillsPagingSource(client: IApi, errorMessageUtil: ServerErrorUtil): BillsPagingSource {
         return BillsPagingSource(
             client,
+            errorMessageUtil,
             context.getString(R.string.api_key),
             context.getString(R.string.api_app_token)
         )

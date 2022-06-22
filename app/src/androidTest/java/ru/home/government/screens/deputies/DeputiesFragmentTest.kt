@@ -1,29 +1,20 @@
 package ru.home.government.screens.deputies
 
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.home.government.BaseApiTest
-import ru.home.government.R
-import ru.home.government.TestApplication
-import ru.home.government.di.*
-import ru.home.government.di.fakes.FakeBillPagingSource
-import ru.home.government.di.modules.AppModule
 import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.idlingresource.DataBindingIdlingResource
 import ru.home.government.idlingresource.monitorActivity
+import ru.home.government.robots.DeputiesRobot
 import ru.home.government.screens.MainActivity
-import javax.inject.Inject
 
 /**
  * From test coverage perspective this is not complete test case. Its intent
@@ -33,27 +24,15 @@ import javax.inject.Inject
 @RunWith(AndroidJUnit4::class)
 class DeputiesFragmentTest: BaseApiTest() {
 
-    @Inject
-    lateinit var pagingSource: FakeBillPagingSource
-
     private val dataBindingIdlingResource = DataBindingIdlingResource()
+
+    private val deputiesRobot: DeputiesRobot = DeputiesRobot()
 
     @Before
     override fun setUp() {
         super.setUp()
         IdlingRegistry.getInstance().register(NetworkIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().register(dataBindingIdlingResource)
-
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
-        val application = appContext as TestApplication
-        application.component = DaggerTestApplicationComponent
-            .builder()
-            .testAppModule(TestAppModule(appContext))
-            .testCustomNetworkModule(TestCustomNetworkModule())
-            .testRepositoryModule(TestRepositoryModule(appContext))
-            .build()
-
-        (application.component as TestApplicationComponent).inject(this)
     }
 
     @After
@@ -65,15 +44,94 @@ class DeputiesFragmentTest: BaseApiTest() {
 
     @Test
     fun onStart_openDeputies_successfullyComplete() {
-        pagingSource.setOkWithFullPayloadResponse()
+        dispatcher.getApiResponse().deputiesApi.setOkDeputiesResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
-        Espresso.onView(ViewMatchers.withId(R.id.nav_view))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        deputiesRobot
+            .seesNavView()
+            .clickDeputiesTab()
 
-        Espresso.onView(ViewMatchers.withId(R.id.navigation_home))
-            .perform(ViewActions.click())
+        activityScenario.close()
+    }
+
+    @Test
+    fun onOpenDeputies_withOkResponse_seesDeputiesItems() {
+        dispatcher.getApiResponse().deputiesApi.setOkDeputiesResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        deputiesRobot
+            .seesNavView()
+            .clickDeputiesTab()
+        deputiesRobot
+            .seesListItems(50)
+            .doesNotSeeNoContent()
+            .doesNotSeeProgressIndicator()
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun onOpenDeputies_withErrorResponse_seesErrorMessageAndNoContentView() {
+        dispatcher.getApiResponse().deputiesApi.setServerErrorResponse()
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        deputiesRobot
+            .seesNavView()
+            .clickDeputiesTab()
+        deputiesRobot.seesListItems(0)
+            .seesNoContent()
+            .doesNotSeeProgressIndicator()
+            .seesErrorMessage(appContext)
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun onOpenDeputies_withOKButEmptyResponse_seesNoContentView() {
+        dispatcher.getApiResponse().deputiesApi.setOkWithNoDeputiesResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        deputiesRobot
+            .seesNavView()
+            .clickDeputiesTab()
+        deputiesRobot
+            .seesListItems(0)
+            .seesNoContent()
+            .doesNotSeeProgressIndicator()
+
+        activityScenario.close()
+    }
+
+    @Test
+    @Ignore
+    fun onOpenDeputies_withNoNetworkConnection_seesNoContentViewWithErrorMessageView() {
+        // TODO find a way to disable\enable internet connection from tests, since Android 10 there is
+        // no way to do it programmatically without user involvement
+        toggleWiFiConnection(enable = false)
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+        dispatcher.getApiResponse().deputiesApi.setOkDeputiesResponse(appContext)
+
+        deputiesRobot
+            .seesNavView()
+            .clickDeputiesTab()
+        deputiesRobot
+            .seesListItems(0)
+            .seesNoContent()
+            .doesNotSeeProgressIndicator()
+            .seesErrorMessage(appContext)
 
         activityScenario.close()
     }

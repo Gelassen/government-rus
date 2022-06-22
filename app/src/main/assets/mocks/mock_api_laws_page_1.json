@@ -1,0 +1,990 @@
+{
+  "count": 31498,
+  "page": 1,
+  "wording": "Законопроекты, отсортированные по дате последнего события (по убыванию)",
+  "laws": [
+    {
+      "id": 34456,
+      "number": "149922-8",
+      "name": "О внесении изменений в Федеральный закон \"Об образовании в Российской Федерации\"",
+      "comments": null,
+      "introductionDate": "2022-06-23",
+      "url": "http://sozd.parlament.gov.ru/bill/149922-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-23",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34455,
+      "number": "149903-8",
+      "name": "О внесении изменений в статью 333-33 части второй Налогового кодекса Российской Федерации",
+      "comments": null,
+      "introductionDate": "2022-06-23",
+      "url": "http://sozd.parlament.gov.ru/bill/149903-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-23",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34454,
+      "number": "149622-8",
+      "name": "О внесении изменений в отдельные зконодательные акты Российской Федерации",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149622-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34453,
+      "number": "149604-8",
+      "name": "О внесении изменения в статью 8.35 Кодекса Российской Федерации об административных правонарушениях",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149604-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [
+          {
+            "id": "99111738",
+            "name": "Майоров Алексей Петрович",
+            "position": "Член СФ",
+            "isCurrent": false
+          },
+          {
+            "id": "99113304",
+            "name": "Рукавишникова Ирина Валерьевна",
+            "position": "Член СФ",
+            "isCurrent": true
+          }
+        ],
+        "departments": [],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34452,
+      "number": "149602-8",
+      "name": "О внесении изменений в статью 4 Закона Российской Федерации \"О защите прав потребителей\" и статью 10-6 Федерального закона \"Об информации, информационных технологиях и о защите информации\"",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149602-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34451,
+      "number": "149578-8",
+      "name": "О внесении изменения в статью 9 Федерального закона \"О внесении изменений в Бюджетный кодекс Российской Федерации и отдельные законодательные акты Российской Федерации и установлении особенностей исполнения бюджетов бюджетной системы Российской Федерации в 2022 году\"",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149578-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34450,
+      "number": "149576-8",
+      "name": "О внесении изменений в статью 49 Федерального закона\r\"О виноградарстве и виноделии в Российской Федерации\" и статью 4\rФедерального закона \"О внесении изменений в Федеральный закон\r\"О государственном регулировании производства и оборота\rэтилового спирта, алкогольной и спиртосодержащей продукции и об\rограничении потребления (распития) алкогольной продукции\" и\rотдельные законодательные акты Российской Федерации\"",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149576-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34449,
+      "number": "149574-8",
+      "name": "О внесении изменений в Федеральный закон \"О приватизации государственного и муниципального имущества\"",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149574-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34448,
+      "number": "149518-8",
+      "name": "О внесении изменений в статьи 166-1 и 236-1 Бюджетного кодекса Российской Федерации",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149518-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34447,
+      "number": "149503-8",
+      "name": "О внесении изменений в статьи 23 и 28 Федерального закона \"О безопасности дорожного движения\" и статью 10 Федерального закона \"О персональных данных\"",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149503-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34446,
+      "number": "149478-8",
+      "name": "О ратификации Протокола о прекращении действия Соглашения\rо взаимном обеспечении сохранности межгосударственных секретов\rв области правовой охраны изобретений от 4 июня 1999 года",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149478-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34445,
+      "number": "149476-8",
+      "name": "О внесении изменений в статью 8 Федерального закона \"Об основах государственного регулирования торговой деятельности в Российской Федерации\"",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149476-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34444,
+      "number": "149475-8",
+      "name": "О внесении изменений в статью 45 Федерального закона \"О прокуратуре Российской Федерации\" и статью 36  Федерального закона \"О Следственном комитете Российской Федерации\"",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149475-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6230800,
+            "name": "Правительство РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34443,
+      "number": "149339-8",
+      "name": "О внесении изменений в Федеральный закон \"О виноградарстве и виноделии в Российской Федерации\"",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149339-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [
+          {
+            "id": "99107515",
+            "name": "Бекетов Владимир Андреевич",
+            "position": "Член СФ",
+            "isCurrent": true
+          },
+          {
+            "id": "99111700",
+            "name": "Васильев Валерий Николаевич",
+            "position": "Член СФ",
+            "isCurrent": false
+          },
+          {
+            "id": "99112635",
+            "name": "Кондратенко Алексей Николаевич",
+            "position": "Член СФ",
+            "isCurrent": false
+          }
+        ],
+        "departments": [],
+        "factions": []
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34442,
+      "number": "149255-8",
+      "name": "О внесении изменений в Кодекс Российской Федерации об административных правонарушениях",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149255-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [
+          {
+            "id": "99100784",
+            "name": "Аксаков Анатолий Геннадьевич",
+            "position": "Депутат ГД",
+            "isCurrent": false
+          }
+        ],
+        "departments": [],
+        "factions": [
+          {
+            "id": "72100029",
+            "name": "Фракция Социалистической политической партии \"СПРАВЕДЛИВАЯ РОССИЯ - ПАТРИОТЫ - ЗА ПРАВДУ\""
+          }
+        ]
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 34441,
+      "number": "149100-8",
+      "name": "О внесении изменения в Федеральный закон \"О гражданстве Российской Федерации\" в части упрощения процедуры приема в гражданство Российской Федерации иностранных граждан",
+      "comments": null,
+      "introductionDate": "2022-06-22",
+      "url": "http://sozd.parlament.gov.ru/bill/149100-8",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 1,
+          "name": "Внесение законопроекта в Государственную Думу"
+        },
+        "phase": {
+          "id": 1,
+          "name": "Регистрация законопроекта и материалов к нему в САДД Государственной Думы"
+        },
+        "solution": null,
+        "date": "2022-06-22",
+        "document": null
+      },
+      "subject": {
+        "deputies": [
+          {
+            "id": "99110045",
+            "name": "Бабаков Александр Михайлович",
+            "position": "Депутат ГД",
+            "isCurrent": false
+          },
+          {
+            "id": "99107891",
+            "name": "Миронов Сергей Михайлович",
+            "position": "Депутат ГД",
+            "isCurrent": false
+          },
+          {
+            "id": "99100759",
+            "name": "Семигин Геннадий Юрьевич",
+            "position": "Депутат ГД",
+            "isCurrent": false
+          }
+        ],
+        "departments": [],
+        "factions": [
+          {
+            "id": "72100029",
+            "name": "Фракция Социалистической политической партии \"СПРАВЕДЛИВАЯ РОССИЯ - ПАТРИОТЫ - ЗА ПРАВДУ\""
+          }
+        ]
+      },
+      "committees": {
+        "responsible": null,
+        "profile": [],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 21931,
+      "number": "481943-6",
+      "name": "О внесении изменений в статьи 171, 172, 346.1, 346.3 и 346.5 части второй Налогового кодекса Российской Федерации",
+      "comments": "о применении налога на добавленную стоимость плательщиками единого сельскохозяйственного налога",
+      "introductionDate": null,
+      "url": "http://sozd.parlament.gov.ru/bill/481943-6",
+      "transcriptUrl": "http://api.duma.gov.ru/api/transcript/481943-6",
+      "lastEvent": {
+        "stage": {
+          "id": 3,
+          "name": "Рассмотрение законопроекта в первом чтении"
+        },
+        "phase": {
+          "id": 8,
+          "name": "Рассмотрение законопроекта Государственной Думой"
+        },
+        "solution": "отклонить законопроект",
+        "date": "2016-02-19",
+        "document": {
+          "name": "8358-6 ГД",
+          "type": "Постановление ГД"
+        }
+      },
+      "subject": {
+        "deputies": [
+          {
+            "id": "99112231",
+            "name": "Богомаз Александр Васильевич",
+            "position": "Депутат ГД",
+            "isCurrent": false
+          }
+        ],
+        "departments": [],
+        "factions": []
+      },
+      "committees": {
+        "responsible": {
+          "id": 6276700,
+          "name": "Комитет ГД по бюджету и налогам",
+          "isCurrent": true,
+          "startDate": "2000-01-18",
+          "endDate": null
+        },
+        "profile": [
+          {
+            "id": 6276700,
+            "name": "Комитет ГД по бюджету и налогам",
+            "isCurrent": true,
+            "startDate": "2000-01-18",
+            "endDate": null
+          }
+        ],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 38,
+        "name": "Федеральный закон"
+      }
+    },
+    {
+      "id": 25023,
+      "number": "7902-3",
+      "name": "О внесении изменения и дополнения в Федеральный конституционный закон \"О военных судах Российской Федерации\"",
+      "comments": null,
+      "introductionDate": null,
+      "url": "http://sozd.parlament.gov.ru/bill/7902-3",
+      "transcriptUrl": null,
+      "lastEvent": {
+        "stage": {
+          "id": 3,
+          "name": "Рассмотрение законопроекта в первом чтении"
+        },
+        "phase": {
+          "id": 7,
+          "name": "Рассмотрение Советом Государственной Думы законопроекта, представленного ответственным комитетом"
+        },
+        "solution": "снять законопроект с рассмотрения Государственной Думы в связи с отзывом субъектом права законодательной инициативы",
+        "date": "2013-09-19",
+        "document": {
+          "name": "116",
+          "type": "Протокол заседания Совета ГД"
+        }
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6231000,
+            "name": "Верховный Суд РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": {
+          "id": 6276900,
+          "name": "Комитет ГД по государственному строительству",
+          "isCurrent": false,
+          "startDate": "2000-01-18",
+          "endDate": "2003-12-28"
+        },
+        "profile": [
+          {
+            "id": 6276900,
+            "name": "Комитет ГД по государственному строительству",
+            "isCurrent": false,
+            "startDate": "2000-01-18",
+            "endDate": "2003-12-28"
+          }
+        ],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 39,
+        "name": "Федеральный конституционный закон"
+      }
+    },
+    {
+      "id": 25007,
+      "number": "7886-3",
+      "name": "О федеральных административных судах в Российской Федерации",
+      "comments": null,
+      "introductionDate": null,
+      "url": "http://sozd.parlament.gov.ru/bill/7886-3",
+      "transcriptUrl": "http://api.duma.gov.ru/api/transcript/7886-3",
+      "lastEvent": {
+        "stage": {
+          "id": 4,
+          "name": "Рассмотрение законопроекта во втором чтении"
+        },
+        "phase": {
+          "id": 11,
+          "name": "Рассмотрение законопроекта Государственной Думой"
+        },
+        "solution": "отклонить законопроект и снять с дальнейшего рассмотрения",
+        "date": "2013-06-11",
+        "document": {
+          "name": "2358-6 ГД",
+          "type": "Постановление ГД"
+        }
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6231000,
+            "name": "Верховный Суд РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": {
+          "id": 8633400,
+          "name": "Комитет ГД по конституционному законодательству и государственному строительству",
+          "isCurrent": false,
+          "startDate": "2003-12-29",
+          "endDate": "2016-10-04"
+        },
+        "profile": [
+          {
+            "id": 6276900,
+            "name": "Комитет ГД по государственному строительству",
+            "isCurrent": false,
+            "startDate": "2000-01-18",
+            "endDate": "2003-12-28"
+          }
+        ],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 39,
+        "name": "Федеральный конституционный закон"
+      }
+    },
+    {
+      "id": 10399,
+      "number": "7900-3",
+      "name": "О внесении дополнений в Федеральный конституционный закон \"О судебной системе Российской Федерации\"",
+      "comments": "в части образования административных судов",
+      "introductionDate": null,
+      "url": "http://sozd.parlament.gov.ru/bill/7900-3",
+      "transcriptUrl": "http://api.duma.gov.ru/api/transcript/7900-3",
+      "lastEvent": {
+        "stage": {
+          "id": 4,
+          "name": "Рассмотрение законопроекта во втором чтении"
+        },
+        "phase": {
+          "id": 11,
+          "name": "Рассмотрение законопроекта Государственной Думой"
+        },
+        "solution": "отклонить законопроект и снять с дальнейшего рассмотрения",
+        "date": "2013-06-11",
+        "document": {
+          "name": "2357-6 ГД",
+          "type": "Постановление ГД"
+        }
+      },
+      "subject": {
+        "deputies": [],
+        "departments": [
+          {
+            "id": 6231000,
+            "name": "Верховный Суд РФ",
+            "isCurrent": true,
+            "startDate": "1994-01-01",
+            "endDate": null
+          }
+        ],
+        "factions": []
+      },
+      "committees": {
+        "responsible": {
+          "id": 8633400,
+          "name": "Комитет ГД по конституционному законодательству и государственному строительству",
+          "isCurrent": false,
+          "startDate": "2003-12-29",
+          "endDate": "2016-10-04"
+        },
+        "profile": [
+          {
+            "id": 6276900,
+            "name": "Комитет ГД по государственному строительству",
+            "isCurrent": false,
+            "startDate": "2000-01-18",
+            "endDate": "2003-12-28"
+          }
+        ],
+        "soexecutor": []
+      },
+      "type": {
+        "id": 39,
+        "name": "Федеральный конституционный закон"
+      }
+    }
+  ]
+}

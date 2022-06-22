@@ -127,8 +127,9 @@ class DeputiesFragment: BaseFragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 val viewModel: DeputiesViewModel by viewModels() { viewModelFactory }
-                viewModel.isLoading.collect { value ->
-                    visibleProgress(value)
+                viewModel.isLoading.collect { isInProgress ->
+                    visibleProgress(isInProgress)
+                    showList(!isInProgress)
                 }
             }
         }
@@ -174,14 +175,30 @@ class DeputiesFragment: BaseFragment() {
                         .append(". ")
                         .append(result.msg)
                         .toString()
-                    showError(error)
+                    showError(requireActivity().findViewById(R.id.nav_view), error)
                 }
                 is Response.Error.Exception -> {
                     Log.e(App.TAG, getString(R.string.unknown_error), result.error)
-                    showError(getString(R.string.unknown_error))
+                    showError(requireActivity().findViewById(R.id.deputiesNoData), getString(R.string.unknown_error))
                 }
             }
+
+
         }
     }
 
+    fun showList(show: Boolean) {
+        if (show) {
+            if (binding.list.adapter?.itemCount == 0) {
+                binding.deputiesNoData.visibility = View.VISIBLE
+                binding.list.visibility = View.GONE
+            } else {
+                binding.deputiesNoData.visibility = View.GONE
+                binding.list.visibility = View.VISIBLE
+            }
+        } else {
+            binding.deputiesNoData.visibility = View.GONE
+            binding.list.visibility = View.GONE
+        }
+    }
 }

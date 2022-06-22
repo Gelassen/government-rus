@@ -16,31 +16,21 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import ru.home.government.TestApplication
-import ru.home.government.di.*
-import ru.home.government.di.fakes.FakeRepository
-import ru.home.government.di.modules.AppModule
+import ru.home.government.BaseApiTest
 import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.idlingresource.DataBindingIdlingResource
 import ru.home.government.idlingresource.monitorActivity
+import ru.home.government.model.Committees
+import ru.home.government.model.LastEvent
 import ru.home.government.model.Law
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.robots.LawDetailsRobot
-import ru.home.government.stubs.Stubs.ApiResponse.getAnotherPositiveSingleLawResponse
-import ru.home.government.stubs.Stubs.ApiResponse.getAnotherPositiveWithPayloadVotesByLawResponse
-import ru.home.government.stubs.Stubs.ApiResponse.getPositiveButIncompleteSingleLawServerResponse
-import ru.home.government.stubs.Stubs.ApiResponse.getPositiveSingleLawServerResponse
-import ru.home.government.stubs.Stubs.ApiResponse.getPositiveSingleLawWithDeputiesServerResponse
-import ru.home.government.stubs.Stubs.ApiResponse.getPositiveWithPayloadVotesBylawResponse
 import javax.inject.Inject
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class LawDetailsFragmentTest {
-
-    @Inject
-    lateinit var repository: GovernmentRepository
+class LawDetailsFragmentTest : BaseApiTest() {
 
     lateinit var dataProvider: LawDataProvider
 
@@ -48,36 +38,84 @@ class LawDetailsFragmentTest {
 
     private val dataBindingIdlingResource = DataBindingIdlingResource()
 
+    object Const {
+        const val idxBillWithoutDeputies = 0
+        const val idxBillWithDeputies = 3
+    }
+
     @Before
-    fun setUp() {
+    override fun setUp() {
+        super.setUp()
         IdlingRegistry.getInstance().register(NetworkIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().register(dataBindingIdlingResource)
 
-        dataProvider = LawDataProvider(withContext())
-
-        val application = InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TestApplication
-        application.component = DaggerTestApplicationComponent
-            .builder()
-            .testAppModule(TestAppModule(application))
-            .testCustomNetworkModule(TestCustomNetworkModule())
-            .testRepositoryModule(TestRepositoryModule(application))
-            .build()
-
-        (application
-            .getComponent() as TestApplicationComponent)
-            .inject(this)
+        dataProvider = LawDataProvider(appContext)
     }
 
     @After
-    fun tearDown() {
+    override fun tearDown() {
+        super.tearDown()
         IdlingRegistry.getInstance().unregister(NetworkIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
     }
 
     @Test
-    fun onStart_withPositiveScenarioAndFullData_seeData() {
-        (repository as FakeRepository).setPositiveLawByNumberResponse()
-        val input = getPositiveSingleLawServerResponse().laws.get(0)!!
+    fun onStart_withServerErrorResponse_seesPlaceholders() {
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billSpecificApi.setBill149922_8ServerErrorResponse()
+        dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
+        val activityScenario = startActivityScenario(input)
+        dataBindingIdlingResource.monitorActivity(activityScenario!!)
+
+        robot
+            .withContext(ApplicationProvider.getApplicationContext())
+            .seesTitle("")
+            .seesIntroducedDate(dataProvider.provideFormattedIntroducedDate(""))
+            .seesUpdateDate(dataProvider.provideLastEventDate(LastEvent()))
+            .seesResolution(dataProvider.provideFormattedResolution(""))
+            .doesNotSeeDeputies()
+            .seesResponsible(dataProvider.provideResponsibleCommittee(Committees()))
+            .seesLastEvent(dataProvider.provideLastEventData(LastEvent()))
+            .seesErrorMessage(appContext)
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun onStart_withVotesServerErrorResponse_seesPlaceholderWithErrorView() {
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
+        dispatcher.getApiResponse().billSpecificVotesApi.setBillVotesServerErrorResponse()
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
+        val activityScenario = startActivityScenario(input)
+        dataBindingIdlingResource.monitorActivity(activityScenario!!)
+
+        robot
+            .withContext(ApplicationProvider.getApplicationContext())
+            .seesTitle(input.name)
+            .seesIntroducedDate(dataProvider.provideFormattedIntroducedDate(input.introductionDate))
+            .seesUpdateDate(dataProvider.provideLastEventDate(input.lastEvent))
+            .seesResolution(dataProvider.provideFormattedResolution(input.lastEvent.solution as String?))
+            .doesNotSeeDeputies()
+            .seesResponsible(dataProvider.provideResponsibleCommittee(input.committees))
+            .seesLastEvent(dataProvider.provideLastEventData(input.lastEvent))
+            .openLawVotesPages()
+            .seesVotesPlaceholder()
+            .seesErrorMessage(appContext)
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun onStart_withPositiveScenarioAndFullData_seesData() {
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
+        dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -96,8 +134,11 @@ class LawDetailsFragmentTest {
 
     @Test
     fun onStart_withPositiveScenarioAndIncompleteData_seesData() {
-        (repository as FakeRepository).setPositiveButIncompleteLawByNumberResponse()
-        val input = getPositiveButIncompleteSingleLawServerResponse().laws.get(0)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billSpecificApi.setBillWithDeputiesResponse()
+        dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -116,8 +157,11 @@ class LawDetailsFragmentTest {
 
     @Test
     fun onStart_withPositiveResponseAndOpenDeputiesScreen_seesDeputies() {
-        (repository as FakeRepository).setPositiveWithDeputiesLawByNumberResponse()
-        val input = getPositiveSingleLawWithDeputiesServerResponse().laws.get(0)!!
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billSpecificApi.setBillWithDeputiesResponse()
+        dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -136,8 +180,11 @@ class LawDetailsFragmentTest {
 
     @Test
     fun onOpenDetailsPage_withPositiveResponse_seesOverviewPage() {
-        (repository as FakeRepository).setPositiveLawByNumberResponse()
-        val input = getPositiveSingleLawServerResponse().laws.get(0)!!
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
+        dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -152,25 +199,30 @@ class LawDetailsFragmentTest {
 
     @Test
     fun onOpenVotesPage_withPositiveResponseAndOpenVotesPage_seesVotesPage() {
-        (repository as FakeRepository).setPositiveLawByNumberResponse()
-        (repository as FakeRepository).setPositiveWithPayloadVotesByLawResponse()
-        val votesFromResponse = getPositiveWithPayloadVotesBylawResponse()
-        val input = getPositiveSingleLawServerResponse().laws.get(0)!!
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
+        dispatcher.getApiResponse().billSpecificVotesApi.setBillVotesFullResponse()
+        val votesFull = dispatcher.getApiResponse().billSpecificVotesApi.getVotesFull()
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
         robot
             .withContext(ApplicationProvider.getApplicationContext())
             .openLawVotesPages()
-            .seesVotesCard(votesFromResponse.votes.get(0))
+            .seesVotesCard(votesFull)
 
         activityScenario.close()
     }
 
     @Test
     fun onOpenVotesPage_withPositiveButNoVotesResponse_seesVotesPageWithPlaceholder() {
-        (repository as FakeRepository).setPositiveLawByNumberResponse()
-        val input = getPositiveSingleLawServerResponse().laws.get(0)!!
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
+        dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -186,10 +238,12 @@ class LawDetailsFragmentTest {
     // test response on two different law ids
     @Test
     fun onOpenVotesPage_withPositiveResponseAndCheckTwoDifferentLaws_seesTwoDistinguishedLaws() {
-        (repository as FakeRepository).setPositiveLawByNumberResponse()
-        (repository as FakeRepository).setPositiveWithPayloadVotesByLawResponse()
-        val votesFromResponse = getPositiveWithPayloadVotesBylawResponse()
-        val input = getPositiveSingleLawServerResponse().laws.get(0)!!
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
+        dispatcher.getApiResponse().billSpecificVotesApi.setBillVotesFullResponse()
+        val votesFull = dispatcher.getApiResponse().billSpecificVotesApi.getVotesFull()
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -203,14 +257,16 @@ class LawDetailsFragmentTest {
                 .seesResponsible(dataProvider.provideResponsibleCommittee(input.committees))
                 .seesLastEvent(dataProvider.provideLastEventData(input.lastEvent))
                 .openLawVotesPages()
-                .seesVotesCard(votesFromResponse.votes.get(0))
+                .seesVotesCard(votesFull)
 
         activityScenario.close()
 
-        (repository as FakeRepository).setPositiveAnotherLawByNumberResponse()
-        (repository as FakeRepository).setPositiveWithPayloadAnotherVotesByLawResponse()
-        val anotherVotesFromResponse = getAnotherPositiveWithPayloadVotesByLawResponse()
-        val anotherInput = getAnotherPositiveSingleLawResponse().laws.get(0)!!
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billSpecificApi.setBillWithDeputiesResponse()
+        dispatcher.getApiResponse().billSpecificVotesApi.setBillVotesFull2ndResponse()
+        val anotherVotesFull = dispatcher.getApiResponse().billSpecificVotesApi.getVotesFull2nd()
+        val anotherInput = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithDeputies)
         val anotherActivityScenario = startActivityScenario(anotherInput)
         dataBindingIdlingResource.monitorActivity(anotherActivityScenario!!)
 
@@ -220,25 +276,21 @@ class LawDetailsFragmentTest {
                 .seesIntroducedDate(dataProvider.provideFormattedIntroducedDate(anotherInput.introductionDate))
                 .seesUpdateDate(dataProvider.provideLastEventDate(anotherInput.lastEvent))
                 .seesResolution(dataProvider.provideFormattedResolution(anotherInput.lastEvent.solution as String?))
-                .doesNotSeeDeputies()
+                .seesDeputies()
                 .seesResponsible(dataProvider.provideResponsibleCommittee(anotherInput.committees))
                 .seesLastEvent(dataProvider.provideLastEventData(anotherInput.lastEvent))
                 .openLawVotesPages()
-                .seesVotesCard(anotherVotesFromResponse.votes.get(0))
+                .seesVotesCard(anotherVotesFull)
 
         anotherActivityScenario.close()
 
         assertNotEquals(anotherInput.id, input.id)
-        assertNotEquals(anotherVotesFromResponse.votes.get(0).forCount, votesFromResponse.votes.get(0).forCount)
+        assertNotEquals(anotherVotesFull.forCount, votesFull.forCount)
     }
 
-
-    // test response on server error
+    // TODO test case with empty specific bill response
+    // TODO test case with web url loaded
     // test with load webpage as idle resource
-
-    private fun withContext(): Context {
-        return InstrumentationRegistry.getInstrumentation().targetContext!!
-    }
 
     private fun startActivityScenario(law: Law): ActivityScenario<DetailsActivity>? {
         val intent = Intent(ApplicationProvider.getApplicationContext(), DetailsActivity::class.java)
