@@ -14,12 +14,14 @@ class MockApiResponse(context: Context) {
     val billsApi: BillsApi
     val billSpecificApi: BillSpecificApi
     val billSpecificVotesApi : BillSpecificVotesApi
+    val billsSearchApi: BillsSearchApi
 
     init {
         deputiesApi = DeputiesApi(context)
         billsApi = BillsApi(context)
         billSpecificApi = BillSpecificApi(context)
         billSpecificVotesApi = BillSpecificVotesApi(context)
+        billsSearchApi = BillsSearchApi(context)
     }
 
     // TODO remove context from methods parameters when context is passed over class constructor
@@ -205,5 +207,45 @@ class MockApiResponse(context: Context) {
             val votesResponse = Gson().fromJson(json, VotesResponse::class.java)
             return votesResponse.votes.first()
         }
+    }
+
+    class BillsSearchApi(val context: Context): BaseApi(context) {
+
+        private var secondPageResponse: MockResponse = getDefault(context)
+
+        fun get2ndPageResponse(): MockResponse {
+            return secondPageResponse
+        }
+
+        override fun getDefault(context: Context): MockResponse {
+            return MockResponse()
+                .setResponseCode(200)
+                .setBody(getMessage(context, "mocks/mock_api_search_positive_page_1.json"))
+        }
+
+        fun setBillsSearchPositive1stPageResponse() {
+            res = MockResponse()
+                .setResponseCode(200)
+                .setBody(getMessage(context, "mocks/mock_api_search_positive_page_1.json"))
+        }
+
+        fun setBillsSearchPositive2stPageResponse() {
+            secondPageResponse = MockResponse()
+                .setResponseCode(200)
+                .setBody(getMessage(context, "mocks/mock_api_search_positive_page_2.json"))
+        }
+
+        fun setBillsSearchEmptyResponse() {
+            res = MockResponse()
+                .setResponseCode(200)
+                .setBody(getMessage(context, "mocks/mock_api_search_empty.json"))
+        }
+
+        fun setServerErrorResponse() {
+            res = MockResponse()
+                .setResponseCode(500)
+                .setBody("{}")
+        }
+
     }
 }
