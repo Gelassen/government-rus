@@ -65,12 +65,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/lawDateContainer"
+            android:ellipsize="end"
+            android:paddingStart="16dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
-            android:paddingStart="16dp"
-            android:textColor="@color/colorWhite"
-            android:ellipsize="end"
             android:text="@{lawData.name}"
+            android:textColor="@color/colorWhite"
             tools:text="О внесении изменений в статьи 346-43 и 346-51 части второй Налогового кодекса Российской Федерации" />
 
         <TextView

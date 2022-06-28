@@ -12,7 +12,12 @@ import ru.home.government.matchers.CustomMatchers
 abstract class BaseRobot {
 
     open fun doesNotSeeListItems(): BaseRobot {
-        seesListItems(0)
+        seesListItems(resId = R.id.list, count = 0)
+        return this
+    }
+
+    open fun doesNotSeeListItems(resId: Int): BaseRobot {
+        seesListItems(resId = resId, count = 0)
         return this
     }
 

@@ -7,6 +7,7 @@ import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
@@ -103,20 +104,43 @@ class LawsFilteredFragment: BaseFragment(),
                 visibleProgress(false)
                 try {
                     (binding.listLawsFiltered.adapter as LawsAdapter).submitData(it)
-                    if ((binding.listLawsFiltered.adapter as LawsAdapter).itemCount == 0) {
-                        binding.lawsNoData.visibility = View.VISIBLE
-                        binding.listLawsFiltered.visibility = View.GONE
-                    } else {
-                        binding.lawsNoData.visibility = View.GONE
-                        binding.listLawsFiltered.visibility = View.VISIBLE
-                    }
                 } catch (ex: Exception) {
                     Log.e(App.TAG, "Search job exception", ex)
                 }
 
             }
         }
+        lifecycleScope.launch {
+            (binding.listLawsFiltered.adapter as LawsAdapter).loadStateFlow.collectLatest { loadState ->
+                when (loadState.refresh) {
+                    is LoadState.Loading -> {
+                        // no op
+                    }
+                    is LoadState.Error -> {
+                        visibleProgress(false)
+                        showNoDataView()
+                        showError(requireActivity().findViewById(R.id.nav_view), (loadState.refresh as LoadState.Error).error.localizedMessage)
+                    }
+                    is LoadState.NotLoading -> {
+                        visibleProgress(false)
+                        showNoDataView()
+                    }
+                }
+            }
+        }
 
+    }
+
+    private fun showNoDataView() {
+        if ((binding.listLawsFiltered.adapter as LawsAdapter).itemCount == 0) {
+            Log.d(App.TAG, "No items for search")
+            binding.lawsNoData.visibility = View.VISIBLE
+            binding.listLawsFiltered.visibility = View.GONE
+        } else {
+            Log.d(App.TAG, "There is items for search")
+            binding.lawsNoData.visibility = View.GONE
+            binding.listLawsFiltered.visibility = View.VISIBLE
+        }
     }
 
 }

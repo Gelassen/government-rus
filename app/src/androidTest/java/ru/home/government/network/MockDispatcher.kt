@@ -19,8 +19,8 @@ class MockDispatcher(val context: Context) : Dispatcher() {
         const val BILL_SPECIFIC_149604_8  = "GET /api/35b04d9a9344a1befc4c95f519b279a9a738cf28/search.json?app_token=appa409190224f66043f299efe0d5647f7a5adb2039&number=149604-8 HTTP/1.1"
         const val BILL_149604_8_VOTES = "GET /api/35b04d9a9344a1befc4c95f519b279a9a738cf28/voteSearch.json?app_token=appa409190224f66043f299efe0d5647f7a5adb2039&number=149604-8 HTTP/1.1"
 
-        const val BILLS_SEARCH_PAGE_1 = "GET /api/35b04d9a9344a1befc4c95f519b279a9a738cf28/search.json?app_token=appa409190224f66043f299efe0d5647f7a5adb2039&page=1&name=суд HTTP/1.1"
-        const val BILLS_SEARCH_PAGE_2 = "GET /api/35b04d9a9344a1befc4c95f519b279a9a738cf28/search.json?app_token=appa409190224f66043f299efe0d5647f7a5adb2039&page=2&name=суд HTTP/1.1"
+        const val BILLS_SEARCH_PAGE_1 = "GET /api/35b04d9a9344a1befc4c95f519b279a9a738cf28/search.json?app_token=appa409190224f66043f299efe0d5647f7a5adb2039&page=1&name=%D1%81%D1%83%D0%B4 HTTP/1.1"
+        const val BILLS_SEARCH_PAGE_2 = "GET /api/35b04d9a9344a1befc4c95f519b279a9a738cf28/search.json?app_token=appa409190224f66043f299efe0d5647f7a5adb2039&page=2&name=%D1%81%D1%83%D0%B4 HTTP/1.1"
         const val BILLS_SEARCH_EMPTY  = "GET /api/35b04d9a9344a1befc4c95f519b279a9a738cf28/search.json?app_token=appa409190224f66043f299efe0d5647f7a5adb2039&page=1&name=med HTTP/1.1"
     }
 

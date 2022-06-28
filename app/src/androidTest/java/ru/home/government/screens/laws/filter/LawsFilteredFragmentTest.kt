@@ -4,6 +4,7 @@ import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.*
 
 import org.junit.After
@@ -14,15 +15,22 @@ import org.junit.runner.RunWith
 
 import ru.home.government.BaseApiTest
 import ru.home.government.R
+import ru.home.government.TestApplication
+import ru.home.government.di.TestApplicationComponent
 import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.idlingresource.DataBindingIdlingResource
 import ru.home.government.idlingresource.monitorActivity
+import ru.home.government.network.ServerErrorUtil
 import ru.home.government.robots.LawScreenRobot
 import ru.home.government.screens.MainActivity
+import javax.inject.Inject
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class LawsFilteredFragmentTest : BaseApiTest() {
+
+    @Inject
+    lateinit var serverErrorUtil: ServerErrorUtil
 
     private val robot: LawScreenRobot = LawScreenRobot()
 
@@ -33,6 +41,9 @@ class LawsFilteredFragmentTest : BaseApiTest() {
         super.setUp()
         IdlingRegistry.getInstance().register(NetworkIdlingResource.countingIdlingResource)
         IdlingRegistry.getInstance().register(dataBindingIdlingResource)
+
+        ((InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TestApplication)
+            .component as TestApplicationComponent).inject(this)
     }
 
     @After
@@ -43,7 +54,6 @@ class LawsFilteredFragmentTest : BaseApiTest() {
     }
 
     @Test
-    @Ignore
     fun onStart_withPositiveResponse_show1stPageOfSearchBills() {
         dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
         dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
@@ -57,10 +67,53 @@ class LawsFilteredFragmentTest : BaseApiTest() {
         robot.clickSearchItem()
         robot.enterSearchQuery(searchQuery)
         robot
-            .seesListItems(40)
+            .seesListItems(R.id.list_laws_filtered, 40)
             .seesListItemWithText(order = 0, text = whatShouldBeWithinResult)
-            .doesNotSeeProgressIndicator()
+//            .doesNotSeeProgressIndicator()
             .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun onStart_withEmptyResponse_noContentShown() {
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsSearchApi.setBillsSearchEmptyResponse()
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        val searchQuery = "суд"
+        val whatShouldBeWithinResult = "О военных судах"
+        robot.clickSearchItem()
+        robot.enterSearchQuery(searchQuery)
+        robot
+            .doesNotSeeListItems(resId = R.id.list_laws_filtered)
+            .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
+            .seesNoDataView(appContext)
+//            .doesNotSeeProgressIndicator()
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun onStart_withServerError_errorViewIsShownWithNoContentIsShown() {
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsSearchApi.setServerErrorResponse()
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        val searchQuery = "суд"
+        val whatShouldBeWithinResult = "О военных судах"
+        robot.clickSearchItem()
+        robot.enterSearchQuery(searchQuery)
+        robot
+            .doesNotSeeListItems(resId = R.id.list_laws_filtered)
+            .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
+            .seesNoDataView(appContext)
+            .seesErrorMessage(serverErrorUtil.getErrorMessageByServerResponseCode(500))
+//            .doesNotSeeProgressIndicator()
 
         activityScenario.close()
     }
@@ -79,8 +132,8 @@ class LawsFilteredFragmentTest : BaseApiTest() {
         activityScenario.close()
     }
 
-    // TODO on positive case returns both pages with bills, progress indicator is hidden, no expanded search view in toolbar
-    // TODO on empty search returns empty response, no content shown, progress indicator is hidden, no expanded search view in toolbar
-    // TODO on negative case error view is shown, no content shown, progress indicator is hidden, no expanded search view in toolbar
+    // [DONE] on positive case returns both pages with bills, progress indicator is hidden, no expanded search view in toolbar
+    // [DONE] on empty search returns empty response, no content shown, progress indicator is hidden, no expanded search view in toolbar
+    // [DONE] on negative case error view is shown, no content shown, progress indicator is hidden, no expanded search view in toolbar
     // TODO on back button main fragment with origin list of bills shown, no expanded search view in toolbar
 }

@@ -3,26 +3,28 @@ package ru.home.government.robots
 import android.content.Context
 import android.view.KeyEvent
 import android.widget.EditText
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
+import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matchers
 import org.hamcrest.core.IsNot.not
+import org.hamcrest.core.StringContains.containsString
 import ru.home.government.R
-import ru.home.government.matchers.CustomMatchers
-import ru.home.government.robots.Utils.atPosition
+import ru.home.government.robots.Utils.atPositionByTitle
 import ru.home.government.screens.laws.main.LawsAdapter
 
 class LawScreenRobot : BaseRobot(){
 
     override fun doesNotSeeListItems(): LawScreenRobot {
         return super.doesNotSeeListItems() as LawScreenRobot
+    }
+
+    override fun doesNotSeeListItems(resId: Int): LawScreenRobot {
+        return super.doesNotSeeListItems(resId) as LawScreenRobot
     }
 
     override fun doesNotSeeProgressIndicator(): LawScreenRobot {
@@ -35,6 +37,10 @@ class LawScreenRobot : BaseRobot(){
 
     override fun seesListItems(count: Int): LawScreenRobot {
         return super.seesListItems(count) as LawScreenRobot
+    }
+
+    override fun seesListItems(resId: Int, count: Int): LawScreenRobot {
+        return super.seesListItems(resId, count) as LawScreenRobot
     }
 
     fun seesErrorMessage(string: String): LawScreenRobot {
@@ -62,8 +68,8 @@ class LawScreenRobot : BaseRobot(){
     }
 
     fun seesNoDataView(targetContext: Context): LawScreenRobot {
-        onView(withId(R.id.lawsNoData))
-            .check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.lawsNoData), isDisplayed()))
+//            .check(matches(isDisplayed()))
             .check(matches(withText(targetContext.getString(R.string.laws_no_data_for_this_filter))))
         return this
     }
@@ -83,13 +89,14 @@ class LawScreenRobot : BaseRobot(){
         onView(withId(R.id.list_laws_filtered))
             .check(matches(isDisplayed()))
         onView(withId(R.id.list_laws_filtered))
-            .check(matches(atPosition(order, withText(text))))
+            .check(matches(atPositionByTitle(order, withText(containsString(text)))))
         return this
     }
 
     fun doesNotSeeExpandSearchView(text: String): LawScreenRobot {
         /* did not find a direct way to check expanded mode of search view, so check it by 2nd criteria */
         onView(isAssignableFrom(EditText::class.java))
+            .check(matches(not(isDisplayed())))
             .check(matches(not(withText(text))))
         return this
     }
