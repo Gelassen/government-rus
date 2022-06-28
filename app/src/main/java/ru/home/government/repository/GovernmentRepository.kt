@@ -62,7 +62,7 @@ open class GovernmentRepository(
             }
         )
             .flow
-            .attachIdlingResource()
+//            .attachIdlingResource()
     }
 
     open fun getLawByNumber(billNumber: String): Flow<Response<GovResponse>> {

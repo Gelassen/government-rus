@@ -9,6 +9,7 @@ import ru.home.government.model.Law
 import ru.home.government.network.IApi
 import ru.home.government.network.IApi.Const.PAGE_SIZE
 import ru.home.government.network.ServerErrorUtil
+import ru.home.government.util.wrapIdlingResource
 import java.io.IOException
 import java.lang.IllegalStateException
 
@@ -33,7 +34,7 @@ open class BillsPagingSource(
         try {
             val page = params.key ?: DEFAULT_START_PAGE
 
-            val response = execute(page)
+            val response = wrapIdlingResource { execute(page) }
             if (response.isSuccessful) {
                 val govResponse = response.body()
                 return LoadResult.Page(

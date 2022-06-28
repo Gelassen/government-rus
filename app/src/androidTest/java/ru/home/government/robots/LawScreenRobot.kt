@@ -13,8 +13,10 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.Matchers
+import org.hamcrest.core.IsNot.not
 import ru.home.government.R
 import ru.home.government.matchers.CustomMatchers
+import ru.home.government.robots.Utils.atPosition
 import ru.home.government.screens.laws.main.LawsAdapter
 
 class LawScreenRobot : BaseRobot(){
@@ -23,7 +25,7 @@ class LawScreenRobot : BaseRobot(){
         return super.doesNotSeeListItems() as LawScreenRobot
     }
 
-    override fun doesNotSeeProgressIndicator(): BaseRobot {
+    override fun doesNotSeeProgressIndicator(): LawScreenRobot {
         return super.doesNotSeeProgressIndicator() as LawScreenRobot
     }
 
@@ -77,6 +79,21 @@ class LawScreenRobot : BaseRobot(){
         return this
     }
 
+    fun seesListItemWithText(order: Int, text: String): LawScreenRobot {
+        onView(withId(R.id.list_laws_filtered))
+            .check(matches(isDisplayed()))
+        onView(withId(R.id.list_laws_filtered))
+            .check(matches(atPosition(order, withText(text))))
+        return this
+    }
+
+    fun doesNotSeeExpandSearchView(text: String): LawScreenRobot {
+        /* did not find a direct way to check expanded mode of search view, so check it by 2nd criteria */
+        onView(isAssignableFrom(EditText::class.java))
+            .check(matches(not(withText(text))))
+        return this
+    }
+
     /* actions */
 
     fun clickOnItem(idx: Int) {
@@ -98,6 +115,8 @@ class LawScreenRobot : BaseRobot(){
         onView(withId(R.id.searchView))
             .check(matches(isDisplayed()))
         onView(isAssignableFrom(EditText::class.java))
-            .perform(typeText(query), pressKey(KeyEvent.KEYCODE_ENTER))
+            .perform(replaceText(query))
+            .perform(pressKey(KeyEvent.KEYCODE_ENTER))
+            /*.perform(typeText(query), pressKey(KeyEvent.KEYCODE_ENTER)) // Unicode chars is not supported here */
     }
 }

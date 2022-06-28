@@ -48,16 +48,4 @@ class LawsFragmentTest : BaseApiTest() {
         IdlingRegistry.getInstance().unregister(dataBindingIdlingResource)
     }
 
-    @Test
-    @Ignore
-    fun onStart_withEnterSearchWordForPositiveCase_showsTwoItems() {
-        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
-        dataBindingIdlingResource.monitorActivity(activityScenario)
-
-        robot.clickSearchItem()
-        robot.enterSearchQuery("medicine")
-        robot.seesListItems(R.id.list_laws_filtered,2)
-
-        activityScenario.close()
-    }
 }

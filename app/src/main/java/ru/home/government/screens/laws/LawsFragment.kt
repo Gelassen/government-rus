@@ -72,6 +72,7 @@ class LawsFragment: BaseFragment() {
 
     private fun initActivityDependentViews() {
         search_view = requireActivity().findViewById<SimpleSearchView>(R.id.searchView)
+        search_view.isSearchOpen
         search_view.setOnQueryTextListener(object: SimpleSearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String): Boolean {

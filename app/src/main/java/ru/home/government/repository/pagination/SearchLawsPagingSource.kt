@@ -1,9 +1,12 @@
 package ru.home.government.repository.pagination
 
 import retrofit2.Response
+import ru.home.government.BuildConfig
+import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.model.GovResponse
 import ru.home.government.network.IApi
 import ru.home.government.network.ServerErrorUtil
+import ru.home.government.util.wrapIdlingResource
 
 class SearchLawsPagingSource(
     private val api: IApi,
@@ -16,4 +19,6 @@ class SearchLawsPagingSource(
     override suspend fun execute(page: Int): Response<GovResponse> {
         return api.getLawByNameV2(apiKey, apiAppToken, page, searchStr)
     }
+
+
 }
