@@ -2,10 +2,16 @@ package ru.home.government.robots
 
 import android.content.Context
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions
+import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matchers
+import org.hamcrest.core.IsNot.not
 import ru.home.government.R
 import ru.home.government.matchers.CustomMatchers
 
@@ -52,8 +58,14 @@ abstract class BaseRobot {
     }
 
     open fun doesNotSeeProgressIndicator(): BaseRobot {
-        Espresso.onView(ViewMatchers.withId(R.id.progressView))
-            .check(ViewAssertions.matches(CoreMatchers.not(ViewMatchers.isDisplayed())))
+        onView(allOf(withId(R.id.progressView)))
+            .check(matches(not(isDisplayed())))
         return this
+    }
+
+    /* actions */
+
+    fun pressBackButton() {
+        Espresso.pressBack()
     }
 }

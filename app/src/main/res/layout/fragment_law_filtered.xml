@@ -31,7 +31,9 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-        <include layout="@layout/layout_progress_view" />
+        <include
+            layout="@layout/layout_progress_view"
+            android:id="@+id/billsFilteredProgressIndicator"/>
 
     </FrameLayout>
 

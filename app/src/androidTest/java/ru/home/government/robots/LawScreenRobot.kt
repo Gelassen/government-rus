@@ -29,7 +29,9 @@ class LawScreenRobot : BaseRobot(){
     }
 
     override fun doesNotSeeProgressIndicator(): LawScreenRobot {
-        return super.doesNotSeeProgressIndicator() as LawScreenRobot
+        onView(allOf(withId(R.id.billsFilteredProgressIndicator)))
+            .check(matches(not(isDisplayed())))
+        return this
     }
 
     override fun seesErrorMessage(context: Context): LawScreenRobot {
@@ -128,7 +130,4 @@ class LawScreenRobot : BaseRobot(){
             /*.perform(typeText(query), pressKey(KeyEvent.KEYCODE_ENTER)) // Unicode chars is not supported here */
     }
 
-    fun pressBackButton() {
-        Espresso.pressBack()
-    }
 }

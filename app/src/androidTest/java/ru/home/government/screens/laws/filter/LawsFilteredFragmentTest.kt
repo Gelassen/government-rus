@@ -68,9 +68,9 @@ class LawsFilteredFragmentTest : BaseApiTest() {
         robot.clickSearchItem()
         robot.enterSearchQuery(searchQuery)
         robot
-            .seesListItems(R.id.list_laws_filtered, 40)
+            .seesListItems(resId = R.id.list_laws_filtered, count = 40)
             .seesListItemWithText(order = 0, text = whatShouldBeWithinResult)
-//            .doesNotSeeProgressIndicator()
+            .doesNotSeeProgressIndicator()
             .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
 
         activityScenario.close()
@@ -92,7 +92,7 @@ class LawsFilteredFragmentTest : BaseApiTest() {
             .doesNotSeeListItems(resId = R.id.list_laws_filtered)
             .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
             .seesNoDataView(appContext)
-//            .doesNotSeeProgressIndicator()
+            .doesNotSeeProgressIndicator()
 
         activityScenario.close()
     }
@@ -114,7 +114,7 @@ class LawsFilteredFragmentTest : BaseApiTest() {
             .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
             .seesNoDataView(appContext)
             .seesErrorMessage(serverErrorUtil.getErrorMessageByServerResponseCode(500))
-//            .doesNotSeeProgressIndicator()
+            .doesNotSeeProgressIndicator()
 
         activityScenario.close()
     }
@@ -135,28 +135,11 @@ class LawsFilteredFragmentTest : BaseApiTest() {
             .doesNotSeeListItems(resId = R.id.list_laws_filtered)
             .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
             .seesNoDataView(appContext)
-//            .doesNotSeeProgressIndicator()
+            .doesNotSeeProgressIndicator()
         robot.pressBackButton()
         robot.seesListItems(resId = R.id.list, 40)
 
         activityScenario.close()
     }
 
-    @Test
-    @Ignore
-    fun onStart_withEnterSearchWordForPositiveCase_showsTwoItems() {
-        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
-        dataBindingIdlingResource.monitorActivity(activityScenario)
-
-        robot.clickSearchItem()
-        robot.enterSearchQuery("medicine")
-        robot.seesListItems(R.id.list_laws_filtered,2)
-
-        activityScenario.close()
-    }
-
-    // [DONE] on positive case returns both pages with bills, progress indicator is hidden, no expanded search view in toolbar
-    // [DONE] on empty search returns empty response, no content shown, progress indicator is hidden, no expanded search view in toolbar
-    // [DONE] on negative case error view is shown, no content shown, progress indicator is hidden, no expanded search view in toolbar
-    // [DONE] on back button main fragment with origin list of bills shown, no expanded search view in toolbar
 }
