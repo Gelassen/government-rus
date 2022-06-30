@@ -1,6 +1,7 @@
 package ru.home.government.screens.laws.filter
 
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -83,8 +84,8 @@ class LawsFilteredFragmentTest : BaseApiTest() {
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
-        val searchQuery = "суд"
-        val whatShouldBeWithinResult = "О военных судах"
+        val searchQuery = "med"
+        val whatShouldBeWithinResult = "med"
         robot.clickSearchItem()
         robot.enterSearchQuery(searchQuery)
         robot
@@ -118,6 +119,28 @@ class LawsFilteredFragmentTest : BaseApiTest() {
         activityScenario.close()
     }
 
+    @Test
+    fun onStart_withOkResponsePressBackButton_seesPreviousListWIthBills() {
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsSearchApi.setBillsSearchEmptyResponse()
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        val searchQuery = "med"
+        val whatShouldBeWithinResult = "med"
+        robot.clickSearchItem()
+        robot.enterSearchQuery(searchQuery)
+        robot
+            .doesNotSeeListItems(resId = R.id.list_laws_filtered)
+            .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
+            .seesNoDataView(appContext)
+//            .doesNotSeeProgressIndicator()
+        robot.pressBackButton()
+        robot.seesListItems(resId = R.id.list, 40)
+
+        activityScenario.close()
+    }
 
     @Test
     @Ignore
@@ -135,5 +158,5 @@ class LawsFilteredFragmentTest : BaseApiTest() {
     // [DONE] on positive case returns both pages with bills, progress indicator is hidden, no expanded search view in toolbar
     // [DONE] on empty search returns empty response, no content shown, progress indicator is hidden, no expanded search view in toolbar
     // [DONE] on negative case error view is shown, no content shown, progress indicator is hidden, no expanded search view in toolbar
-    // TODO on back button main fragment with origin list of bills shown, no expanded search view in toolbar
+    // [DONE] on back button main fragment with origin list of bills shown, no expanded search view in toolbar
 }

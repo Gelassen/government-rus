@@ -115,6 +115,7 @@ class LawsFilteredFragment: BaseFragment(),
                 when (loadState.refresh) {
                     is LoadState.Loading -> {
                         // no op
+                        Log.d(App.TAG, "Filtered laws: LoadState.Loading")
                     }
                     is LoadState.Error -> {
                         visibleProgress(false)

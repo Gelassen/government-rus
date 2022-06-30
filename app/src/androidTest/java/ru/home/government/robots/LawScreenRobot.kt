@@ -3,6 +3,7 @@ package ru.home.government.robots
 import android.content.Context
 import android.view.KeyEvent
 import android.widget.EditText
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.*
@@ -125,5 +126,9 @@ class LawScreenRobot : BaseRobot(){
             .perform(replaceText(query))
             .perform(pressKey(KeyEvent.KEYCODE_ENTER))
             /*.perform(typeText(query), pressKey(KeyEvent.KEYCODE_ENTER)) // Unicode chars is not supported here */
+    }
+
+    fun pressBackButton() {
+        Espresso.pressBack()
     }
 }
