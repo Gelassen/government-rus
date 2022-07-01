@@ -51,6 +51,9 @@ android {
         unitTests.returnDefaultValues = true
         animationsDisabled = true
     }
+    lintOptions {
+        abortOnError false
+    }
     productFlavors {
         alfa {
 
@@ -116,14 +119,14 @@ dependencies {
     androidTestImplementation 'org.mockito:mockito-core:3.12.4'
     androidTestImplementation 'com.squareup.okhttp3:mockwebserver:4.10.0'
     /* DI */
-    implementation 'com.google.dagger:dagger:2.36'
-    implementation 'com.google.dagger:dagger-android-support:2.36'
+    implementation 'com.google.dagger:dagger:2.42'
+    implementation 'com.google.dagger:dagger-android-support:2.42'
     /* kapt */
     kapt 'androidx.room:room-compiler:2.4.2'
     kapt 'androidx.lifecycle:lifecycle-compiler:2.4.1'
-    kapt 'com.google.dagger:dagger-compiler:2.15'
+    kapt 'com.google.dagger:dagger-compiler:2.42'
     /* kapt android tests */
-    kaptAndroidTest 'com.google.dagger:dagger-compiler:2.15'
+    kaptAndroidTest 'com.google.dagger:dagger-compiler:2.42'
     /* others */
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
