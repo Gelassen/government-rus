@@ -43,7 +43,6 @@ class LawsAdapter(
         val item = getItem(position)
         holder.binding.lawData = item
         holder.itemView.setOnClickListener {
-            if (this.listener == null) return@setOnClickListener
             listener.onItemClick(item!!)
         }
         holder.binding.executePendingBindings()

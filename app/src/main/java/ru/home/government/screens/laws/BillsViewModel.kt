@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.home.government.App
@@ -71,6 +72,7 @@ class BillsViewModel
         = MutableStateFlow(Response.Data(GovResponse()))
     val trackedLaws: StateFlow<Response<GovResponse>> = _trackedLaws
 
+    @OptIn(FlowPreview::class)
     fun fetchedTrackedLaws() {
         val lawCodes = cacheRepository.lawCodes.toTypedArray()
         viewModelScope.launch {

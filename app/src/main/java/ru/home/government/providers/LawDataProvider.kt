@@ -27,20 +27,22 @@ class LawDataProvider(val context: Context) {
         shortDateFormat = SimpleDateFormat(SHORT_DATE_FORMAT, Locale.getDefault())
     }
 
-    fun dateAsLong(date: String?): Long {
-        return originDateFormat.parse(date).time
+    fun dateAsLong(date: String): Long {
+        return originDateFormat.parse(date)?.time ?: 0L
     }
 
-    fun provideFormattedShortDate(date: String?): String {
-        return shortDateFormat.format(originDateFormat.parse(date))
+    fun provideFormattedShortDate(date: String): String {
+        return originDateFormat.parse(date)?.let { shortDateFormat.format(it) }
+            ?: context.getString(R.string.placeholder_no_data)
     }
 
-    fun provideFormattedIntroducedDate(date: String?): String {
+    fun provideFormattedIntroducedDate(date: String): String {
         return String.format("${context.getString(R.string.title_introduced)} %s",
-            if (date.isNullOrEmpty()) {
+            if (date.isEmpty()) {
                 context.getString(R.string.placeholder_no_data)
             } else {
-                introducedDateFormat.format(originDateFormat.parse(date))
+                originDateFormat.parse(date)?.let { introducedDateFormat.format(it) }
+                    ?: context.getString(R.string.placeholder_no_data)
             }
         )
     }
@@ -55,7 +57,8 @@ class LawDataProvider(val context: Context) {
                 if (date.isNullOrEmpty()) {
                     context.getString(R.string.placeholder_no_data)
                 } else {
-                    introducedDateFormat.format(originDateFormat.parse(date))
+                    originDateFormat.parse(date)?.let { introducedDateFormat.format(it) }
+                        ?: context.getString(R.string.placeholder_no_data)
                 })
         }
 

@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import java.util.ArrayList
 
-class LawDetailsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class LawDetailsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val fragmentList: MutableList<Fragment> = ArrayList()
     private val fragmentTitleList: MutableList<String> = ArrayList()

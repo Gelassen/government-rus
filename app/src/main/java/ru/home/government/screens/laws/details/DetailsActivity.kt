@@ -14,8 +14,9 @@ import ru.home.government.R
 import ru.home.government.databinding.ActivityLawDetailsBinding
 import ru.home.government.model.Law
 import ru.home.government.repository.CacheRepository
+import ru.home.government.screens.BaseActivity
 
-class DetailsActivity : AppCompatActivity() {
+class DetailsActivity : BaseActivity() {
 
     companion object {
 
@@ -45,7 +46,7 @@ class DetailsActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val dr = ColorDrawable(resources.getColor(R.color.colorActionBar))
+        val dr = ColorDrawable(getApiSupportColor())
         supportActionBar!!.setBackgroundDrawable(dr)
 
         val viewPager = findViewById<View>(R.id.viewpager) as ViewPager

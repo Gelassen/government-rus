@@ -6,6 +6,7 @@ import ru.home.government.R
 
 abstract class BaseActivity: AppCompatActivity() {
 
+    @Suppress("DEPRECATION")
     protected fun getApiSupportColor(): Int {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             resources.getColor(R.color.colorActionBar, theme)

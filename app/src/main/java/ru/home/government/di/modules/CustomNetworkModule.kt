@@ -21,7 +21,7 @@ class CustomNetworkModule(val context: Context) {
 
     @Singleton
     @Provides
-    fun provideInterceptor(context: Context): Interceptor {
+    fun provideInterceptor(): Interceptor {
         return PlainInterceptor()
     }
 }

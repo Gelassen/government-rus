@@ -1,6 +1,8 @@
 package ru.home.government.di.modules;
 
 
+import android.annotation.SuppressLint;
+
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -18,6 +20,7 @@ public abstract class ViewModelModule {
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory viewModelFactory);
     //You are able to declare ViewModelProvider.Factory dependency in another module. For example in ApplicationModule.
 
+    @SuppressLint("UnsafeOptInUsageWarning")
     @Binds
     @IntoMap
     @ViewModelKey(DeputiesViewModel.class)

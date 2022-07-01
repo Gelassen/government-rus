@@ -4,6 +4,8 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import ru.home.government.R
 import ru.home.government.databinding.ActivityLawDeputiesBinding
 import ru.home.government.model.Deputy
@@ -25,6 +27,7 @@ class DeputiesOnLawActivity: BaseActivity() {
 
     private lateinit var binding: ActivityLawDeputiesBinding
 
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLawDeputiesBinding.inflate(layoutInflater)
