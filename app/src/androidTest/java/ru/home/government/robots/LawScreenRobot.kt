@@ -29,9 +29,7 @@ class LawScreenRobot : BaseRobot(){
     }
 
     override fun doesNotSeeProgressIndicator(): LawScreenRobot {
-        onView(allOf(withId(R.id.billsFilteredProgressIndicator)))
-            .check(matches(not(isDisplayed())))
-        return this
+        return super.doesNotSeeProgressIndicator() as LawScreenRobot
     }
 
     override fun seesErrorMessage(context: Context): LawScreenRobot {
@@ -44,6 +42,12 @@ class LawScreenRobot : BaseRobot(){
 
     override fun seesListItems(resId: Int, count: Int): LawScreenRobot {
         return super.seesListItems(resId, count) as LawScreenRobot
+    }
+
+    fun doesNotSeeProgressIndicator(resId: Int): LawScreenRobot {
+        onView(allOf(withId(resId)))
+            .check(matches(not(isDisplayed())))
+        return this
     }
 
     fun seesErrorMessage(string: String): LawScreenRobot {
