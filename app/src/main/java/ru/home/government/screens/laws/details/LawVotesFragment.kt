@@ -67,7 +67,7 @@ class LawVotesFragment: BaseFragment() {
         binding.lifecycleOwner = this
         binding.executePendingBindings()
 
-        val billsViewModel: BillsViewModel by viewModels() { viewModelFactory }
+        val billsViewModel: BillsViewModel by viewModels { viewModelFactory }
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -94,7 +94,7 @@ class LawVotesFragment: BaseFragment() {
                     val votesResponse = it.data
                     binding.votesResponse = votesResponse
                     binding.executePendingBindings()
-                    binding.voteDetails.setOnClickListener { it ->
+                    binding.voteDetails.setOnClickListener { _ ->
                         val intent = Intent(Intent.ACTION_VIEW)
                         intent.data = Uri.parse(
                                 String.format(

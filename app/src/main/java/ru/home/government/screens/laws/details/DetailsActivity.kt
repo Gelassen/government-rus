@@ -80,7 +80,7 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_top_law, menu)
         if (cacheRepository.isCodeInCache(lawCode)) {
-            val selected = 1;
+            val selected = 1
             menu.findItem(R.id.itemFav).icon.level = selected
         } else {
             val unselected = 0
@@ -92,7 +92,7 @@ class DetailsActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.itemFav -> {
-                val selected = 1;
+                val selected = 1
                 val unselected = 0
                 when(item.icon.level) {
                     selected -> {

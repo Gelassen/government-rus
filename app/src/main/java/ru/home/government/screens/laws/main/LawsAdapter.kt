@@ -23,8 +23,7 @@ class LawsAdapter(
 ) {
 
     constructor(mainDispatcher: CoroutineDispatcher, workerDispatcher: CoroutineDispatcher)
-            : this(LawComparator(), mainDispatcher, workerDispatcher) {
-    }
+            : this(LawComparator(), mainDispatcher, workerDispatcher)
 
     lateinit var listener: ClickListener
 

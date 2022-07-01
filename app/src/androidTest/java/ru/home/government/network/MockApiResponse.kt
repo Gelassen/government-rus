@@ -79,7 +79,7 @@ class MockApiResponse(context: Context) {
         private var secondPageResponse: MockResponse = getDefault(context)
 
         fun get2ndPageResponse(): MockResponse {
-            return secondPageResponse;
+            return secondPageResponse
         }
 
         override fun getDefault(context: Context): MockResponse {

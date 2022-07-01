@@ -43,6 +43,6 @@ abstract class BaseApiTest {
 
     protected fun toggleWiFiConnection(enable: Boolean) {
         val wifiManager = appContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        wifiManager.setWifiEnabled(enable)
+        wifiManager.isWifiEnabled = enable
     }
 }

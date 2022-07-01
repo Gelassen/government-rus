@@ -30,7 +30,7 @@ class DeputiesViewModel
     val isLoading: StateFlow<Boolean> = _isLoading
 
     fun init(application: AppApplication) {
-        application.getComponent().inject(this)
+        application.component.inject(this)
         // FIXME issue with canceled coroutine job
     }
 

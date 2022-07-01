@@ -73,7 +73,7 @@ class DeputiesFragment: BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDeputiesBinding.inflate(inflater, container, false)
-        return binding.root;
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -126,7 +126,7 @@ class DeputiesFragment: BaseFragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                val viewModel: DeputiesViewModel by viewModels() { viewModelFactory }
+                val viewModel: DeputiesViewModel by viewModels { viewModelFactory }
                 viewModel.isLoading.collect { isInProgress ->
                     visibleProgress(isInProgress)
                     showList(!isInProgress)
@@ -162,7 +162,7 @@ class DeputiesFragment: BaseFragment() {
 
     private suspend fun processDeputiesModel() {
         visibleProgress(true)
-        val viewModel: DeputiesViewModel by viewModels() { viewModelFactory }
+        val viewModel: DeputiesViewModel by viewModels { viewModelFactory }
         viewModel.deputies.collect { result ->
             when (result) {
                 is Response.Data -> {

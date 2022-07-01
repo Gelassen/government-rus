@@ -57,8 +57,8 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
         binding.list.addItemDecoration(dividerItemDecoration)
 
-        val codes = CacheRepository(requireActivity()).getLawCodes()
-        Log.d(App.TAG, "Tracked laws: " + codes.size);
+        val codes = CacheRepository(requireActivity()).lawCodes
+        Log.d(App.TAG, "Tracked laws: " + codes.size)
 
         billsViewModel = viewModelFactory.create(BillsViewModel::class.java)
 
@@ -77,9 +77,9 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
                         }
                         is Response.Error -> {
                             if (it is Response.Error.Message) {
-                                showError(it.msg)
+                                showError(requireActivity().findViewById(R.id.nav_view), it.msg)
                             } else if (it is Response.Error.Exception){
-                                showError(getString(R.string.unknown_error) + "\n" + it.error)
+                                showError(requireActivity().findViewById(R.id.nav_view), getString(R.string.unknown_error) + "\n" + it.error)
                             } else {
                                 throw IllegalStateException("Failed to obtain law by number and handle error response")
                             }

@@ -99,7 +99,7 @@ class LawsFilteredFragment: BaseFragment(),
 
     private fun fetchLawsWithFilter(str: String?) {
         searchJob = lifecycleScope.launch {
-            val billsViewModel: BillsViewModel by viewModels() { viewModelFactory }
+            val billsViewModel: BillsViewModel by viewModels { viewModelFactory }
             billsViewModel.getLawByName(str!!).collectLatest { it ->
                 visibleProgress(false)
                 try {
@@ -120,7 +120,9 @@ class LawsFilteredFragment: BaseFragment(),
                     is LoadState.Error -> {
                         visibleProgress(false)
                         showNoDataView()
-                        showError(requireActivity().findViewById(R.id.nav_view), (loadState.refresh as LoadState.Error).error.localizedMessage)
+                        (loadState.refresh as LoadState.Error).error.localizedMessage?.let { it ->
+                            showError(requireActivity().findViewById(R.id.nav_view), it)
+                        }
                     }
                     is LoadState.NotLoading -> {
                         visibleProgress(false)

@@ -71,7 +71,7 @@ class LawOverviewFragment: BaseFragment() {
         binding.lifecycleOwner = this
         binding.executePendingBindings()
         
-        val billsViewModel: BillsViewModel by viewModels() { viewModelFactory }
+        val billsViewModel: BillsViewModel by viewModels { viewModelFactory }
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 billsViewModel.law.collect { it ->
@@ -119,7 +119,7 @@ class LawOverviewFragment: BaseFragment() {
         if (!item.isDeputiesAvailable) return
 
         binding.deputyData = item.subject.deputies.get(0)
-        binding.voteDeputiesCounter.setOnClickListener { it ->
+        binding.voteDeputiesCounter.setOnClickListener { _ ->
             DeputiesOnLawActivity.launch(
                 requireActivity() as AppCompatActivity,
                 ArrayList(item.subject.deputies.subList(1, item.subject.deputies.size))

@@ -25,10 +25,6 @@ class BillsViewModel
     @Inject
     lateinit var cacheRepository: CacheRepository
 
-    override fun onCleared() {
-        super.onCleared()
-    }
-
     fun getLawByName(name: String): Flow<PagingData<Law>> {
         return repository
             .getLawsByNameFilter(name)
@@ -76,7 +72,7 @@ class BillsViewModel
     val trackedLaws: StateFlow<Response<GovResponse>> = _trackedLaws
 
     fun fetchedTrackedLaws() {
-        val lawCodes = cacheRepository.getLawCodes().toTypedArray()
+        val lawCodes = cacheRepository.lawCodes.toTypedArray()
         viewModelScope.launch {
             flowOf(*lawCodes)
                 .flatMapMerge { it ->

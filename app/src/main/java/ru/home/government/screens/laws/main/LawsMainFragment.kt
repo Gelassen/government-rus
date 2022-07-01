@@ -91,7 +91,9 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
                     is LoadState.Error -> {
                         visibleProgress(false)
                         showNoDataView()
-                        showError(requireActivity().findViewById(R.id.nav_view), (loadState.refresh as LoadState.Error).error.localizedMessage)
+                        (loadState.refresh as LoadState.Error).error.localizedMessage?.let { it ->
+                            showError(requireActivity().findViewById(R.id.nav_view), it)
+                        }
                     }
                     is LoadState.NotLoading -> {
                         visibleProgress(false)
