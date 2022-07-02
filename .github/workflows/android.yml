@@ -68,3 +68,16 @@ jobs:
         arch: x86_64
         profile: Nexus 5
         script: gradle connectedAndroidTest
+        
+    - name: Zip build reports
+      id: zipBuildReports
+      if: always()
+      run: zip -r build-reports.zip app/build/reports
+    
+    - name: Upload build reports
+      if: always() && steps.zipBuildReports.outcome == 'success'
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-reports
+        path: build-reports.zip
+        retention-days: 3
