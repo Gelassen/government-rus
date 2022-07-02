@@ -23,6 +23,7 @@ import ru.home.government.screens.deputies.DeputiesViewModel
  * From test coverage perspective this is not complete test case. Its intent
  * to serve as show case of mainstream android testing and foundation for future work.
  * */
+@Ignore
 @ExperimentalCoroutinesApi
 @FlowPreview
 class DeputiesViewModelTest {

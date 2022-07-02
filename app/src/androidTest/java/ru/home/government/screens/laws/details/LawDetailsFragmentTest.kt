@@ -14,6 +14,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Assert.assertNotEquals
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.home.government.BaseApiTest
@@ -28,6 +29,7 @@ import ru.home.government.repository.GovernmentRepository
 import ru.home.government.robots.LawDetailsRobot
 import javax.inject.Inject
 
+@Ignore
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class LawDetailsFragmentTest : BaseApiTest() {

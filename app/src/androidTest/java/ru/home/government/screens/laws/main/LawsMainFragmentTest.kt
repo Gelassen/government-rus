@@ -10,6 +10,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 
 import org.junit.After
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
@@ -25,6 +26,7 @@ import ru.home.government.screens.MainActivity
 import ru.home.government.screens.laws.details.DetailsActivity
 import javax.inject.Inject
 
+@Ignore
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class LawsMainFragmentTest: BaseApiTest() {

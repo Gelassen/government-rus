@@ -26,6 +26,7 @@ import ru.home.government.robots.LawScreenRobot
 import ru.home.government.screens.MainActivity
 import javax.inject.Inject
 
+@Ignore
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class LawsFilteredFragmentTest : BaseApiTest() {
