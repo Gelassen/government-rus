@@ -1,6 +1,8 @@
 package ru.home.government
 
 import com.dropbox.android.external.store4.FetcherResult
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import org.junit.After
 import org.junit.Test
 import org.junit.Assert.*
@@ -18,6 +20,7 @@ import java.io.File
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 class ExampleUnitTest {
 
     lateinit var subject: DeputiesViewModel
