@@ -16,7 +16,8 @@ jobs:
         target: [default]
 
     steps:
-    - uses: actions/checkout@v3
+    - name: checkout 
+      uses: actions/checkout@v3
     
     - name: set up JDK 11
       uses: actions/setup-java@v3
@@ -30,6 +31,25 @@ jobs:
 
     - name: Grant execute permission for gradle
       run: chmod +x gradle
+      
+    - name: AVD cache
+      uses: actions/cache@v3
+      id: avd-cache
+      with:
+        path: |
+          ~/.android/avd/*
+          ~/.android/adb*
+        key: avd-${{ matrix.api-level }}
+        
+    - name: create AVD and generate snapshot for caching
+      if: steps.avd-cache.outputs.cache-hit != 'true'
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: ${{ matrix.api-level }}
+        force-avd-creation: false
+        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        disable-animations: false
+        script: echo "Generated AVD snapshot for caching."
     
     - name: Build with Gradle
       run: gradle build
@@ -41,6 +61,9 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: ${{ matrix.api-level }}
+        force-avd-creation: false
+        emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        disable-animations: true
         target: ${{ matrix.target }}
         arch: x86_64
         profile: Nexus 5
