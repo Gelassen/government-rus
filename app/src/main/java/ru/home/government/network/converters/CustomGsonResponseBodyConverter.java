@@ -34,8 +34,7 @@ final class CustomGsonResponseBodyConverter<T> implements Converter<ResponseBody
         } catch (Exception ex) {
             Log.e(App.TAG, "Failed to parse gson", ex);
             try {
-                T result = adapter.read(jsonReader);
-                return result;
+                return adapter.read(jsonReader);
             } finally {
                 value.close();
             }

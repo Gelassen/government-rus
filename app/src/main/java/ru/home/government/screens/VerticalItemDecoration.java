@@ -6,9 +6,11 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Objects;
+
 public class VerticalItemDecoration extends RecyclerView.ItemDecoration {
 
-    private int dividerHeight;
+    private final int dividerHeight;
 
     public VerticalItemDecoration(int dividerHeight) {
         this.dividerHeight = dividerHeight;
@@ -17,7 +19,7 @@ public class VerticalItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
-        if (parent.getChildAdapterPosition(view) != parent.getAdapter().getItemCount() - 1) {
+        if (parent.getChildAdapterPosition(view) != Objects.requireNonNull(parent.getAdapter()).getItemCount() - 1) {
             outRect.bottom = dividerHeight;
         }
     }

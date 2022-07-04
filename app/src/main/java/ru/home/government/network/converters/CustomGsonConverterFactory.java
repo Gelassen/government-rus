@@ -1,5 +1,7 @@
 package ru.home.government.network.converters;
 
+import androidx.annotation.NonNull;
+
 import com.dropbox.android.external.store4.FetcherResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -32,8 +34,7 @@ public final class CustomGsonConverterFactory extends Converter.Factory {
         if (gson == null) throw new NullPointerException("gson == null");
         GsonBuilder builder = gson.newBuilder();
         builder.registerTypeAdapter(FetcherResult.class, null);
-        CustomGsonConverterFactory result = new CustomGsonConverterFactory(builder.create());
-        return result;
+        return new CustomGsonConverterFactory(builder.create());
     }
 
     private final Gson gson;
@@ -43,15 +44,18 @@ public final class CustomGsonConverterFactory extends Converter.Factory {
     }
 
     @Override
-    public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations,
-                                                            Retrofit retrofit) {
+    public Converter<ResponseBody, ?> responseBodyConverter(@NonNull Type type,
+                                                            @NonNull Annotation[] annotations,
+                                                            @NonNull Retrofit retrofit) {
         TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
         return new CustomGsonResponseBodyConverter<>(gson, adapter);
     }
 
     @Override
-    public Converter<?, RequestBody> requestBodyConverter(Type type,
-                                                          Annotation[] parameterAnnotations, Annotation[] methodAnnotations, Retrofit retrofit) {
+    public Converter<?, RequestBody> requestBodyConverter(@NonNull Type type,
+                                                          @NonNull Annotation[] parameterAnnotations,
+                                                          @NonNull Annotation[] methodAnnotations,
+                                                          @NonNull Retrofit retrofit) {
         TypeAdapter<?> adapter = gson.getAdapter(TypeToken.get(type));
         return new CustomGsonRequestBodyConverter<>(gson, adapter);
     }

@@ -1,4 +1,4 @@
-package com.flatstack.android.util
+package ru.home.government.util
 
 import android.content.Context
 import androidx.annotation.StringRes

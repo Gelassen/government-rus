@@ -1,4 +1,4 @@
-package com.flatstack.android.util
+package ru.home.government.util
 
 import retrofit2.HttpException
 import ru.home.government.R

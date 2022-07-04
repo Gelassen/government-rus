@@ -1,13 +1,6 @@
 package ru.home.government;
 
 import android.app.Application;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.paging.CombinedLoadStates;
-import androidx.paging.LoadState;
-import androidx.paging.PagingDataAdapter;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.splunk.mint.Mint;
 
@@ -17,7 +10,6 @@ import ru.home.government.di.AppComponent;
 import ru.home.government.di.modules.AppModule;
 import ru.home.government.di.DaggerAppComponent;
 import ru.home.government.di.modules.CustomNetworkModule;
-import ru.home.government.di.modules.NetworkModule;
 import ru.home.government.di.modules.RepositoryModule;
 
 public class AppApplication extends Application {
@@ -50,7 +42,4 @@ public class AppApplication extends Application {
         return component;
     }
 
-    public void setComponent(AppComponent component) {
-        this.component = component;
-    }
 }

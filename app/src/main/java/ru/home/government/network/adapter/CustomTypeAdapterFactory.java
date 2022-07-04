@@ -22,7 +22,7 @@ public class CustomTypeAdapterFactory implements TypeAdapterFactory {
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
         if (!FetcherResult.class.isAssignableFrom(type.getRawType())) return null;
-        return (TypeAdapter<T>) new FetcherResultAdapter<T>(gson, type);
+        return (TypeAdapter<T>) new FetcherResultAdapter<>(gson, type);
     }
 
     public static class FetcherResultAdapter<T> extends TypeAdapter<FetcherResult<T>> {
@@ -44,14 +44,13 @@ public class CustomTypeAdapterFactory implements TypeAdapterFactory {
         @Override
         public FetcherResult<T> read(JsonReader in) throws IOException {
             Log.d(App.TAG, "[start] FetcherResultAdapter.read");
-            FetcherResult<T> response = null;
+            FetcherResult<T> response;
             try {
                 Type responseType = getParameterUpperBound(0, (ParameterizedType) type.getType());
                 response = new FetcherResult.Data<>(gson.fromJson(in, responseType));
             } catch (Exception ex) {
                 Log.e(App.TAG, "Failed to parse FetchResult response", ex);
-                response = new FetcherResult.Error.Exception(ex);
-//                response = new FetcherResult.Error.Exception<>(ex);
+                response = new FetcherResult.Error.Exception(ex) ;
             }
             return response;
         }

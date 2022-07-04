@@ -69,7 +69,7 @@ class DetailsActivity : AppCompatActivity() {
             )
 
             val tabLayout = findViewById<View>(R.id.tabs) as TabLayout
-            tabLayout!!.setupWithViewPager(viewPager)
+            tabLayout.setupWithViewPager(viewPager)
         }
 
         cacheRepository =

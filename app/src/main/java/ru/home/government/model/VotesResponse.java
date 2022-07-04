@@ -1,5 +1,7 @@
 package ru.home.government.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -68,6 +70,7 @@ public class VotesResponse {
         return votes != null && votes.size() > 0;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "VotesResponse{" +

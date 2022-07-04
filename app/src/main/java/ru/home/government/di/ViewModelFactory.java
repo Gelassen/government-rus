@@ -1,5 +1,6 @@
 package ru.home.government.di;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -17,8 +18,9 @@ public class ViewModelFactory implements ViewModelProvider.Factory {
         this.viewModels = viewModels;
     }
 
+    @NonNull
     @Override
-    public <T extends ViewModel> T create(Class<T> modelClass) {
+    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         Provider<ViewModel> viewModelProvider = viewModels.get(modelClass);
 
         if (viewModelProvider == null) {
