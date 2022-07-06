@@ -47,10 +47,23 @@ class BillsViewModel
         viewModelScope.cancel()
     }
 
+    @Deprecated(message = "Use new V2 version")
     fun getLawByName(name: String): Flow<PagingData<Law>> {
         return repository
             .getLawsByNameFilter(name)
             .cachedIn(viewModelScope)
+    }
+
+    fun getLawByNameV2(name: String) {
+        viewModelScope.launch {
+            repository
+                .getLawsByNameFilter(name)
+                .cachedIn(viewModelScope)
+                .onStart { state.update { state -> state.copy(isLoading = true) } }
+                .collect { result ->
+                    state.update { state -> state.copy(billsByName = result, isLoading = false) }
+                }
+        }
     }
 
     fun getLawsByPageV2() {

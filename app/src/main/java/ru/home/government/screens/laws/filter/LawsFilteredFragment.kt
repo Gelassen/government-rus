@@ -51,6 +51,8 @@ class LawsFilteredFragment: BaseFragment(),
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
+    private lateinit var billsViewModel: BillsViewModel
+
     private lateinit var lawsAdapter: LawsAdapter
 
     private lateinit var binding: FragmentLawFilteredBinding
@@ -82,7 +84,9 @@ class LawsFilteredFragment: BaseFragment(),
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
         binding.listLawsFiltered.addItemDecoration(dividerItemDecoration)
 
+        billsViewModel = viewModelFactory.create(BillsViewModel::class.java)
         val filter = requireArguments().getString(EXTRA_KEY, "")
+        listenUpdates()
         onSearch(filter)
     }
 
@@ -92,21 +96,30 @@ class LawsFilteredFragment: BaseFragment(),
 
     override fun onSearch(str: String?) {
         searchJob?.cancel()
-        visibleProgress(true)
         fetchLawsWithFilter(str)
     }
 
     private fun fetchLawsWithFilter(str: String?) {
         searchJob = lifecycleScope.launch {
-            val billsViewModel: BillsViewModel by viewModels { viewModelFactory }
-            billsViewModel.getLawByName(str!!).collectLatest { it ->
-                visibleProgress(false)
+            billsViewModel.getLawByNameV2(str!!)
+        }
+    }
+
+    private fun listenUpdates() {
+        lifecycleScope.launch {
+            billsViewModel.uiState.collectLatest {
+                if (it.errors.isNotEmpty()) {
+                    showError(
+                        view = requireActivity().findViewById(R.id.nav_view),
+                        text = it.errors.first())
+                }
+                visibleProgress(it.isLoading)
+                showNoDataView()
                 try {
-                    (binding.listLawsFiltered.adapter as LawsAdapter).submitData(it)
+                    (binding.listLawsFiltered.adapter as LawsAdapter).submitData(it.billsByName)
                 } catch (ex: Exception) {
                     Log.e(App.TAG, "Search job exception", ex)
                 }
-
             }
         }
         lifecycleScope.launch {
@@ -117,6 +130,7 @@ class LawsFilteredFragment: BaseFragment(),
                         Log.d(App.TAG, "Filtered laws: LoadState.Loading")
                     }
                     is LoadState.Error -> {
+                        billsViewModel.addError((loadState.refresh as LoadState.Error).error.localizedMessage!!)
                         visibleProgress(false)
                         showNoDataView()
                         (loadState.refresh as LoadState.Error).error.localizedMessage?.let { it ->
@@ -130,7 +144,6 @@ class LawsFilteredFragment: BaseFragment(),
                 }
             }
         }
-
     }
 
     private fun showNoDataView() {

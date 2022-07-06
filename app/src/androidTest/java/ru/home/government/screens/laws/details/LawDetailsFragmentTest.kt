@@ -25,7 +25,6 @@ import ru.home.government.model.dto.Law
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.robots.LawDetailsRobot
 
-@Ignore
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class LawDetailsFragmentTest : BaseApiTest() {
