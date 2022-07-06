@@ -77,7 +77,11 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
         lifecycleScope.launch {
             billsViewModel.uiState.collectLatest {
                 if (it.errors.isNotEmpty()) {
-                    showError(requireActivity().findViewById(R.id.nav_view), it.errors.get(0))
+                    showError(
+                        view = requireActivity().findViewById(R.id.nav_view),
+                        text = it.errors.first(),
+                        onDismiss = { billsViewModel.removeShownError() }
+                    )
                 }
                 visibleProgress(it.isLoading)
                 showNoDataView()

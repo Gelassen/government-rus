@@ -47,13 +47,6 @@ class BillsViewModel
         viewModelScope.cancel()
     }
 
-    @Deprecated(message = "Use new V2 version")
-    fun getLawByName(name: String): Flow<PagingData<Law>> {
-        return repository
-            .getLawsByNameFilter(name)
-            .cachedIn(viewModelScope)
-    }
-
     fun getLawByNameV2(name: String) {
         viewModelScope.launch {
             repository
@@ -83,6 +76,7 @@ class BillsViewModel
     ))
     val law: StateFlow<Response<GovResponse>> = _law
 
+    @Deprecated(message = "Use new V2 version")
     fun getLawByNumber(billNumber: String) {
         viewModelScope.launch {
             repository.getLawByNumber(billNumber)
@@ -91,6 +85,19 @@ class BillsViewModel
                 }
                 .collect { result ->
                     _law.value = result
+                }
+        }
+    }
+
+    fun getLawByNumberV2(billNumber: String) {
+        viewModelScope.launch {
+            repository.getLawByNumber(billNumber)
+                .onStart { state.update { state -> state.copy(isLoading = false) } }
+                .collect { result ->
+                    when(result) {
+                        is Response.Data -> { state.update { state -> state.copy(billsByNumber = result.data, isLoading = false) } }
+                        is Response.Error -> { state.update { state -> state.copy(errors = state.errors.plus(getErrorMessage(result)), isLoading = false) } }
+                    }
                 }
         }
     }
@@ -133,6 +140,13 @@ class BillsViewModel
     fun addError(error: String) {
         state.update { state ->
             state.copy(errors = state.errors.plus(error))
+        }
+    }
+
+    fun removeShownError() {
+        state.update { state ->
+            state.copy(errors = state.errors.filter { str ->
+                !str.equals(state.errors.first()) })
         }
     }
 }

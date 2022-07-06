@@ -1,7 +1,6 @@
 package ru.home.government.screens.laws.details
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +9,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.home.government.App
 import ru.home.government.AppApplication
-import ru.home.government.R
 import ru.home.government.databinding.FragmentLawOverviewBinding
 import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.dto.Deputy
@@ -23,8 +21,6 @@ import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.providers.VotesDataProvider
-import ru.home.government.repository.Response
-import java.lang.StringBuilder
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -73,35 +69,22 @@ class LawOverviewFragment: BaseFragment() {
         val billsViewModel: BillsViewModel by viewModels { viewModelFactory }
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                billsViewModel.law.collect { it ->
-                    processResponse(it)
+                billsViewModel.uiState.collectLatest {
+                    if (it.errors.isNotEmpty()) {
+                        showError(
+                            view = binding.lawLastEvent,
+                            text = it.errors.first(),
+                            onDismiss = { billsViewModel.removeShownError() }
+                        )
+                    }
+                    onNewData(it.billsByNumber)
                 }
             }
         }
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 val lawNumber = requireArguments().get(LawOverviewFragment.EXTRA_LAW_CODE).toString()
-                billsViewModel.getLawByNumber(lawNumber)
-            }
-        }
-    }
-
-    private fun processResponse(it: Response<GovResponse>) {
-        when (it) {
-            is Response.Data -> {
-                onNewData(it.data)
-            }
-            is Response.Error.Message -> {
-                val error = StringBuilder()
-                    .append(getString(R.string.unknown_error) + ". " + it.msg)
-                    .append(". ")
-                    .append(it.msg)
-                    .toString()
-                showError(binding.lawLastEvent, error)
-            }
-            is Response.Error.Exception -> {
-                Log.e(App.TAG, getString(R.string.unknown_error), it.error)
-                showError(binding.lawLastEvent, getString(R.string.unknown_error))
+                billsViewModel.getLawByNumberV2(lawNumber)
             }
         }
     }

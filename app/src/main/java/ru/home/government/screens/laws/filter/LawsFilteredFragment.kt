@@ -111,7 +111,9 @@ class LawsFilteredFragment: BaseFragment(),
                 if (it.errors.isNotEmpty()) {
                     showError(
                         view = requireActivity().findViewById(R.id.nav_view),
-                        text = it.errors.first())
+                        text = it.errors.first(),
+                        onDismiss = { billsViewModel.removeShownError() }
+                    )
                 }
                 visibleProgress(it.isLoading)
                 showNoDataView()
