@@ -1,6 +1,5 @@
 package ru.home.government.screens.laws
 
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -8,7 +7,6 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.home.government.App
 import ru.home.government.model.dto.GovResponse
 import ru.home.government.model.dto.Law
 import ru.home.government.model.dto.VotesResponse
@@ -97,10 +95,6 @@ class BillsViewModel
         }
     }
 
-    private val _trackedLaws: MutableStateFlow<Response<GovResponse>>
-        = MutableStateFlow(Response.Data(GovResponse()))
-    val trackedLaws: StateFlow<Response<GovResponse>> = _trackedLaws
-
     @OptIn(FlowPreview::class)
     fun fetchedTrackedLaws() {
         val lawCodes = cacheRepository.lawCodes.toTypedArray()
@@ -109,8 +103,12 @@ class BillsViewModel
                 .flatMapMerge { it ->
                     repository.getLawByNumber(it)
                 }
-                .collect { it ->
-                    _trackedLaws.value = it
+                .onStart { state.update { state -> state.copy(isLoading = false) } }
+                .collect { result ->
+                    when(result) {
+                        is Response.Data -> { state.update { state -> state.copy(billsWhichTracked = result.data, isLoading = false) } }
+                        is Response.Error -> { state.update { state -> state.copy(errors = state.errors.plus(getErrorMessage(result)), isLoading = false) } }
+                    }
                 }
         }
     }

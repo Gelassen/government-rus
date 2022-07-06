@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.home.government.App
 import ru.home.government.AppApplication
@@ -17,11 +17,9 @@ import ru.home.government.databinding.FragmentTrackerBinding
 import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.dto.Law
 import ru.home.government.repository.CacheRepository
-import ru.home.government.repository.Response
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.details.DetailsActivity
-import java.lang.IllegalStateException
 import javax.inject.Inject
 
 class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
@@ -62,28 +60,12 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
         billsViewModel = viewModelFactory.create(BillsViewModel::class.java)
 
         lifecycleScope.launch {
-            billsViewModel.trackedLaws
-                .onStart {
-                    visibleProgress(true)
-                }
-                .collect { it ->
-                    visibleProgress(false)
-                    when(it) {
-                        is Response.Data -> {
-                            (binding.list.adapter as TrackerAdapter).update(it.data.laws)
-                            binding.trackedPlaceholderContainer.trackedPlaceholder.visibility =
-                                if (it.data.laws.size == 0) View.VISIBLE else View.GONE
-                        }
-                        is Response.Error -> {
-                            if (it is Response.Error.Message) {
-                                showError(requireActivity().findViewById(R.id.nav_view), it.msg)
-                            } else if (it is Response.Error.Exception){
-                                showError(requireActivity().findViewById(R.id.nav_view), getString(R.string.unknown_error) + "\n" + it.error)
-                            } else {
-                                throw IllegalStateException("Failed to obtain law by number and handle error response")
-                            }
-                        }
-                    }
+            billsViewModel.uiState.collectLatest {
+                (binding.list.adapter as TrackerAdapter).update(it.billsWhichTracked.laws)
+                visibleProgress(it.isLoading)
+                val showPlaceholder = it.billsWhichTracked.laws.size == 0 && !it.isLoading
+                binding.trackedPlaceholderContainer.trackedPlaceholder.visibility =
+                    if (showPlaceholder) View.VISIBLE else View.GONE
             }
         }
 
