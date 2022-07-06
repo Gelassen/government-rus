@@ -45,7 +45,7 @@ class BillsViewModel
         viewModelScope.cancel()
     }
 
-    fun getLawByNameV2(name: String) {
+    fun getLawByName(name: String) {
         viewModelScope.launch {
             repository
                 .getLawsByNameFilter(name)
@@ -57,7 +57,7 @@ class BillsViewModel
         }
     }
 
-    fun getLawsByPageV2() {
+    fun getLawsByPage() {
         viewModelScope.launch {
             repository
                 .getIntroducedLaws()
@@ -69,7 +69,7 @@ class BillsViewModel
         }
     }
 
-    fun getLawByNumberV2(billNumber: String) {
+    fun getLawByNumber(billNumber: String) {
         viewModelScope.launch {
             repository.getLawByNumber(billNumber)
                 .onStart { state.update { state -> state.copy(isLoading = false) } }
@@ -82,7 +82,7 @@ class BillsViewModel
         }
     }
 
-    fun getVotesByLawV2(billNumber: String) {
+    fun getVotesByLaw(billNumber: String) {
         viewModelScope.launch {
             repository.getVotesByLaw(billNumber)
                 .onStart { state.update { state -> state.copy(isLoading = false) } }

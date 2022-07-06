@@ -3,7 +3,6 @@ package ru.home.government.screens.laws.details
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,17 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.databinding.FragmentLawVotesBinding
 import ru.home.government.di.ViewModelFactory
 import ru.home.government.model.dto.VotesResponse
 import ru.home.government.providers.VotesDataProvider
-import ru.home.government.repository.Response
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
-import java.lang.StringBuilder
 import javax.inject.Inject
 
 
@@ -86,7 +82,7 @@ class LawVotesFragment: BaseFragment() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 val lawNumber = requireArguments().get(EXTRA_LAW_CODE).toString()
-                billsViewModel.getVotesByLawV2(lawNumber)
+                billsViewModel.getVotesByLaw(lawNumber)
             }
         }
     }

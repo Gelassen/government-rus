@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -101,7 +100,7 @@ class LawsFilteredFragment: BaseFragment(),
 
     private fun fetchLawsWithFilter(str: String?) {
         searchJob = lifecycleScope.launch {
-            billsViewModel.getLawByNameV2(str!!)
+            billsViewModel.getLawByName(str!!)
         }
     }
 

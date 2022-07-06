@@ -14,7 +14,7 @@ class SearchLawsPagingSource(
 ) : BillsPagingSource(api, serverErrorUtil, apiKey, apiAppToken) {
 
     override suspend fun execute(page: Int): Response<GovResponse> {
-        return api.getLawByNameV2(apiKey, apiAppToken, page, searchStr)
+        return api.getLawByName(apiKey, apiAppToken, page, searchStr)
     }
 
 

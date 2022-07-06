@@ -67,7 +67,7 @@ open class GovernmentRepository(
 
     open fun getLawByNumber(billNumber: String): Flow<Response<GovResponse>> {
         return flow {
-            val response = api.getLawByNumberV2(
+            val response = api.getLawByNumber(
                 context.getString(R.string.api_key),
                 context.getString(R.string.api_app_token),
                 billNumber
@@ -87,7 +87,7 @@ open class GovernmentRepository(
     open fun getDeputies(): Flow<Response<List<Deputy>>> {
         return flow {
             if (isConnected()) {
-                val response = api.getAllDeputiesV2(
+                val response = api.getAllDeputies(
                     context.getString(R.string.api_key),
                     context.getString(R.string.api_app_token)
                 )
@@ -109,7 +109,7 @@ open class GovernmentRepository(
 
     open fun getVotesByLaw(number: String): Flow<Response<VotesResponse>> {
         return flow {
-            val response = api.newGetLawVotesV2(
+            val response = api.newGetLawVotes(
                 context.getString(R.string.api_key),
                 context.getString(R.string.api_app_token),
                 number

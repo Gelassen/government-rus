@@ -21,7 +21,7 @@ interface IApi {
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/search.json")
-    suspend fun getLawByNameV2(
+    suspend fun getLawByName(
         @Path("token") token: String,
         @Query("app_token") appToken: String,
         @Query("page") page: Int,
@@ -30,7 +30,7 @@ interface IApi {
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/search.json")
-    suspend fun getLawByNumberV2(
+    suspend fun getLawByNumber(
         @Path("token") token: String,
         @Query("app_token") appToken: String,
         @Query("number") number: String
@@ -38,14 +38,14 @@ interface IApi {
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/deputies.json")
-    suspend fun getAllDeputiesV2(
+    suspend fun getAllDeputies(
         @Path("token") token: String,
         @Query("app_token") appToken: String
     ): Response<List<Deputy>>
 
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("/api/{token}/voteSearch.json")
-    suspend fun newGetLawVotesV2(
+    suspend fun newGetLawVotes(
         @Path("token") token: String,
         @Query("app_token") appToken: String,
         @Query("number") number: String

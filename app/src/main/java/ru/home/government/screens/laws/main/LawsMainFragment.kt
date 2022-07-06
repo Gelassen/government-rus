@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.home.government.AppApplication
 import ru.home.government.R
@@ -69,7 +68,7 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
     private fun fetchLaws() {
         lifecycleScope.launch {
-            billsViewModel.getLawsByPageV2()
+            billsViewModel.getLawsByPage()
         }
     }
 
