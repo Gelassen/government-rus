@@ -14,7 +14,7 @@ import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.Response
 import javax.inject.Inject
 
-sealed interface Model {
+interface Model {
     var isLoading: Boolean
     val errors: List<String>
 }

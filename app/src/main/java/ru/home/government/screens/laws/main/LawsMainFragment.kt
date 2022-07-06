@@ -59,8 +59,8 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
         binding.list.addItemDecoration(dividerItemDecoration)
 
         billsViewModel = viewModelFactory.create(BillsViewModel::class.java)
-        visibleProgress(true)
         fetchLaws()
+        listenUpdates()
     }
 
     override fun onItemClick(item: Law) {
@@ -69,16 +69,20 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
     private fun fetchLaws() {
         lifecycleScope.launch {
-            billsViewModel
-                .getLawsByPage()
-                .onStart {
-                    visibleProgress(true)
+            billsViewModel.getLawsByPageV2()
+        }
+    }
+
+    private fun listenUpdates() {
+        lifecycleScope.launch {
+            billsViewModel.uiState.collectLatest {
+                if (it.errors.isNotEmpty()) {
+                    showError(requireActivity().findViewById(R.id.nav_view), it.errors.get(0))
                 }
-                .collectLatest { it ->
-                    visibleProgress(false)
-                    (binding.list.adapter as LawsAdapter).submitData(it)
-                    showNoDataView()
-                }
+                visibleProgress(it.isLoading)
+                showNoDataView()
+                (binding.list.adapter as LawsAdapter).submitData(it.billsByPage)
+            }
         }
         lifecycleScope.launch {
             (binding.list.adapter as LawsAdapter).loadStateFlow.collectLatest { loadState ->
@@ -87,6 +91,7 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
                         // no op
                     }
                     is LoadState.Error -> {
+                        billsViewModel.addError((loadState.refresh as LoadState.Error).error.localizedMessage!!)
                         visibleProgress(false)
                         showNoDataView()
                         (loadState.refresh as LoadState.Error).error.localizedMessage?.let { it ->

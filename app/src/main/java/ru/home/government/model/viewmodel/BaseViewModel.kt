@@ -10,22 +10,6 @@ import ru.home.government.screens.deputies.Model
 
 open class BaseViewModel : ViewModel() {
 
-/*    private lateinit var state: MutableStateFlow<Model>
-    val uiState: StateFlow<Model> = state
-        .asStateFlow()
-        .stateIn(viewModelScope, SharingStarted.Eagerly, state.value)
-
-    // TODO trying to implement generic implementation, see insight on how to call copy() on interface
-    //  in this thread https://stackoverflow.com/questions/47252663/kotlin-using-data-class-generics-type
-
-    fun removeShownError() {
-        state.update { state ->
-            state.copy(
-                errors = state.errors.filter { str -> !str.equals(state.errors.first()) }
-            )
-        }
-    }*/
-
     protected fun getErrorMessage(errorResponse: Response.Error): String {
         var errorMessage = ""
         when(errorResponse) {

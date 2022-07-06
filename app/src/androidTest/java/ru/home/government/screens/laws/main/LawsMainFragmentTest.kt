@@ -26,7 +26,6 @@ import ru.home.government.screens.MainActivity
 import ru.home.government.screens.laws.details.DetailsActivity
 import javax.inject.Inject
 
-@Ignore
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class LawsMainFragmentTest: BaseApiTest() {
