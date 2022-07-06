@@ -71,24 +71,6 @@ class BillsViewModel
         }
     }
 
-    private var _law: MutableStateFlow<Response<GovResponse>> = MutableStateFlow(Response.Data(
-        GovResponse()
-    ))
-    val law: StateFlow<Response<GovResponse>> = _law
-
-    @Deprecated(message = "Use new V2 version")
-    fun getLawByNumber(billNumber: String) {
-        viewModelScope.launch {
-            repository.getLawByNumber(billNumber)
-                .catch { e ->
-                    Log.e(App.TAG, "Something went wrong on loading specific law", e)
-                }
-                .collect { result ->
-                    _law.value = result
-                }
-        }
-    }
-
     fun getLawByNumberV2(billNumber: String) {
         viewModelScope.launch {
             repository.getLawByNumber(billNumber)
@@ -102,19 +84,15 @@ class BillsViewModel
         }
     }
 
-    private val _votesResponse: MutableStateFlow<Response<VotesResponse>> = MutableStateFlow(Response.Data(
-        VotesResponse()
-    ))
-    val votesResponse: StateFlow<Response<VotesResponse>> = _votesResponse
-
-    fun getVotesByLaw(billNumber: String) {
+    fun getVotesByLawV2(billNumber: String) {
         viewModelScope.launch {
             repository.getVotesByLaw(billNumber)
-                .catch { e ->
-                    Log.e(App.TAG, "Something went wrong on loading deputies", e)
-                }
+                .onStart { state.update { state -> state.copy(isLoading = false) } }
                 .collect { result ->
-                    _votesResponse.value = result
+                    when(result) {
+                        is Response.Data -> { state.update { state -> state.copy(votesByLaw = result.data, isLoading = false) } }
+                        is Response.Error -> { state.update { state -> state.copy(errors = state.errors.plus(getErrorMessage(result)), isLoading = false) } }
+                    }
                 }
         }
     }

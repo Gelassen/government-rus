@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import ru.home.government.App
 import ru.home.government.AppApplication
@@ -70,54 +71,42 @@ class LawVotesFragment: BaseFragment() {
 
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                billsViewModel.votesResponse.collect { it ->
-                    processResponse(it)
+                billsViewModel.uiState.collectLatest { it ->
+                    if (it.errors.isNotEmpty()) {
+                        showError(
+                            view = binding.voteDetails,
+                            text = it.errors.first(),
+                            onDismiss = { billsViewModel.removeShownError() }
+                        )
+                    }
+                    processResponse(it.votesByLaw)
                 }
             }
         }
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 val lawNumber = requireArguments().get(EXTRA_LAW_CODE).toString()
-                billsViewModel.getVotesByLaw(lawNumber)
+                billsViewModel.getVotesByLawV2(lawNumber)
             }
         }
     }
 
-    private fun processResponse(it: Response<VotesResponse>) {
-        when (it) {
-            is Response.Data -> {
-                if (!it.data.isDataAvailable) {
-                    binding.votesResponse = VotesResponse()
-                    binding.executePendingBindings()
-                } else {
-                    val votesResponse = it.data
-                    binding.votesResponse = votesResponse
-                    binding.executePendingBindings()
-                    binding.voteDetails.setOnClickListener { _ ->
-                        val intent = Intent(Intent.ACTION_VIEW)
-                        intent.data = Uri.parse(
-                                String.format(
-                                        resources.getString(R.string.url_vote),
-                                        votesResponse.votes.get(0).id
-                                )
-                        )
-                        startActivity(intent)
-                    }
-                }
-
-
-            }
-            is Response.Error.Message -> {
-                val error = StringBuilder()
-                    .append(getString(R.string.unknown_error) + ". " + it.msg)
-                    .append(". ")
-                    .append(it.msg)
-                    .toString()
-                showError(binding.voteDetails, error)
-            }
-            is Response.Error.Exception -> {
-                Log.e(App.TAG, getString(R.string.unknown_error), it.error)
-                showError(binding.voteDetails, getString(R.string.unknown_error))
+    private fun processResponse(votesByLaw: VotesResponse) {
+        if (!votesByLaw.isDataAvailable) {
+            binding.votesResponse = VotesResponse()
+            binding.executePendingBindings()
+        } else {
+            binding.votesResponse = votesByLaw
+            binding.executePendingBindings()
+            binding.voteDetails.setOnClickListener { _ ->
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(
+                    String.format(
+                        resources.getString(R.string.url_vote),
+                        votesByLaw.votes.first().id
+                    )
+                )
+                startActivity(intent)
             }
         }
     }
