@@ -11,14 +11,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.databinding.FragmentLawVotesBinding
 import ru.home.government.di.ViewModelFactory
-import ru.home.government.model.VotesResponse
+import ru.home.government.model.dto.VotesResponse
 import ru.home.government.providers.VotesDataProvider
 import ru.home.government.repository.Response
 import ru.home.government.screens.BaseFragment

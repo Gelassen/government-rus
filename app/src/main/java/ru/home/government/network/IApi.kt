@@ -5,9 +5,9 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
-import ru.home.government.model.Deputy
-import ru.home.government.model.GovResponse
-import ru.home.government.model.VotesResponse
+import ru.home.government.model.dto.Deputy
+import ru.home.government.model.dto.GovResponse
+import ru.home.government.model.dto.VotesResponse
 
 interface IApi {
 

@@ -12,10 +12,10 @@
             type="android.content.res.Resources" />
         <variable
             name="lawData"
-            type="ru.home.government.model.Law" />
+            type="ru.home.government.model.dto.Law" />
         <variable
             name="deputyData"
-            type="ru.home.government.model.Deputy" />
+            type="ru.home.government.model.dto.Deputy" />
         <variable
             name="lawDataProvider"
             type="ru.home.government.providers.LawDataProvider" />

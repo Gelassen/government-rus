@@ -3,7 +3,7 @@ package ru.home.government
 import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import ru.home.government.model.Deputy
+import ru.home.government.model.dto.Deputy
 import ru.home.government.network.IApi
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.Response

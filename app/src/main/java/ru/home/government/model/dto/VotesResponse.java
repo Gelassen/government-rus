@@ -1,4 +1,4 @@
-package ru.home.government.model;
+package ru.home.government.model.dto;
 
 import androidx.annotation.NonNull;
 

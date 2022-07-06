@@ -2,7 +2,7 @@ package ru.home.government.providers
 
 import android.content.Context
 import ru.home.government.R
-import ru.home.government.model.*
+import ru.home.government.model.dto.*
 import java.text.SimpleDateFormat
 import java.util.*
 

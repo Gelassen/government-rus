@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import ru.home.government.R
-import ru.home.government.model.Deputy
-import ru.home.government.model.GovResponse
-import ru.home.government.model.Law
-import ru.home.government.model.VotesResponse
+import ru.home.government.model.dto.Deputy
+import ru.home.government.model.dto.GovResponse
+import ru.home.government.model.dto.Law
+import ru.home.government.model.dto.VotesResponse
 import ru.home.government.network.IApi
 import ru.home.government.network.ServerErrorUtil
 import ru.home.government.repository.pagination.BillsPagingSource

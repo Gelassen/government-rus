@@ -7,7 +7,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.core.IsNot.not
 import ru.home.government.R
-import ru.home.government.model.Vote
+import ru.home.government.model.dto.Vote
 
 class LawDetailsRobot : BaseRobot() {
 

@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.home.government.databinding.ViewItemDeputyBinding
-import ru.home.government.model.Deputy
+import ru.home.government.model.dto.Deputy
 import ru.home.government.providers.LawDataProvider
 import java.util.*
 

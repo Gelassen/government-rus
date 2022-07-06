@@ -4,8 +4,8 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
 import retrofit2.Response
-import ru.home.government.model.GovResponse
-import ru.home.government.model.Law
+import ru.home.government.model.dto.GovResponse
+import ru.home.government.model.dto.Law
 import ru.home.government.network.IApi
 import ru.home.government.network.IApi.Const.PAGE_SIZE
 import ru.home.government.network.ServerErrorUtil

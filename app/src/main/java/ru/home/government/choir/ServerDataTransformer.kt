@@ -1,6 +1,6 @@
 package ru.home.government.choir
 
-import ru.home.government.model.Law
+import ru.home.government.model.dto.Law
 
 /**
  * After several weeks of development and a year of maintenance there are few

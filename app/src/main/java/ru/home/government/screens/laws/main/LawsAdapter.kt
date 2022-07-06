@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineDispatcher
 import ru.home.government.R
 import ru.home.government.databinding.ViewItemLawOverviewBinding
-import ru.home.government.model.Law
+import ru.home.government.model.dto.Law
 import ru.home.government.providers.LawDataProvider
 
 class LawsAdapter(

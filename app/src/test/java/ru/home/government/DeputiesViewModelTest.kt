@@ -6,14 +6,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
 import org.junit.*
 import org.junit.Assert.*
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
-import ru.home.government.model.Deputy
+import ru.home.government.model.dto.Deputy
 import ru.home.government.network.IApi
 import ru.home.government.repository.Response
 import ru.home.government.repository.pagination.BillsPagingSource

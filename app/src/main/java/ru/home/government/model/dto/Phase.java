@@ -1,9 +1,10 @@
-package ru.home.government.model;
+package ru.home.government.model.dto;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Stage {
+public class Phase {
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -26,4 +27,5 @@ public class Stage {
     public void setName(String name) {
         this.name = name;
     }
+
 }

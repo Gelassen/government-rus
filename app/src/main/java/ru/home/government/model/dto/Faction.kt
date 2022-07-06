@@ -1,10 +1,9 @@
-package ru.home.government.model
+package ru.home.government.model.dto
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 class Faction() : Parcelable {
     @SerializedName("id")

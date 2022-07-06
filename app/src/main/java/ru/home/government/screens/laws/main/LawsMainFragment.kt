@@ -1,7 +1,6 @@
 package ru.home.government.screens.laws.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
@@ -11,14 +10,13 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.databinding.FragmentLawMainBinding
 import ru.home.government.di.ViewModelFactory
-import ru.home.government.model.Law
+import ru.home.government.model.dto.Law
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.details.DetailsActivity

@@ -1,8 +1,8 @@
 package ru.home.government.stubs
 
 import com.google.gson.Gson
-import ru.home.government.model.GovResponse
-import ru.home.government.model.VotesResponse
+import ru.home.government.model.dto.GovResponse
+import ru.home.government.model.dto.VotesResponse
 import java.util.*
 
 object Stubs {

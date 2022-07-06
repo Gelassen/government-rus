@@ -8,7 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import ru.home.government.App
@@ -16,7 +15,7 @@ import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.databinding.FragmentTrackerBinding
 import ru.home.government.di.ViewModelFactory
-import ru.home.government.model.Law
+import ru.home.government.model.dto.Law
 import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.Response
 import ru.home.government.screens.BaseFragment

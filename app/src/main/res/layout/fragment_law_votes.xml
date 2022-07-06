@@ -8,10 +8,10 @@
 
         <variable
             name="votesResponse"
-            type="ru.home.government.model.VotesResponse" />
+            type="ru.home.government.model.dto.VotesResponse" />
         <variable
             name="placeholder"
-            type="ru.home.government.model.Vote" />
+            type="ru.home.government.model.dto.Vote" />
         <variable
             name="dataProvider"
             type="ru.home.government.providers.VotesDataProvider" />

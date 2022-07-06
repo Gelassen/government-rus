@@ -8,7 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import ru.home.government.R
 import ru.home.government.databinding.ActivityLawDeputiesBinding
-import ru.home.government.model.Deputy
+import ru.home.government.model.dto.Deputy
 import ru.home.government.screens.BaseActivity
 import ru.home.government.screens.deputies.DeputiesFragment
 

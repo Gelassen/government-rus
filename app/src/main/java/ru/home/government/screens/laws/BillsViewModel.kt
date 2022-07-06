@@ -8,9 +8,9 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import ru.home.government.App
-import ru.home.government.model.GovResponse
-import ru.home.government.model.Law
-import ru.home.government.model.VotesResponse
+import ru.home.government.model.dto.GovResponse
+import ru.home.government.model.dto.Law
+import ru.home.government.model.dto.VotesResponse
 import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.Response
@@ -38,7 +38,9 @@ class BillsViewModel
             .cachedIn(viewModelScope)
     }
 
-    private var _law: MutableStateFlow<Response<GovResponse>> = MutableStateFlow(Response.Data(GovResponse()))
+    private var _law: MutableStateFlow<Response<GovResponse>> = MutableStateFlow(Response.Data(
+        GovResponse()
+    ))
     val law: StateFlow<Response<GovResponse>> = _law
 
     fun getLawByNumber(billNumber: String) {
@@ -53,7 +55,9 @@ class BillsViewModel
         }
     }
 
-    private val _votesResponse: MutableStateFlow<Response<VotesResponse>> = MutableStateFlow(Response.Data(VotesResponse()))
+    private val _votesResponse: MutableStateFlow<Response<VotesResponse>> = MutableStateFlow(Response.Data(
+        VotesResponse()
+    ))
     val votesResponse: StateFlow<Response<VotesResponse>> = _votesResponse
 
     fun getVotesByLaw(billNumber: String) {

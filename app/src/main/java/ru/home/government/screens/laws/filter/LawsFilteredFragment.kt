@@ -18,9 +18,8 @@ import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.databinding.FragmentLawFilteredBinding
-import ru.home.government.databinding.FragmentLawMainBinding
 import ru.home.government.di.ViewModelFactory
-import ru.home.government.model.Law
+import ru.home.government.model.dto.Law
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.OnSearchClickListener
 import ru.home.government.screens.laws.BillsViewModel

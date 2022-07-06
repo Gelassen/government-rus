@@ -1,10 +1,9 @@
 package ru.home.government.providers
 
 import android.content.res.Resources
-import androidx.room.util.StringUtil
 import ru.home.government.R
-import ru.home.government.model.Deputy
-import ru.home.government.model.Law
+import ru.home.government.model.dto.Deputy
+import ru.home.government.model.dto.Law
 
 class VotesDataProvider {
 

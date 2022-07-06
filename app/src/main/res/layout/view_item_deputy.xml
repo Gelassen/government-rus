@@ -4,7 +4,7 @@
     <data>
         <variable
             name="deputy"
-            type="ru.home.government.model.Deputy">
+            type="ru.home.government.model.dto.Deputy">
 
         </variable>
         <variable

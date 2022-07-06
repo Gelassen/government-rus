@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.home.government.databinding.ViewItemLawOverviewBinding
-import ru.home.government.model.Law
+import ru.home.government.model.dto.Law
 import ru.home.government.providers.LawDataProvider
 import ru.home.government.screens.laws.main.LawsAdapter
 import java.util.*

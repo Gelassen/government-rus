@@ -15,25 +15,20 @@ open class BaseFragment: Fragment() {
         progressView!!.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    /**
-     * @Deprecated Use {@link #showError(view: View, text: String) showError(view: View, text: String)} instead
-     * */
-    @Deprecated(message = "Migrate to SnackBar",
-        replaceWith = ReplaceWith(
-            "showError(view: View, text: String)}",
-        )
-    )
-    protected fun showError(errorText: String?) {
-        errorText?.let {
-            Toast.makeText(activity, errorText, Toast.LENGTH_LONG).show()
-        }
+    protected fun showError(view: View, text: String) {
+        showError(view, text) { }
     }
 
-    protected fun showError(view: View, text: String) {
+    protected fun showError(view: View, text: String, onDismiss: () -> Unit) {
         val snackbar = Snackbar.make(view, text, Snackbar.LENGTH_SHORT)
         if (requireActivity().findViewById<View?>(R.id.nav_view) != null) {
             snackbar.view.minimumHeight = requireActivity().findViewById<View?>(R.id.nav_view).height
         }
-        snackbar.show()
+        snackbar.addCallback(object: Snackbar.Callback() {
+            override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                super.onDismissed(transientBottomBar, event)
+                onDismiss()
+            }
+        }).show()
     }
 }

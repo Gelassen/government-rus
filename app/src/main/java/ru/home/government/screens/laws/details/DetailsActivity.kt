@@ -6,13 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ComponentActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import ru.home.government.R
 import ru.home.government.databinding.ActivityLawDetailsBinding
-import ru.home.government.model.Law
+import ru.home.government.model.dto.Law
 import ru.home.government.repository.CacheRepository
 import ru.home.government.screens.BaseActivity
 

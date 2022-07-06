@@ -1,7 +1,6 @@
 package ru.home.government.screens.deputies
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.databinding.FragmentDeputiesBinding
 import ru.home.government.di.ViewModelFactory
-import ru.home.government.model.Deputy
-import ru.home.government.repository.Response
+import ru.home.government.model.dto.Deputy
 import ru.home.government.screens.BaseFragment
 import javax.inject.Inject
 
@@ -94,43 +91,53 @@ class DeputiesFragment: BaseFragment() {
     @Deprecated(message = "It should be urgently replaced with valid implementation")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val viewModel: DeputiesViewModel by viewModels { viewModelFactory }
+        lifecycleScope.launch {
+            viewModel.uiState.collectLatest { it ->
+                if (it.errors.isNotEmpty()) {
+                    showError(
+                        view = requireActivity().findViewById(R.id.nav_view),
+                        text = it.errors.first(),
+                        onDismiss = { viewModel.removeShownError() }
+                    )
+                }
+                (binding.list.adapter as DeputiesAdapter).update(it.deputies)
+                visibleProgress(it.isLoading)
+                showList(!it.isLoading)
+            }
+        }
         if (arguments != null
             && requireArguments().containsKey(EXTRA_LAUNCH_WITH_CONTENT)
             && requireArguments().getBoolean(EXTRA_LAUNCH_WITH_CONTENT)) {
+            decorViewForLayoutWithoutBottomNavigation()
             processWithExistingData()
         } else {
-            decorView()
+            decorViewForLayoutWithBottomNavigation()
             processWithRequestForData()
         }
     }
 
-    private fun processWithExistingData() {
+    private fun decorViewForLayoutWithoutBottomNavigation() {
         val layoutParams = FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT
         )
         layoutParams.topMargin = resources.getDimension(R.dimen.actionBarSize).toInt()
         binding.deputiesContainer.layoutParams = layoutParams
+    }
 
+    private fun processWithExistingData() {
         val activeDeputies: ArrayList<Deputy> = requireArguments().getParcelableArrayList(EXTRA_DEPUTIES)!!
-        (binding.list.adapter as DeputiesAdapter).update(activeDeputies)
+        val viewModel: DeputiesViewModel by viewModels { viewModelFactory }
+        viewModel.manuallyUpdateDeputies(activeDeputies)
     }
 
     @FlowPreview
     private fun processWithRequestForData() {
+        val viewModel: DeputiesViewModel by viewModels { viewModelFactory }
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                processDeputiesModel()
-            }
-        }
-
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                val viewModel: DeputiesViewModel by viewModels { viewModelFactory }
-                viewModel.isLoading.collect { isInProgress ->
-                    visibleProgress(isInProgress)
-                    showList(!isInProgress)
-                }
+                viewModel.fetchDeputies()
             }
         }
     }
@@ -142,7 +149,7 @@ class DeputiesFragment: BaseFragment() {
      * layout, I didn't find an option to check it existence in other way, so I added extra
      * flag to explicitly tell API users to consider it due using this fragment.
      * */
-    private fun decorView() {
+    private fun decorViewForLayoutWithBottomNavigation() {
         if (arguments != null && !requireArguments().getBoolean(EXTRA_NO_BOTTOM_VIEW)) {
             val bottomNavigation: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
             val viewTreeObserver = bottomNavigation.viewTreeObserver
@@ -160,34 +167,7 @@ class DeputiesFragment: BaseFragment() {
         }
     }
 
-    private suspend fun processDeputiesModel() {
-        visibleProgress(true)
-        val viewModel: DeputiesViewModel by viewModels { viewModelFactory }
-        viewModel.deputies.collect { result ->
-            when (result) {
-                is Response.Data -> {
-                    val activeDeputies = result.data.filter { it -> it.isCurrent!! }
-                    (binding.list.adapter as DeputiesAdapter).update(activeDeputies)
-                }
-                is Response.Error.Message -> {
-                    val error = StringBuilder()
-                        .append(getString(R.string.unknown_error) + ". " + result.msg)
-                        .append(". ")
-                        .append(result.msg)
-                        .toString()
-                    showError(requireActivity().findViewById(R.id.nav_view), error)
-                }
-                is Response.Error.Exception -> {
-                    Log.e(App.TAG, getString(R.string.unknown_error), result.error)
-                    showError(requireActivity().findViewById(R.id.deputiesNoData), getString(R.string.unknown_error))
-                }
-            }
-
-
-        }
-    }
-
-    fun showList(show: Boolean) {
+    private fun showList(show: Boolean) {
         if (show) {
             if (binding.list.adapter?.itemCount == 0) {
                 binding.deputiesNoData.visibility = View.VISIBLE

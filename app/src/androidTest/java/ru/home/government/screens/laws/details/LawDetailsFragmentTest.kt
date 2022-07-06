@@ -1,6 +1,5 @@
 package ru.home.government.screens.laws.details
 
-import android.content.Context
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
@@ -9,7 +8,6 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import androidx.test.platform.app.InstrumentationRegistry
 
 import org.junit.After
 import org.junit.Assert.assertNotEquals
@@ -21,13 +19,11 @@ import ru.home.government.BaseApiTest
 import ru.home.government.di.test.NetworkIdlingResource
 import ru.home.government.idlingresource.DataBindingIdlingResource
 import ru.home.government.idlingresource.monitorActivity
-import ru.home.government.model.Committees
-import ru.home.government.model.LastEvent
-import ru.home.government.model.Law
+import ru.home.government.model.dto.Committees
+import ru.home.government.model.dto.LastEvent
+import ru.home.government.model.dto.Law
 import ru.home.government.providers.LawDataProvider
-import ru.home.government.repository.GovernmentRepository
 import ru.home.government.robots.LawDetailsRobot
-import javax.inject.Inject
 
 @Ignore
 @LargeTest
