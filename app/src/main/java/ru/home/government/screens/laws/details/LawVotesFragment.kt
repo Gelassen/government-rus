@@ -95,6 +95,8 @@ class LawVotesFragment: BaseFragment() {
             binding.votesResponse = votesByLaw
             binding.executePendingBindings()
             binding.voteDetails.setOnClickListener { _ ->
+                // TODO implement custom tab as it is now the best practice
+                //  https://developer.chrome.com/docs/android/custom-tabs/integration-guide/
                 val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(
                     String.format(
