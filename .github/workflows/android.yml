@@ -31,11 +31,17 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+      
+    - name: Pring gradle version
+      run: gradle --version
 
-    - name: Grant execute permission for gradle
-      run: chmod +x gradle
+    # - name: Grant execute permission for gradlew
+    #  run: chmod +x gradlew
+
+    # - name: Grant execute permission for gradle
+    #  run: chmod +x gradle
       
     # - name: AVD cache
     #   uses: actions/cache@v3
