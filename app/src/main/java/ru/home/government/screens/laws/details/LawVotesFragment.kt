@@ -1,11 +1,13 @@
 package ru.home.government.screens.laws.details
 
-import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -95,18 +97,24 @@ class LawVotesFragment: BaseFragment() {
             binding.votesResponse = votesByLaw
             binding.executePendingBindings()
             binding.voteDetails.setOnClickListener { _ ->
-                // TODO implement custom tab as it is now the best practice
-                //  https://developer.chrome.com/docs/android/custom-tabs/integration-guide/
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(
-                    String.format(
-                        resources.getString(R.string.url_vote),
-                        votesByLaw.votes.first().id
-                    )
+                val url = String.format(
+                    resources.getString(R.string.url_vote),
+                    votesByLaw.votes.first().id
                 )
-                startActivity(intent)
+                openWebPage(Uri.parse(url))
             }
         }
+    }
+
+    private fun openWebPage(uri: Uri) {
+        val customTabsIntent = CustomTabsIntent.Builder()
+            .setDefaultColorSchemeParams(
+                CustomTabColorSchemeParams.Builder()
+                    .setToolbarColor(context!!.getColor(R.color.colorPrimaryDark))
+                    .build()
+            )
+            .build()
+        customTabsIntent.launchUrl(requireContext(), uri)
     }
 
 }
