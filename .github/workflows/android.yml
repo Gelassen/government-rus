@@ -3,8 +3,9 @@ name: Android CI
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  # disable pull_request trigger to avoid negative scenario described here https://docs.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners 
+  # pull_request:
+  #   branches: [ "master" ]
 
 jobs:
   build:
@@ -33,9 +34,7 @@ jobs:
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
-      
-    - name: Pring gradle version
-      run: gradle --version
+
 
     # - name: Grant execute permission for gradlew
     #  run: chmod +x gradlew
@@ -58,7 +57,7 @@ jobs:
       with:
         api-level: ${{ matrix.api-level }}
         force-avd-creation: false
-        emulator-options: -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        emulator-options: no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: false
         script: echo "Generated AVD snapshot for caching."
     
@@ -73,7 +72,7 @@ jobs:
       with:
         api-level: ${{ matrix.api-level }}
         force-avd-creation: false
-        emulator-options: -no-snapshot-save -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        emulator-options: -no-snapshot-save no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: true
         target: ${{ matrix.target }}
         arch: x86_64
