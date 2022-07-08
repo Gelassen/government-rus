@@ -4,15 +4,13 @@ on:
   push:
     branches: [ "master" ]
   # disable pull_request trigger to avoid negative scenario described here https://docs.github.com/en/actions/hosting-your-own-runners/adding-self-hosted-runners 
-  # pull_request:
-  #   branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
   build:
 
-    runs-on: self-hosted
-    container:
-      image: docker://fabernovel/android:api-29-v1.1.0
+    runs-on: macos-latest # self-hosted
     strategy:
       matrix:
         api-level: [29]
