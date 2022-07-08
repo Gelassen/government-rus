@@ -52,6 +52,15 @@ android {
 ```
 see more by link https://developer.android.com/codelabs/android-dagger#13
 
+# Github Actions CI
+
+Status: currently disabled
+
+Running Android UI tests requires support of KVM which is rarely provided by cloud CI providers. In case of Github Actions macos-latest and self-hosted runners are only possible solutions.  
+
+Running in cloud on macos-latest almost always ends up with failed build, caused by 1-3 tests have been failed. Despite on run the same tests locally are successfully executed. 
+
+Seting up a whole flow on another machine with help of self-hosted runner faced with extra issues of additional configurations. With increasing demand this option should be explored further. Some extra thoughts on this and similar topics https://stackoverflow.com/questions/59241249/how-to-run-github-actions-workflows-locally  
 
 # API
 
