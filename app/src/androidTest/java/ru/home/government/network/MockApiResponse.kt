@@ -153,7 +153,6 @@ class MockApiResponse(context: Context) {
                 .setResponseCode(500)
                 .setBody("{}")
         }
-        // TODO set empty response
     }
 
     class BillSpecificVotesApi(context: Context): BaseApi(context) {

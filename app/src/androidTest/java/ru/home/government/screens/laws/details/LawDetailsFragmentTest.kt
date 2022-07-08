@@ -145,7 +145,7 @@ class LawDetailsFragmentTest : BaseApiTest() {
             .seesIntroducedDate(dataProvider.provideFormattedIntroducedDate(input.introductionDate))
             .seesUpdateDate(dataProvider.provideLastEventDate(input.lastEvent))
             .seesResolution(dataProvider.provideFormattedResolution(input.lastEvent.solution as String?))
-            .seesDeputies()
+            .seesDeputiesWithContent(name = "Майоров Алексей Петрович", position = "Член СФ", count = "+1\n ещё")
             .seesResponsible(dataProvider.provideResponsibleCommittee(input.committees))
             .seesLastEvent(dataProvider.provideLastEventData(input.lastEvent))
 
@@ -165,7 +165,7 @@ class LawDetailsFragmentTest : BaseApiTest() {
         robot
             .withContext(ApplicationProvider.getApplicationContext())
             .seesTitle(input.name)
-            .seesDeputies()
+            .seesDeputiesWithContent(name = "Майоров Алексей Петрович", position = "Член СФ", count = "+1\n ещё")
 
         Intents.init()
         robot.clickOnDeputiesCounter()
@@ -273,7 +273,7 @@ class LawDetailsFragmentTest : BaseApiTest() {
                 .seesIntroducedDate(dataProvider.provideFormattedIntroducedDate(anotherInput.introductionDate))
                 .seesUpdateDate(dataProvider.provideLastEventDate(anotherInput.lastEvent))
                 .seesResolution(dataProvider.provideFormattedResolution(anotherInput.lastEvent.solution as String?))
-                .seesDeputies()
+                .seesDeputiesWithContent(name = "Майоров Алексей Петрович", position = "Член СФ", count = "+1\n ещё")
                 .seesResponsible(dataProvider.provideResponsibleCommittee(anotherInput.committees))
                 .seesLastEvent(dataProvider.provideLastEventData(anotherInput.lastEvent))
                 .openLawVotesPages()

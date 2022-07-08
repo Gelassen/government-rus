@@ -4,9 +4,7 @@ import android.content.Context
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
-import ru.home.government.R
 import ru.home.government.di.modules.NetworkModule
-import ru.home.government.network.MockInterceptor
 import ru.home.government.network.PlainInterceptor
 import javax.inject.Named
 import javax.inject.Singleton

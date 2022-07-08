@@ -56,7 +56,19 @@ class LawDetailsRobot : BaseRobot() {
             .check(matches(isDisplayed()))
         onView(withId(R.id.voteDeputiesCounter))
             .check(matches(isDisplayed()))
-        // TODO complete me
+        return this
+    }
+
+    fun seesDeputiesWithContent(name: String, position: String, count: String): LawDetailsRobot {
+        seesDeputies()
+        onView(withId(R.id.name))
+            .check(matches(isDisplayed()))
+            .check(matches(withText(name)))
+        onView(withId(R.id.position))
+            .check(matches(isDisplayed()))
+            .check(matches(withText(position)))
+        onView(withId(R.id.voteDeputiesCounter))
+            .check(matches(withText(count)))
         return this
     }
 
