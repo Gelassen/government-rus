@@ -57,8 +57,8 @@ class LawsMainFragmentTest: BaseApiTest() {
 
     @Test
     fun onStart_withPositiveResponseFromServer_showsAllData() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
@@ -88,7 +88,7 @@ class LawsMainFragmentTest: BaseApiTest() {
 
     @Test
     fun onStart_withOkButEmptyResponseFromServer_showsNoContentView() {
-        dispatcher.getApiResponse().billsApi.setOkWithNoBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkWithNoBillsResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
@@ -103,8 +103,8 @@ class LawsMainFragmentTest: BaseApiTest() {
 
     @Test
     fun onStart_withPositiveResponseAndClickOnItem_openDetailScreen() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 

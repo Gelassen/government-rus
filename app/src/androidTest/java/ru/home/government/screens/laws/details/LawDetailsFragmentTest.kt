@@ -58,11 +58,11 @@ class LawDetailsFragmentTest : BaseApiTest() {
 
     @Test
     fun onStart_withServerErrorResponse_seesPlaceholders() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billSpecificApi.setBill149922_8ServerErrorResponse()
         dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
-        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection().laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -82,11 +82,11 @@ class LawDetailsFragmentTest : BaseApiTest() {
 
     @Test
     fun onStart_withVotesServerErrorResponse_seesPlaceholderWithErrorView() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
         dispatcher.getApiResponse().billSpecificVotesApi.setBillVotesServerErrorResponse()
-        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection().laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -108,11 +108,11 @@ class LawDetailsFragmentTest : BaseApiTest() {
 
     @Test
     fun onStart_withPositiveScenarioAndFullData_seesData() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
         dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
-        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection().laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -131,11 +131,11 @@ class LawDetailsFragmentTest : BaseApiTest() {
 
     @Test
     fun onStart_withPositiveScenarioAndIncompleteData_seesData() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billSpecificApi.setBillWithDeputiesResponse()
         dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
-        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithDeputies)
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection().laws.get(Const.idxBillWithDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -154,11 +154,11 @@ class LawDetailsFragmentTest : BaseApiTest() {
 
     @Test
     fun onStart_withPositiveResponseAndOpenDeputiesScreen_seesDeputies() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billSpecificApi.setBillWithDeputiesResponse()
         dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
-        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithDeputies)
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection().laws.get(Const.idxBillWithDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -177,11 +177,11 @@ class LawDetailsFragmentTest : BaseApiTest() {
 
     @Test
     fun onOpenDetailsPage_withPositiveResponse_seesOverviewPage() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
         dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
-        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection().laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -196,12 +196,12 @@ class LawDetailsFragmentTest : BaseApiTest() {
 
     @Test
     fun onOpenVotesPage_withPositiveResponseAndOpenVotesPage_seesVotesPage() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
         dispatcher.getApiResponse().billSpecificVotesApi.setBillVotesFullResponse()
         val votesFull = dispatcher.getApiResponse().billSpecificVotesApi.getVotesFull()
-        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection().laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -215,11 +215,11 @@ class LawDetailsFragmentTest : BaseApiTest() {
 
     @Test
     fun onOpenVotesPage_withPositiveButNoVotesResponse_seesVotesPageWithPlaceholder() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
         dispatcher.getApiResponse().billSpecificVotesApi.setBillEmptyVotesResponse()
-        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection().laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -235,12 +235,12 @@ class LawDetailsFragmentTest : BaseApiTest() {
     // test response on two different law ids
     @Test
     fun onOpenVotesPage_withPositiveResponseAndCheckTwoDifferentLaws_seesTwoDistinguishedLaws() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billSpecificApi.setBill149922_8Response()
         dispatcher.getApiResponse().billSpecificVotesApi.setBillVotesFullResponse()
         val votesFull = dispatcher.getApiResponse().billSpecificVotesApi.getVotesFull()
-        val input = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithoutDeputies)
+        val input = dispatcher.getApiResponse().billsApi.getBillsCollection().laws.get(Const.idxBillWithoutDeputies)
         val activityScenario = startActivityScenario(input)
         dataBindingIdlingResource.monitorActivity(activityScenario!!)
 
@@ -258,12 +258,12 @@ class LawDetailsFragmentTest : BaseApiTest() {
 
         activityScenario.close()
 
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billSpecificApi.setBillWithDeputiesResponse()
         dispatcher.getApiResponse().billSpecificVotesApi.setBillVotesFull2ndResponse()
         val anotherVotesFull = dispatcher.getApiResponse().billSpecificVotesApi.getVotesFull2nd()
-        val anotherInput = dispatcher.getApiResponse().billsApi.getBillsCollection(appContext).laws.get(Const.idxBillWithDeputies)
+        val anotherInput = dispatcher.getApiResponse().billsApi.getBillsCollection().laws.get(Const.idxBillWithDeputies)
         val anotherActivityScenario = startActivityScenario(anotherInput)
         dataBindingIdlingResource.monitorActivity(anotherActivityScenario!!)
 

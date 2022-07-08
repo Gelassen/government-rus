@@ -56,8 +56,8 @@ class LawsFilteredFragmentTest : BaseApiTest() {
 
     @Test
     fun onStart_withPositiveResponse_show1stPageOfSearchBills() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billsSearchApi.setBillsSearchPositive1stPageResponse()
         dispatcher.getApiResponse().billsSearchApi.setBillsSearchPositive2stPageResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
@@ -78,8 +78,8 @@ class LawsFilteredFragmentTest : BaseApiTest() {
 
     @Test
     fun onStart_withEmptyResponse_noContentShown() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billsSearchApi.setBillsSearchEmptyResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
@@ -99,8 +99,8 @@ class LawsFilteredFragmentTest : BaseApiTest() {
 
     @Test
     fun onStart_withServerError_errorViewIsShownWithNoContentIsShown() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billsSearchApi.setServerErrorResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
@@ -121,8 +121,8 @@ class LawsFilteredFragmentTest : BaseApiTest() {
 
     @Test
     fun onStart_withOkResponsePressBackButton_seesPreviousListWIthBills() {
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billsSearchApi.setBillsSearchEmptyResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)

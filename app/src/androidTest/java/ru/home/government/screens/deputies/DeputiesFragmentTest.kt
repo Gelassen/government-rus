@@ -44,9 +44,9 @@ class DeputiesFragmentTest: BaseApiTest() {
 
     @Test
     fun onStart_openDeputies_successfullyComplete() {
-        dispatcher.getApiResponse().deputiesApi.setOkDeputiesResponse(appContext)
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().deputiesApi.setOkDeputiesResponse()
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
@@ -59,9 +59,9 @@ class DeputiesFragmentTest: BaseApiTest() {
 
     @Test
     fun onOpenDeputies_withOkResponse_seesDeputiesItems() {
-        dispatcher.getApiResponse().deputiesApi.setOkDeputiesResponse(appContext)
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().deputiesApi.setOkDeputiesResponse()
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
@@ -79,8 +79,8 @@ class DeputiesFragmentTest: BaseApiTest() {
     @Test
     fun onOpenDeputies_withErrorResponse_seesErrorMessageAndNoContentView() {
         dispatcher.getApiResponse().deputiesApi.setServerErrorResponse()
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
@@ -97,9 +97,9 @@ class DeputiesFragmentTest: BaseApiTest() {
 
     @Test
     fun onOpenDeputies_withOKButEmptyResponse_seesNoContentView() {
-        dispatcher.getApiResponse().deputiesApi.setOkWithNoDeputiesResponse(appContext)
-        dispatcher.getApiResponse().billsApi.setOkBillsResponse(appContext)
-        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse(appContext)
+        dispatcher.getApiResponse().deputiesApi.setOkWithNoDeputiesResponse()
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
 
@@ -122,7 +122,7 @@ class DeputiesFragmentTest: BaseApiTest() {
         toggleWiFiConnection(enable = false)
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
-        dispatcher.getApiResponse().deputiesApi.setOkDeputiesResponse(appContext)
+        dispatcher.getApiResponse().deputiesApi.setOkDeputiesResponse()
 
         deputiesRobot
             .seesNavView()

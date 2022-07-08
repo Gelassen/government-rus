@@ -24,10 +24,8 @@ class MockApiResponse(context: Context) {
         billsSearchApi = BillsSearchApi(context)
     }
 
-    // TODO remove context from methods parameters when context is passed over class constructor
-
-    open class BaseApi(context: Context) {
-        protected var res: MockResponse = getDefault(context)
+    open class BaseApi(val context: Context) {
+        protected var res: MockResponse = getDefault()
 
         fun getResponse(): MockResponse {
             return res
@@ -36,29 +34,29 @@ class MockApiResponse(context: Context) {
         /**
          * Child class must to override this method to must have their default stub responses
          * */
-        protected open fun getDefault(context: Context) : MockResponse {
+        protected open fun getDefault() : MockResponse {
             return MockResponse()
                 .setResponseCode(404)
                 .setBody("{ msg: `Did you forget to override `BaseApi.getDefault()` }")
         }
 
-        protected fun getMessage(context: Context, jsonName: String): String {
+        protected fun getMessage(jsonName: String): String {
             return context.assets.open(jsonName).bufferedReader().use { it.readText() }
         }
     }
 
     class DeputiesApi(context: Context) : BaseApi(context) {
 
-        override fun getDefault(context: Context): MockResponse {
+        override fun getDefault(): MockResponse {
             return MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_deputies.json"))
+                .setBody(getMessage("mocks/mock_api_deputies.json"))
         }
 
-        fun setOkDeputiesResponse(context: Context) {
+        fun setOkDeputiesResponse() {
             res = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_deputies.json"))
+                .setBody(getMessage("mocks/mock_api_deputies.json"))
         }
 
         fun setServerErrorResponse() {
@@ -67,42 +65,42 @@ class MockApiResponse(context: Context) {
                 .setBody("{}")
         }
 
-        fun setOkWithNoDeputiesResponse(appContext: Context) {
+        fun setOkWithNoDeputiesResponse() {
             res = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(appContext, "mocks/mock_api_deputies_empty.json"))
+                .setBody(getMessage("mocks/mock_api_deputies_empty.json"))
         }
     }
 
-    class BillsApi(val context: Context) : BaseApi(context) {
+    class BillsApi(context: Context) : BaseApi(context) {
 
-        private var secondPageResponse: MockResponse = getDefault(context)
+        private var secondPageResponse: MockResponse = getDefault()
 
         fun get2ndPageResponse(): MockResponse {
             return secondPageResponse
         }
 
-        override fun getDefault(context: Context): MockResponse {
+        override fun getDefault(): MockResponse {
             return MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_laws_page_1.json"))
+                .setBody(getMessage("mocks/mock_api_laws_page_1.json"))
         }
 
-        fun getBillsCollection(context: Context): GovResponse {
-            val json = getMessage(context, "mocks/mock_api_laws_page_1.json")
+        fun getBillsCollection(): GovResponse {
+            val json = getMessage("mocks/mock_api_laws_page_1.json")
             return Gson().fromJson(json, GovResponse::class.java)
         }
 
-        fun setOkBillsResponse(context: Context) {
+        fun setOkBillsResponse() {
             res = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_laws_page_1.json"))
+                .setBody(getMessage("mocks/mock_api_laws_page_1.json"))
         }
 
-        fun set2ndPageOkBillsResponse(context: Context) {
+        fun set2ndPageOkBillsResponse() {
             secondPageResponse = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_laws_page_2.json"))
+                .setBody(getMessage("mocks/mock_api_laws_page_2.json"))
         }
 
         fun setServerErrorResponse() {
@@ -111,20 +109,20 @@ class MockApiResponse(context: Context) {
                 .setBody("{}")
         }
 
-        fun setOkWithNoBillsResponse(context: Context) {
+        fun setOkWithNoBillsResponse() {
             res = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_laws_empty.json"))
+                .setBody(getMessage("mocks/mock_api_laws_empty.json"))
         }
 
     }
 
-    class BillSpecificApi(val context: Context): BaseApi(context) {
+    class BillSpecificApi(context: Context): BaseApi(context) {
 
         private val billsApi: BillsApi = BillsApi(context)
 
-        override fun getDefault(context: Context): MockResponse {
-            val govResponse = BillsApi(context).getBillsCollection(context)
+        override fun getDefault(): MockResponse {
+            val govResponse = BillsApi(context).getBillsCollection()
             govResponse.laws = Collections.singletonList(govResponse.laws.get(0))
             val json = Gson().toJson(govResponse)
             return MockResponse()
@@ -133,7 +131,7 @@ class MockApiResponse(context: Context) {
         }
 
         fun setBill149922_8Response() {
-            val govResponse = billsApi.getBillsCollection(context)
+            val govResponse = billsApi.getBillsCollection()
             govResponse.laws = Collections.singletonList(govResponse.laws.get(0))
             val json = Gson().toJson(govResponse)
             res = MockResponse()
@@ -142,7 +140,7 @@ class MockApiResponse(context: Context) {
         }
 
         fun setBillWithDeputiesResponse() {
-            val govResponse = billsApi.getBillsCollection(context)
+            val govResponse = billsApi.getBillsCollection()
             govResponse.laws = Collections.singletonList(govResponse.laws.get(3))
             val json = Gson().toJson(govResponse)
             res = MockResponse()
@@ -158,30 +156,30 @@ class MockApiResponse(context: Context) {
         // TODO set empty response
     }
 
-    class BillSpecificVotesApi(val context: Context): BaseApi(context) {
+    class BillSpecificVotesApi(context: Context): BaseApi(context) {
 
-        override fun getDefault(context: Context): MockResponse {
+        override fun getDefault(): MockResponse {
             return MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_law_votes_empty.json"))
+                .setBody(getMessage("mocks/mock_api_law_votes_empty.json"))
         }
 
         fun setBillEmptyVotesResponse() {
             res = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_law_votes_empty.json"))
+                .setBody(getMessage("mocks/mock_api_law_votes_empty.json"))
         }
 
         fun setBillVotesFullResponse() {
             res = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_law_votes_full.json"))
+                .setBody(getMessage("mocks/mock_api_law_votes_full.json"))
         }
 
         fun setBillVotesFull2ndResponse() {
             res = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_law_votes_full_2nd.json"))
+                .setBody(getMessage("mocks/mock_api_law_votes_full_2nd.json"))
         }
 
         fun setBillVotesServerErrorResponse() {
@@ -191,54 +189,54 @@ class MockApiResponse(context: Context) {
         }
 
         fun getVotesFull(): Vote {
-            val json = getMessage(context, "mocks/mock_api_law_votes_full.json")
+            val json = getMessage("mocks/mock_api_law_votes_full.json")
             val votesResponse = Gson().fromJson(json, VotesResponse::class.java)
             return votesResponse.votes.first()
         }
 
         fun getVotesFull2nd(): Vote {
-            val json = getMessage(context, "mocks/mock_api_law_votes_full_2nd.json")
+            val json = getMessage("mocks/mock_api_law_votes_full_2nd.json")
             val votesResponse = Gson().fromJson(json, VotesResponse::class.java)
             return votesResponse.votes.first()
         }
 
         fun getVotesEmpty(): Vote {
-            val json = getMessage(context, "mocks/mock_api_law_votes_empty.json")
+            val json = getMessage("mocks/mock_api_law_votes_empty.json")
             val votesResponse = Gson().fromJson(json, VotesResponse::class.java)
             return votesResponse.votes.first()
         }
     }
 
-    class BillsSearchApi(val context: Context): BaseApi(context) {
+    class BillsSearchApi(context: Context): BaseApi(context) {
 
-        private var secondPageResponse: MockResponse = getDefault(context)
+        private var secondPageResponse: MockResponse = getDefault()
 
         fun get2ndPageResponse(): MockResponse {
             return secondPageResponse
         }
 
-        override fun getDefault(context: Context): MockResponse {
+        override fun getDefault(): MockResponse {
             return MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_search_positive_page_1.json"))
+                .setBody(getMessage("mocks/mock_api_search_positive_page_1.json"))
         }
 
         fun setBillsSearchPositive1stPageResponse() {
             res = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_search_positive_page_1.json"))
+                .setBody(getMessage("mocks/mock_api_search_positive_page_1.json"))
         }
 
         fun setBillsSearchPositive2stPageResponse() {
             secondPageResponse = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_search_positive_page_2.json"))
+                .setBody(getMessage("mocks/mock_api_search_positive_page_2.json"))
         }
 
         fun setBillsSearchEmptyResponse() {
             res = MockResponse()
                 .setResponseCode(200)
-                .setBody(getMessage(context, "mocks/mock_api_search_empty.json"))
+                .setBody(getMessage("mocks/mock_api_search_empty.json"))
         }
 
         fun setServerErrorResponse() {
