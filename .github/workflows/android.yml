@@ -10,7 +10,7 @@ on:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: self-hosted
     strategy:
       matrix:
         api-level: [29]
