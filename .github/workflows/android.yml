@@ -11,6 +11,8 @@ jobs:
   build:
 
     runs-on: self-hosted
+    container:
+      image: docker://fabernovel/android:api-29-v1.1.0
     strategy:
       matrix:
         api-level: [29]
