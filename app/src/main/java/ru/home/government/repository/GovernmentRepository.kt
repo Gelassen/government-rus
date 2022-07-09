@@ -29,6 +29,8 @@ open class GovernmentRepository(
     private val billsPagingSource: BillsPagingSource
 ) {
 
+    // TODO add and verify network not available case
+
     open fun getIntroducedLaws(): Flow<PagingData<Law>> {
         return Pager(
             config = PagingConfig(

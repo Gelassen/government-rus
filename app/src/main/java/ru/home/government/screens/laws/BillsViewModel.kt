@@ -15,6 +15,8 @@ import ru.home.government.repository.CacheRepository
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.Response
 import ru.home.government.screens.deputies.Model
+import ru.home.government.util.removeShownError
+import ru.home.government.util.withNewErrors
 import javax.inject.Inject
 
 data class BillsModel(
@@ -113,16 +115,7 @@ class BillsViewModel
         }
     }
 
-    fun addError(error: String) {
-        state.update { state ->
-            state.copy(errors = state.errors.plus(error))
-        }
-    }
+    fun addError(error: String) = state.update { state -> state.withNewErrors(state.errors.plus(error)) }
 
-    fun removeShownError() {
-        state.update { state ->
-            state.copy(errors = state.errors.filter { str ->
-                !str.equals(state.errors.first()) })
-        }
-    }
+    fun removeShownError() = state.removeShownError()
 }

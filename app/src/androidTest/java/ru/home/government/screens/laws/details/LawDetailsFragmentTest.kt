@@ -285,7 +285,6 @@ class LawDetailsFragmentTest : BaseApiTest() {
         assertNotEquals(anotherVotesFull.forCount, votesFull.forCount)
     }
 
-    // TODO test case with empty specific bill response
     // TODO test case with web url loaded
     // test with load webpage as idle resource
 

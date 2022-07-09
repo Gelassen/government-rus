@@ -12,6 +12,8 @@ import ru.home.government.model.dto.Deputy
 import ru.home.government.model.viewmodel.BaseViewModel
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.Response
+import ru.home.government.util.collectSafely
+import ru.home.government.util.removeShownError
 import javax.inject.Inject
 
 interface Model {
@@ -68,17 +70,8 @@ class DeputiesViewModel
         }
     }
 
-    fun manuallyUpdateDeputies(deputies: List<Deputy>) {
-        state.update { state ->
-            state.copy(deputies = deputies)
-        }
-    }
+    fun manuallyUpdateDeputies(deputies: List<Deputy>) = state.update { state -> state.copy(deputies = deputies) }
 
-    fun removeShownError() {
-        state.update { state ->
-            state.copy(errors = state.errors.filter { str ->
-                !str.equals(state.errors.first()) })
-        }
-    }
+    fun removeShownError() = state.removeShownError()
 
 }
