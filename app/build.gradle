@@ -15,8 +15,8 @@ android {
         compileSdkVersion versions.COMPILE_SDK_VERSION
         minSdkVersion versions.MIN_SDK_VERSION
         targetSdkVersion versions.TARGET_SDK_VERSION
-        versionCode 11
-        versionName "1.1.0"
+        versionCode 12
+        versionName "1.1.1"
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "ru.home.government.MyCustomTestRunner"
 
