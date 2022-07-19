@@ -150,7 +150,9 @@ class DeputiesFragment: BaseFragment() {
      * flag to explicitly tell API users to consider it due using this fragment.
      * */
     private fun decorViewForLayoutWithBottomNavigation() {
-        if (arguments != null && !requireArguments().getBoolean(EXTRA_NO_BOTTOM_VIEW)) {
+        if (arguments != null
+            && requireArguments().containsKey(EXTRA_NO_BOTTOM_VIEW)
+            && !requireArguments().getBoolean(EXTRA_NO_BOTTOM_VIEW)) {
             val bottomNavigation: BottomNavigationView = requireActivity().findViewById(R.id.nav_view)
             val viewTreeObserver = bottomNavigation.viewTreeObserver
             if (viewTreeObserver.isAlive) {
