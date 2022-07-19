@@ -36,9 +36,9 @@ class LawDataProvider(val context: Context) {
             ?: context.getString(R.string.placeholder_no_data)
     }
 
-    fun provideFormattedIntroducedDate(date: String): String {
+    fun provideFormattedIntroducedDate(date: String?): String {
         return String.format("${context.getString(R.string.title_introduced)} %s",
-            if (date.isEmpty()) {
+            if (date.isNullOrEmpty()) {
                 context.getString(R.string.placeholder_no_data)
             } else {
                 originDateFormat.parse(date)?.let { introducedDateFormat.format(it) }
