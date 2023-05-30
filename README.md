@@ -1,4 +1,5 @@
 # government-rus
+Play market: https://play.google.com/store/apps/details?id=ru.home.government.beta
 
 Demo: https://www.youtube.com/watch?v=D1WyOEI4E5Y&t=6s
 
