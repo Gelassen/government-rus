@@ -51,7 +51,7 @@ class LawScreenRobot : BaseRobot(){
     }
 
     fun seesErrorMessage(string: String): LawScreenRobot {
-        onView(withId(com.google.android.material.R.id.snackbar_text))
+        onView(withId(R.id.snackbar_text))
             .check(matches(isDisplayed()))
             .check(matches(withText(Matchers.containsString(string))))
         return this
@@ -86,7 +86,7 @@ class LawScreenRobot : BaseRobot(){
             .perform(
                 RecyclerViewActions.actionOnItemAtPosition<LawsAdapter.ViewHolder>(
                     idx,
-                    ViewActions.scrollTo()
+                    scrollTo()
                 )
             )
         return this

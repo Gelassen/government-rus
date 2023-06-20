@@ -15,8 +15,8 @@ android {
         compileSdkVersion versions.COMPILE_SDK_VERSION
         minSdkVersion versions.MIN_SDK_VERSION
         targetSdkVersion versions.TARGET_SDK_VERSION
-        versionCode 12
-        versionName "1.1.1"
+        versionCode 13
+        versionName "1.1.2"
 //        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner "ru.home.government.MyCustomTestRunner"
 
@@ -82,7 +82,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
     implementation 'androidx.activity:activity-ktx:1.4.0' /* TODO updating this libs will break search 3rd party lib - expect to clone and maintain this 3rd party lib */
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
-    implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0' /* shall it be under android test ?*/
+    implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
     implementation "androidx.browser:browser:1.4.0"
     /* room libs */
     implementation 'androidx.room:room-runtime:2.4.2'
