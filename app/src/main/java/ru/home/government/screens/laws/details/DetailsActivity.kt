@@ -81,10 +81,10 @@ class DetailsActivity : BaseActivity() {
         menuInflater.inflate(R.menu.menu_top_law, menu)
         if (cacheRepository.isCodeInCache(lawCode)) {
             val selected = 1
-            menu.findItem(R.id.itemFav).icon.level = selected
+            menu.findItem(R.id.itemFav).icon!!.level = selected
         } else {
             val unselected = 0
-            menu.findItem(R.id.itemFav).icon.level = unselected
+            menu.findItem(R.id.itemFav).icon!!.level = unselected
         }
         return true
     }
@@ -94,13 +94,13 @@ class DetailsActivity : BaseActivity() {
             R.id.itemFav -> {
                 val selected = 1
                 val unselected = 0
-                when(item.icon.level) {
+                when(item.icon!!.level) {
                     selected -> {
-                        item.icon.level = unselected
+                        item.icon!!.level = unselected
                         cacheRepository.removeLawCode(lawCode)
                     }
                     unselected -> {
-                        item.icon.level = selected
+                        item.icon!!.level = selected
                         cacheRepository.saveLawCode(lawCode)
                     }
                     else -> {
