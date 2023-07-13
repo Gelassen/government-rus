@@ -16,7 +16,7 @@
             app:veilFrame_layout="@layout/view_item_law_overview"
             app:veilFrame_veiled="true"
             app:veilFrame_shimmerEnable="true"
-            app:veilFrame_baseColor="@android:color/darker_gray"
+            app:veilFrame_baseColor="@color/shimmerBaseColor"
             app:veilFrame_highlightColor="@android:color/white"
             app:veilFrame_baseAlpha="0.6"
             app:veilFrame_highlightAlpha="1.0"

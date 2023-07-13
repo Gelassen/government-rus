@@ -9,4 +9,5 @@
     <color name="colorWhite">#ffffff</color>
     <color name="colorGray">#808080</color>
     <color name="textProtector">#CC000000</color>
+    <color name="shimmerBaseColor">#e0e0e0</color>
 </resources>
