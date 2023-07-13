@@ -80,12 +80,13 @@ class DeputiesFragment: BaseFragment() {
 
         progressView = view.findViewById<View>(R.id.progressView)
 
-        binding.list.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
-        binding.list.adapter = DeputiesAdapter()
+        binding.list.setLayoutManager(LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false))
+        binding.list.setAdapter(DeputiesAdapter())
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
-        binding.list.addItemDecoration(dividerItemDecoration)
+        binding.list.getRecyclerView().addItemDecoration(dividerItemDecoration)
+        binding.list.addVeiledItems(15)
     }
 
     @Deprecated(message = "It should be urgently replaced with valid implementation")
@@ -101,7 +102,7 @@ class DeputiesFragment: BaseFragment() {
                         onDismiss = { viewModel.removeShownError() }
                     )
                 }
-                (binding.list.adapter as DeputiesAdapter).update(it.deputies)
+                (binding.list.getRecyclerView().adapter as DeputiesAdapter).update(it.deputies)
                 visibleProgress(it.isLoading)
                 showList(!it.isLoading)
             }
@@ -171,16 +172,19 @@ class DeputiesFragment: BaseFragment() {
 
     private fun showList(show: Boolean) {
         if (show) {
-            if (binding.list.adapter?.itemCount == 0) {
+            if (binding.list.getRecyclerView().adapter?.itemCount == 0) {
                 binding.deputiesNoData.visibility = View.VISIBLE
-                binding.list.visibility = View.GONE
+//                binding.list.visibility = View.GONE
+                binding.list.veil()
             } else {
                 binding.deputiesNoData.visibility = View.GONE
-                binding.list.visibility = View.VISIBLE
+//                binding.list.visibility = View.VISIBLE
+                binding.list.unVeil()
             }
         } else {
             binding.deputiesNoData.visibility = View.GONE
-            binding.list.visibility = View.GONE
+//            binding.list.visibility = View.GONE
+            binding.list.veil()
         }
     }
 }
