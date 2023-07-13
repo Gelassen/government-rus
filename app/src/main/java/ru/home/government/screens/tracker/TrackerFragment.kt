@@ -47,12 +47,12 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
 
         progressView = view.findViewById<View>(R.id.progressView)
 
-        binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = TrackerAdapter(this)
+        binding.list.setLayoutManager(LinearLayoutManager(context))
+        binding.list.setAdapter(TrackerAdapter(this))
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
-        binding.list.addItemDecoration(dividerItemDecoration)
+        binding.list.getRecyclerView().addItemDecoration(dividerItemDecoration)
 
         val codes = CacheRepository(requireActivity()).lawCodes
         Log.d(App.TAG, "Tracked laws: " + codes.size)
@@ -61,7 +61,7 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
 
         lifecycleScope.launch {
             billsViewModel.uiState.collectLatest {
-                (binding.list.adapter as TrackerAdapter).update(it.billsWhichTracked.laws)
+                (binding.list.getRecyclerView().adapter as TrackerAdapter).update(it.billsWhichTracked.laws)
                 visibleProgress(it.isLoading)
                 val showPlaceholder = it.billsWhichTracked.laws.size == 0 && !it.isLoading
                 binding.trackedPlaceholderContainer.trackedPlaceholder.visibility =
@@ -78,7 +78,7 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
 
     override fun onResume() {
         super.onResume()
-        (binding.list.adapter as TrackerAdapter).reset()
+        (binding.list.getRecyclerView().adapter as TrackerAdapter).reset()
         binding.trackedPlaceholderContainer.trackedPlaceholder.visibility = View.VISIBLE
     }
 
@@ -86,4 +86,11 @@ class TrackerFragment: BaseFragment(), TrackerAdapter.ClickListener {
         DetailsActivity.start(activity as ComponentActivity, item)
     }
 
+    override fun visibleProgress(show: Boolean) {
+        if (show) {
+            binding.list.veil()
+        } else {
+            binding.list.unVeil()
+        }
+    }
 }
