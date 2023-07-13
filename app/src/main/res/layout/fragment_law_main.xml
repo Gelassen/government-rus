@@ -8,11 +8,21 @@
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.skydoves.androidveil.VeilRecyclerFrameView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingBottom="@dimen/bottomNavigationViewSize"
+            app:veilFrame_layout="@layout/view_item_law_overview"
+            app:veilFrame_veiled="true"
+            app:veilFrame_shimmerEnable="true"
+            app:veilFrame_baseColor="@android:color/darker_gray"
+            app:veilFrame_highlightColor="@android:color/white"
+            app:veilFrame_baseAlpha="0.6"
+            app:veilFrame_highlightAlpha="1.0"
+            app:veilFrame_radius="0dp"
+            app:veilFrame_isItemWrapContentHeight="true"
+            app:veilFrame_isItemWrapContentWidth="true"
             />
 
         <TextView
@@ -31,7 +41,7 @@
             app:layout_constraintTop_toTopOf="parent"
             />
 
-        <include layout="@layout/layout_progress_view" />
+<!--        <include layout="@layout/layout_progress_view" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

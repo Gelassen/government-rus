@@ -174,16 +174,13 @@ class DeputiesFragment: BaseFragment() {
         if (show) {
             if (binding.list.getRecyclerView().adapter?.itemCount == 0) {
                 binding.deputiesNoData.visibility = View.VISIBLE
-//                binding.list.visibility = View.GONE
                 binding.list.veil()
             } else {
                 binding.deputiesNoData.visibility = View.GONE
-//                binding.list.visibility = View.VISIBLE
                 binding.list.unVeil()
             }
         } else {
             binding.deputiesNoData.visibility = View.GONE
-//            binding.list.visibility = View.GONE
             binding.list.veil()
         }
     }

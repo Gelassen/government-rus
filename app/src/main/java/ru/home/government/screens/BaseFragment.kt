@@ -10,7 +10,7 @@ open class BaseFragment: Fragment() {
 
     protected var progressView: View? = null
 
-    protected fun visibleProgress(show: Boolean) {
+    protected open fun visibleProgress(show: Boolean) {
         if (progressView == null) return
         progressView!!.visibility = if (show) View.VISIBLE else View.GONE
     }

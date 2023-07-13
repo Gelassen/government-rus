@@ -20,7 +20,7 @@ import ru.home.government.util.withNewErrors
 import javax.inject.Inject
 
 data class BillsModel(
-    override var isLoading: Boolean = false,
+    override var isLoading: Boolean = true,
     override val errors: List<String> = emptyList(),
     var billsByName: PagingData<Law> = PagingData.empty(),
     var billsByPage: PagingData<Law> = PagingData.empty(),
@@ -64,7 +64,7 @@ class BillsViewModel
             repository
                 .getIntroducedLaws()
                 .cachedIn(viewModelScope)
-                .onStart { state.update { state -> state.copy(isLoading = false) } }
+                .onStart { state.update { state -> state.copy(isLoading = true) } }
                 .collect { result ->
                     state.update { state -> state.copy(billsByPage = result, isLoading = false) }
                 }
@@ -74,7 +74,7 @@ class BillsViewModel
     fun getLawByNumber(billNumber: String) {
         viewModelScope.launch {
             repository.getLawByNumber(billNumber)
-                .onStart { state.update { state -> state.copy(isLoading = false) } }
+                .onStart { state.update { state -> state.copy(isLoading = true) } }
                 .collect { result ->
                     when(result) {
                         is Response.Data -> { state.update { state -> state.copy(billsByNumber = result.data, isLoading = false) } }
@@ -87,7 +87,7 @@ class BillsViewModel
     fun getVotesByLaw(billNumber: String) {
         viewModelScope.launch {
             repository.getVotesByLaw(billNumber)
-                .onStart { state.update { state -> state.copy(isLoading = false) } }
+                .onStart { state.update { state -> state.copy(isLoading = true) } }
                 .collect { result ->
                     when(result) {
                         is Response.Data -> { state.update { state -> state.copy(votesByLaw = result.data, isLoading = false) } }
@@ -105,7 +105,7 @@ class BillsViewModel
                 .flatMapMerge { it ->
                     repository.getLawByNumber(it)
                 }
-                .onStart { state.update { state -> state.copy(isLoading = false) } }
+                .onStart { state.update { state -> state.copy(isLoading = true) } }
                 .collect { result ->
                     when(result) {
                         is Response.Data -> { state.update { state -> state.copy(billsWhichTracked = result.data, isLoading = false) } }

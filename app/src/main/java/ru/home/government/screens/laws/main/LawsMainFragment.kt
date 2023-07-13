@@ -1,6 +1,7 @@
 package ru.home.government.screens.laws.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
 import ru.home.government.databinding.FragmentLawMainBinding
@@ -49,13 +51,13 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
         lawsAdapter = LawsAdapter(Dispatchers.Main, Dispatchers.Default)
 
-        binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = lawsAdapter
-        (binding.list.adapter as LawsAdapter).listener = this
+        binding.list.setLayoutManager(LinearLayoutManager(context))
+        binding.list.setAdapter(lawsAdapter)
+        (binding.list.getRecyclerView().adapter as LawsAdapter).listener = this
 
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(requireActivity(), R.drawable.ic_divider)!!)
-        binding.list.addItemDecoration(dividerItemDecoration)
+        binding.list.getRecyclerView().addItemDecoration(dividerItemDecoration)
 
         billsViewModel = viewModelFactory.create(BillsViewModel::class.java)
         fetchLaws()
@@ -64,6 +66,15 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
     override fun onItemClick(item: Law) {
         DetailsActivity.start(activity as ComponentActivity, item)
+    }
+
+    override fun visibleProgress(show: Boolean) {
+        Log.d(App.TAG, "Toggle visibility for main screen with laws ${show}")
+        if (show) {
+            binding.list.veil()
+        } else {
+            binding.list.unVeil()
+        }
     }
 
     private fun fetchLaws() {
@@ -84,11 +95,11 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
                 }
                 visibleProgress(it.isLoading)
                 showNoDataView()
-                (binding.list.adapter as LawsAdapter).submitData(it.billsByPage)
+                (binding.list.getRecyclerView().adapter as LawsAdapter).submitData(it.billsByPage)
             }
         }
         lifecycleScope.launch {
-            (binding.list.adapter as LawsAdapter).loadStateFlow.collectLatest { loadState ->
+            (binding.list.getRecyclerView().adapter as LawsAdapter).loadStateFlow.collectLatest { loadState ->
                 when (loadState.refresh) {
                     is LoadState.Loading -> {
                         // no op
@@ -111,7 +122,7 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
     }
 
     private fun showNoDataView() {
-        if ((binding.list.adapter as LawsAdapter).itemCount == 0) {
+        if ((binding.list.getRecyclerView().adapter as LawsAdapter).itemCount == 0) {
             binding.lawsNoData.visibility = View.VISIBLE
         } else {
             binding.lawsNoData.visibility = View.GONE
