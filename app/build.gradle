@@ -64,6 +64,14 @@ android {
 //    resolutionStrategy {
 //        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
 //    }
+    applicationVariants.configureEach { variant ->
+        variant.outputs.each { output ->
+            variant.outputs.all {
+                def date = new Date().format('dd-MM-YYYY')
+                outputFileName = "RussianGovernment-${variant.versionName}(${variant.versionCode})-${date}.apk"
+            }
+        }
+    }
 }
 
 dependencies {
