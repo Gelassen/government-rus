@@ -1,6 +1,3 @@
-//apply plugin: 'com.android.application'
-//apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-kapt'
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -84,34 +81,34 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     /* androidx libs*/
-    implementation("androidx.appcompat:appcompat:1.4.2")
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.recyclerview:recyclerview:1.2.1")
-    implementation("androidx.paging:paging-runtime-ktx:3.1.1")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.4.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.4.2")
-    implementation("androidx.activity:activity-ktx:1.4.0") /* TODO updating this libs will break search 3rd party lib - expect to clone and maintain this 3rd party lib */
-    implementation("androidx.fragment:fragment-ktx:1.4.1")
-    implementation("androidx.test.espresso:espresso-idling-resource:3.4.0")
-    implementation("androidx.browser:browser:1.4.0")
+    implementation(libs.appCompat)
+    implementation(libs.core.ktx)
+    implementation(libs.constrainLayout)
+    implementation(libs.recyclerView)
+    implementation(libs.paging.runtime)
+    implementation(libs.lifecycle.extensions)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
+    implementation(libs.activity.ktx) /* TODO updating this libs will break search 3rd party lib - expect to clone and maintain this 3rd party lib */
+    implementation(libs.fragment.ktx)
+    implementation(libs.espresso.idling.resource)
+    implementation(libs.browser)
     /* room libs */
-    implementation("androidx.room:room-runtime:2.4.2")
-    implementation("androidx.room:room-ktx:2.4.2")
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
     /* coroutines */
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$libs.versions.kotlin.get()")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlin.stdlib.jdk7)
     /* kodein */
-    implementation("org.kodein.di:kodein-di-generic-jvm:6.2.0")
-    implementation("org.kodein.di:kodein-di-framework-android-x:6.2.0")
+    implementation(libs.kodein.di.generic.jvm)
+    implementation(libs.kodein.di.framework.android.x)
     /* retrofit */
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.adapter.rxjava2)
     /* shimmer effect */
     implementation("com.github.skydoves:androidveil:1.1.3")
     /* unit tests */
