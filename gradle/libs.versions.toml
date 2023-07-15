@@ -1,0 +1,10 @@
+[versions]
+buildToolsVersion = "33.0.2"
+minSdkVersion = "21"
+targetSdkVersion = "33"
+compileSdkVersion = "33"
+kotlinVersion = "1.7.0"
+
+[libraries]
+
+[plugins]
