@@ -31,7 +31,7 @@ android {
 
     }
 
-    flavorDimensions("default")
+    flavorDimensions.add("default")
 
     buildFeatures {
         viewBinding = true
