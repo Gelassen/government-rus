@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "ru.home.government"
-    buildToolsVersion = "30.0.3"
+    buildToolsVersion = libs.versions.buildToolsVersion.get().toString()
     compileSdk = libs.versions.compileSdkVersion.get().toInt()
 
     packagingOptions {
