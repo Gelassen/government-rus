@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Apache 2.0 and BSD licences.
+
+    This piece of code uses skydove shimmer library (https://github.com/skydoves/AndroidVeil)
+    which under the hood uses Facebook aka Meta shimmer library (https://github.com/facebook/shimmer-android)
+
+    More details: https://choosealicense.com/licenses/
+-->
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
