@@ -110,59 +110,56 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.adapter.rxjava2)
     /* shimmer effect */
-    implementation("com.github.skydoves:androidveil:1.1.3")
+    implementation(libs.androidVeil)
     /* unit tests */
-    testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1")
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:3.12.4")
-    testImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
-    testImplementation("org.mockito:mockito-inline:3.12.4")
-    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation(libs.mockwebserver)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.inline)
+    testImplementation(libs.core.testing)
     /* android tests */
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.test.espresso:espresso-intents:3.4.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test:runner:1.4.0")
-    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.4.0")
-    androidTestImplementation("androidx.test:rules:1.4.0")
-    androidTestImplementation("com.linkedin.dexmaker:dexmaker-mockito:2.28.1")
-    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:3.2.0")
-    androidTestImplementation("org.mockito:mockito-core:3.12.4")
-    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
-    androidTestImplementation("androidx.test:core:1.4.0")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.espresso.intents)
+    androidTestImplementation(libs.androidxJunit)
+    androidTestImplementation(libs.testRunner)
+    androidTestImplementation(libs.espresso.contrib)
+    androidTestImplementation(libs.testRules)
+    androidTestImplementation(libs.dexmaker.mockito)
+    androidTestImplementation(libs.androidTest.mockito.kotlin)
+    androidTestImplementation(libs.androidTest.mockito.core)
+    androidTestImplementation(libs.androidTest.mockwebserver)
+    androidTestImplementation(libs.androidTest.testCore)
+    androidTestImplementation(libs.androidTest.junit)
+    androidTestImplementation(libs.androidTest.kotlinx.coroutines.test) {
+        // conflicts with mockito due to direct inclusion of byte buddy
+        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-debug")
+    }
     /* DI */
-    implementation("com.google.dagger:dagger:2.42")
-    implementation("com.google.dagger:dagger-android-support:2.42")
+    implementation(libs.dagger)
+    implementation(libs.dagger.android.support)
     /* kapt */
-    kapt("androidx.room:room-compiler:2.4.2")
-    kapt("androidx.lifecycle:lifecycle-compiler:2.5.0")
-    kapt("com.google.dagger:dagger-compiler:2.42")
+    kapt(libs.kapt.room.compiler)
+    kapt(libs.kapt.lifecycle.compiler)
+    kapt(libs.kapt.dagger.compiler)
     /* kapt android tests */
-    kaptAndroidTest("com.google.dagger:dagger-compiler:2.42")
+    kaptAndroidTest(libs.kaptAndroidTests.dagger.compiler)
     /* others */
-    implementation("io.reactivex.rxjava2:rxandroid:2.0.1")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
-    implementation("com.dropbox.mobile.store:store4:4.0.2-KT15") {
+    implementation(libs.rxandroid)
+    implementation(libs.logging.interceptor)
+    implementation(libs.dropbox.store4) {
         exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core")
         exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
         exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk7")
         exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
         exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-core-jvm")
     }
-    implementation("androidx.test.espresso:espresso-idling-resource:3.4.0")
-    implementation("com.github.Ferfalk:SimpleSearchView:0.2.0")
+    implementation(libs.simpleSearchView)
 
-    testRuntimeOnly("org.jetbrains.kotlin:kotlin-reflect:$libs.versions.kotlin.get()")
+    testRuntimeOnly(libs.testRuntimeOnly.kotlin.reflect)
 
-    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1") {
-        // conflicts with mockito due to direct inclusion of byte buddy
-        exclude(group = "org.jetbrains.kotlinx", module = "kotlinx-coroutines-debug")
-    }
-
-
-    compileOnly("javax.annotation:jsr250-api:1.0")
+    compileOnly(libs.compileOnly.jsr250.api)
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:2.8.1")
 }
