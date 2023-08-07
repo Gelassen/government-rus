@@ -1,9 +1,9 @@
 # government-rus
-<a href="https://play.google.com/store/apps/details?id=ru.home.government.beta">App in the play market</a>
+
+<a href="https://play.google.com/store/apps/details?id=ru.home.government.beta">App in the play market</a> <br>
 <a href="https://gelassen.github.io/blog/2020/06/20/mobile-parliament.html">Released a mobile app with access to russian government data.</a> <br>
 <a href="https://gelassen.github.io/blog/2020/06/27/mobile-parliament-2nd-release.html">Released 2nd iteration of the mobile app with access to russian government data.</a>
-
-Demo: https://www.youtube.com/watch?v=D1WyOEI4E5Y&t=6s
+<a href="https://www.youtube.com/watch?v=D1WyOEI4E5Y&t=6s">Demo video</a>
 
 Email: government.rus.mobile@gmail.com
 
