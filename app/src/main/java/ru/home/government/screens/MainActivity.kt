@@ -42,7 +42,6 @@ class MainActivity : BaseActivity() {
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
         NavigationUI.setupWithNavController(navView, navController)
-        navController.navigate(R.id.navigation_dashboard)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
