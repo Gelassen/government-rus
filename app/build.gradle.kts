@@ -19,8 +19,8 @@ android {
         applicationId = "ru.home.government"
         minSdk = libs.versions.minSdkVersion.get().toInt()
         targetSdk = libs.versions.targetSdkVersion.get().toInt()
-        versionCode = 14
-        versionName = "1.1.3"
+        versionCode = 15
+        versionName = "1.1.4"
         testInstrumentationRunner = "ru.home.government.MyCustomTestRunner"
 
 /*        javaCompileOptions {
@@ -161,5 +161,5 @@ dependencies {
 
     compileOnly(libs.compileOnly.jsr250.api)
 
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:2.8.1")
+    debugImplementation(libs.leak.canary)
 }
