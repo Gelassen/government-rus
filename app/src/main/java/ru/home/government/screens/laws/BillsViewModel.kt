@@ -7,6 +7,7 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.home.government.BuildConfig
 import ru.home.government.model.dto.GovResponse
 import ru.home.government.model.dto.Law
 import ru.home.government.model.dto.VotesResponse
@@ -54,7 +55,9 @@ class BillsViewModel
                 .cachedIn(viewModelScope)
                 .onStart { state.update { state -> state.copy(isLoading = true) } }
                 .collect { result ->
-                    state.update { state -> state.copy(billsByName = result, isLoading = false) }
+                    /* do not update loading state, PagedData has deferred dataset deliver and
+                       its loading state managed in other place */
+                    state.update { state -> state.copy(billsByName = result/*, isLoading = false*/) }
                 }
         }
     }
@@ -66,7 +69,9 @@ class BillsViewModel
                 .cachedIn(viewModelScope)
                 .onStart { state.update { state -> state.copy(isLoading = true) } }
                 .collect { result ->
-                    state.update { state -> state.copy(billsByPage = result, isLoading = false) }
+                    /* do not update loading state, PagedData has deferred dataset deliver and
+                       its loading state managed in other place */
+                    state.update { state -> state.copy(billsByPage = result/*, isLoading = false*/) }
                 }
         }
     }
@@ -118,4 +123,11 @@ class BillsViewModel
     fun addError(error: String) = state.update { state -> state.withNewErrors(state.errors.plus(error)) }
 
     fun removeShownError() = state.removeShownError()
+    fun onPageUpdate(itemCount: Int) {
+        if (itemCount > 0) {
+            // no op, no need to update loading viewModel loading state
+            return
+        }
+        state.update { state -> state.copy(isLoading = false) }
+    }
 }

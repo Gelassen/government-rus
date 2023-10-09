@@ -50,6 +50,7 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
         (requireActivity().application as AppApplication).component.inject(this)
 
         lawsAdapter = LawsAdapter(Dispatchers.Main, Dispatchers.Default)
+        lawsAdapter.addOnPagesUpdatedListener { billsViewModel.onPageUpdate(lawsAdapter.itemCount) }
 
         binding.list.setLayoutManager(LinearLayoutManager(context))
         binding.list.setAdapter(lawsAdapter)
