@@ -179,7 +179,7 @@ class DeputiesFragment: BaseFragment() {
         if (show) {
             if (binding.list.getRecyclerView().adapter?.itemCount == 0) {
                 binding.deputiesNoData.visibility = View.VISIBLE
-                binding.list.veil()
+                binding.list.unVeil()
             } else {
                 binding.deputiesNoData.visibility = View.GONE
                 binding.list.unVeil()

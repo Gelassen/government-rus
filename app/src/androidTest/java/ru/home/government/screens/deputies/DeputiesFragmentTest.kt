@@ -90,11 +90,13 @@ class DeputiesFragmentTest: BaseApiTest() {
             .seesNavView()
             .clickDeputiesTab()
         deputiesRobot
-//            .seesShimmerIsUnveiled()
+            .seesShimmerIsUnveiled()
             .seesListItems(count = 0, isShimmer = true)
             .seesNoContent()
 //            .doesNotSeeProgressIndicator()
             .seesErrorMessage(appContext)
+
+//        Thread.sleep(3000)
 
         activityScenario.close()
     }
