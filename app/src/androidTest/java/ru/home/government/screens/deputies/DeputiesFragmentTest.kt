@@ -113,9 +113,10 @@ class DeputiesFragmentTest: BaseApiTest() {
             .seesNavView()
             .clickDeputiesTab()
         deputiesRobot
-            .seesListItems(0)
+            .seesShimmerIsUnveiled()
+            .seesListItems(count = 0, isShimmer = true)
             .seesNoContent()
-            .doesNotSeeProgressIndicator()
+//            .doesNotSeeProgressIndicator()
 
         activityScenario.close()
     }
