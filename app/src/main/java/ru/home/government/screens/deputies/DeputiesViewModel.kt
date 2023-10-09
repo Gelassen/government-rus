@@ -12,7 +12,6 @@ import ru.home.government.model.dto.Deputy
 import ru.home.government.model.viewmodel.BaseViewModel
 import ru.home.government.repository.GovernmentRepository
 import ru.home.government.repository.Response
-import ru.home.government.util.collectSafely
 import ru.home.government.util.removeShownError
 import javax.inject.Inject
 
@@ -49,7 +48,7 @@ class DeputiesViewModel
             repository.getDeputies()
                 .onStart { state.update { state -> state.copy(isLoading = true) } }
                 /*.cancellable() -- just test coroutine behaviour*/
-                .onCompletion { state.update { state -> state.copy(isLoading = false    ) } }
+                .onCompletion { state.update { state -> state.copy(isLoading = false) } }
                 .catch { e ->
                     val errorMsg = "Something went wrong on loading deputies"
                     Log.e(App.TAG, errorMsg, e)

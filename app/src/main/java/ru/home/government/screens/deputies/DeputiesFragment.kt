@@ -138,7 +138,12 @@ class DeputiesFragment: BaseFragment() {
         val viewModel: DeputiesViewModel by viewModels { viewModelFactory }
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.fetchDeputies()
+                /* do not request deputies if they are already cached, despite on bills business logic
+                they are updated much less frequently, it is safe to assume they are the same within
+                a day (single user's session) */
+                if (viewModel.uiState.value.deputies.isEmpty()) {
+                    viewModel.fetchDeputies()
+                }
             }
         }
     }
