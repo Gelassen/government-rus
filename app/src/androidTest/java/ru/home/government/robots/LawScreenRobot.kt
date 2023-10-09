@@ -36,8 +36,8 @@ class LawScreenRobot : BaseRobot(){
         return super.seesErrorMessage(context) as LawScreenRobot
     }
 
-    override fun seesListItems(count: Int): LawScreenRobot {
-        return super.seesListItems(count) as LawScreenRobot
+    override fun seesListItems(count: Int, isShimmer: Boolean): LawScreenRobot {
+        return super.seesListItems(count, isShimmer = isShimmer) as LawScreenRobot
     }
 
     override fun seesListItems(resId: Int, count: Int): LawScreenRobot {

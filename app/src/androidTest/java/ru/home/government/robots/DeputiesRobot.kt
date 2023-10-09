@@ -12,8 +12,8 @@ import java.util.regex.Matcher
 
 class DeputiesRobot : BaseRobot() {
 
-    override fun seesListItems(count: Int): DeputiesRobot {
-        return super.seesListItems(count) as DeputiesRobot
+    override fun seesListItems(count: Int, isShimmer: Boolean): DeputiesRobot {
+        return super.seesListItems(count, isShimmer) as DeputiesRobot
     }
 
     override fun seesErrorMessage(context: Context): DeputiesRobot {
@@ -22,6 +22,10 @@ class DeputiesRobot : BaseRobot() {
 
     override fun doesNotSeeProgressIndicator(): DeputiesRobot {
         return super.doesNotSeeProgressIndicator() as DeputiesRobot
+    }
+
+    override fun seesShimmerIsUnveiled(): DeputiesRobot {
+        return super.seesShimmerIsUnveiled() as DeputiesRobot
     }
 
     fun seesNavView(): DeputiesRobot {

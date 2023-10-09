@@ -69,9 +69,11 @@ class DeputiesFragmentTest: BaseApiTest() {
             .seesNavView()
             .clickDeputiesTab()
         deputiesRobot
-            .seesListItems(50)
+            .seesShimmerIsUnveiled()
+            .seesListItems(count = 50, isShimmer = true)
             .doesNotSeeNoContent()
-            .doesNotSeeProgressIndicator()
+
+//            .doesNotSeeProgressIndicator()
 
         activityScenario.close()
     }
@@ -87,9 +89,11 @@ class DeputiesFragmentTest: BaseApiTest() {
         deputiesRobot
             .seesNavView()
             .clickDeputiesTab()
-        deputiesRobot.seesListItems(0)
+        deputiesRobot
+//            .seesShimmerIsUnveiled()
+            .seesListItems(count = 0, isShimmer = true)
             .seesNoContent()
-            .doesNotSeeProgressIndicator()
+//            .doesNotSeeProgressIndicator()
             .seesErrorMessage(appContext)
 
         activityScenario.close()

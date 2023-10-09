@@ -7,9 +7,10 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.endsWith
 import org.hamcrest.Matchers
 import org.hamcrest.core.IsNot.not
 import ru.home.government.R
@@ -27,22 +28,27 @@ abstract class BaseRobot {
         return this
     }
 
-    open fun seesListItems(count: Int): BaseRobot {
-        Espresso.onView(ViewMatchers.withId(R.id.list))
-            .check(ViewAssertions.matches(CustomMatchers().recyclerViewSizeMatch(count)))
-        seesListItems(resId = R.id.list, count)
+    open fun seesListItems(count: Int, isShimmer: Boolean = false): BaseRobot {
+        if (isShimmer) {
+            onView(allOf(withClassName(endsWith("RecyclerView")), isDisplayed()))
+                .check(matches(CustomMatchers().recyclerViewSizeMatch(count)))
+        } else {
+            onView(withId(R.id.list))
+                .check(matches(CustomMatchers().recyclerViewSizeMatch(count)))
+            seesListItems(resId = R.id.list, count)
+        }
         return this
     }
 
     open fun seesListItems(resId: Int, count: Int): BaseRobot {
-        Espresso.onView(ViewMatchers.withId(resId))
-            .check(ViewAssertions.matches(CustomMatchers().recyclerViewSizeMatch(count)))
+        onView(withId(resId))
+            .check(matches(CustomMatchers().recyclerViewSizeMatch(count)))
         return this
     }
 
     open fun seesErrorMessage(context: Context): BaseRobot {
-        Espresso.onView(ViewMatchers.withId(com.google.android.material.R.id.snackbar_text))
-            .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+        onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(isDisplayed()))
             .check(
                 ViewAssertions.matches(
                     ViewMatchers.withText(
@@ -60,6 +66,18 @@ abstract class BaseRobot {
     open fun doesNotSeeProgressIndicator(): BaseRobot {
         onView(allOf(withId(R.id.progressView)))
             .check(matches(not(isDisplayed())))
+        return this
+    }
+
+    open fun seesShimmerVeiled(): BaseRobot {
+        onView(withId(R.id.list))
+            .check(matches(CustomMatchers().isShimmerVeiled()))
+        return this
+    }
+
+    open fun seesShimmerIsUnveiled(): BaseRobot {
+        onView(withId(R.id.list))
+            .check(matches(not(CustomMatchers().isShimmerVeiled())))
         return this
     }
 
