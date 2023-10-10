@@ -46,6 +46,10 @@ class DeputiesRobot : BaseRobot() {
         return this
     }
 
+    override fun doesNotSeeListItems(isShimmer: Boolean): DeputiesRobot {
+        return super.doesNotSeeListItems(isShimmer) as DeputiesRobot
+    }
+
     /* actions */
     fun clickDeputiesTab() {
         onView(withId(R.id.navigation_home))

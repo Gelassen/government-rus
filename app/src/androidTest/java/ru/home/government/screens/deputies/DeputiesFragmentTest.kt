@@ -73,8 +73,6 @@ class DeputiesFragmentTest: BaseApiTest() {
             .seesListItems(count = 50, isShimmer = true)
             .doesNotSeeNoContent()
 
-//            .doesNotSeeProgressIndicator()
-
         activityScenario.close()
     }
 
@@ -93,10 +91,7 @@ class DeputiesFragmentTest: BaseApiTest() {
             .seesShimmerIsUnveiled()
             .seesListItems(count = 0, isShimmer = true)
             .seesNoContent()
-//            .doesNotSeeProgressIndicator()
             .seesErrorMessage(appContext)
-
-//        Thread.sleep(3000)
 
         activityScenario.close()
     }
@@ -116,7 +111,45 @@ class DeputiesFragmentTest: BaseApiTest() {
             .seesShimmerIsUnveiled()
             .seesListItems(count = 0, isShimmer = true)
             .seesNoContent()
-//            .doesNotSeeProgressIndicator()
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun onOpenDeputies_withOkButBrokenResponse_seesAllContent() {
+        dispatcher.getApiResponse().deputiesApi.setOkWithBrokenDeputiesResponse()
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        deputiesRobot
+            .seesNavView()
+            .clickDeputiesTab()
+        deputiesRobot
+            .seesShimmerIsUnveiled()
+            .seesListItems(count = 49, isShimmer = true)
+            .doesNotSeeNoContent()
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun onOpenDeputies_withOkButInvalidJsonInResponse_seesAllContent() {
+        dispatcher.getApiResponse().deputiesApi.setOkWithInvalidDeputiesJsonInResponse()
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        deputiesRobot
+            .seesNavView()
+            .clickDeputiesTab()
+        deputiesRobot
+            .seesShimmerIsUnveiled()
+            .seesNoContent()
+            .doesNotSeeListItems(isShimmer = true)
+            .seesErrorMessage(appContext)
 
         activityScenario.close()
     }

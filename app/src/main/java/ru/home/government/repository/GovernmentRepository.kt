@@ -81,7 +81,7 @@ open class GovernmentRepository(
             }
         }
             .catch { ex ->
-                Response.Error.Exception(ex)
+                emit(Response.Error.Exception(ex))
             }
             .attachIdlingResource()
     }
@@ -103,7 +103,7 @@ open class GovernmentRepository(
             }
         }
             .catch { ex ->
-                Response.Error.Exception(ex)
+                emit(Response.Error.Exception(ex))
             }
             .attachIdlingResource()
 
@@ -123,7 +123,7 @@ open class GovernmentRepository(
             }
         }
             .catch { ex ->
-                Response.Error.Exception(ex)
+                emit(Response.Error.Exception(ex))
             }
             .attachIdlingResource()
     }

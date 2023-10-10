@@ -70,6 +70,18 @@ class MockApiResponse(context: Context) {
                 .setResponseCode(200)
                 .setBody(getMessage("mocks/mock_api_deputies_empty.json"))
         }
+
+        fun setOkWithBrokenDeputiesResponse() {
+            res = MockResponse()
+                .setResponseCode(200)
+                .setBody(getMessage("mocks/mock_api_deputies_broken_response.json"))
+        }
+
+        fun setOkWithInvalidDeputiesJsonInResponse() {
+            res = MockResponse()
+                .setResponseCode(200)
+                .setBody(getMessage("mocks/mock_api_deputies_invalid_json_in_response.json"))
+        }
     }
 
     class BillsApi(context: Context) : BaseApi(context) {

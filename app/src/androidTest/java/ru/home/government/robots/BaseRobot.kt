@@ -28,6 +28,17 @@ abstract class BaseRobot {
         return this
     }
 
+    open fun doesNotSeeListItems(isShimmer: Boolean = false): BaseRobot {
+        if (isShimmer) {
+            onView(allOf(withClassName(endsWith("RecyclerView")), isDisplayed()))
+                .check(matches(CustomMatchers().recyclerViewSizeMatch(0)))
+        } else {
+            onView(withId(R.id.list))
+                .check(matches(CustomMatchers().recyclerViewSizeMatch(0)))
+        }
+        return this
+    }
+
     open fun seesListItems(count: Int, isShimmer: Boolean = false): BaseRobot {
         if (isShimmer) {
             onView(allOf(withClassName(endsWith("RecyclerView")), isDisplayed()))
@@ -41,6 +52,7 @@ abstract class BaseRobot {
     }
 
     open fun seesListItems(resId: Int, count: Int): BaseRobot {
+        // resId doesn't make sense in case of shimmer component, because there is no way to add it
         onView(withId(resId))
             .check(matches(CustomMatchers().recyclerViewSizeMatch(count)))
         return this
