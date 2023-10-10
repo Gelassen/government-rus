@@ -15,6 +15,7 @@ import org.hamcrest.Matchers
 import org.hamcrest.core.IsNot.not
 import org.hamcrest.core.StringContains.containsString
 import ru.home.government.R
+import ru.home.government.matchers.CustomMatchers
 import ru.home.government.robots.Utils.atPositionByTitle
 import ru.home.government.screens.laws.main.LawsAdapter
 
@@ -81,14 +82,24 @@ class LawScreenRobot : BaseRobot(){
         return this
     }
 
-    fun scrollToItem(idx: Int): LawScreenRobot {
-        onView(withId(R.id.list))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<LawsAdapter.ViewHolder>(
-                    idx,
-                    scrollTo()
+    fun scrollToItem(idx: Int, isShimmer: Boolean = false, tagToMatch: String = "no op"): LawScreenRobot {
+        if (isShimmer) {
+            onView(CustomMatchers().isThisRequiredListInShimmer(tagToMatch))
+                .perform(
+                    RecyclerViewActions.actionOnItemAtPosition<LawsAdapter.ViewHolder>(
+                        idx,
+                        scrollTo()
+                    )
                 )
-            )
+        } else {
+            onView(withId(R.id.list))
+                .perform(
+                    RecyclerViewActions.actionOnItemAtPosition<LawsAdapter.ViewHolder>(
+                        idx,
+                        scrollTo()
+                    )
+                )
+        }
         return this
     }
 
@@ -110,14 +121,24 @@ class LawScreenRobot : BaseRobot(){
 
     /* actions */
 
-    fun clickOnItem(idx: Int) {
-        onView(withId(R.id.list))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<LawsAdapter.ViewHolder>(
-                    idx,
-                    ViewActions.click()
+    fun clickOnItem(idx: Int, isShimmer: Boolean = false, tagToMatch: String = "no op") {
+        if (isShimmer) {
+            onView(CustomMatchers().isThisRequiredListInShimmer(tagToMatch))
+                .perform(
+                    RecyclerViewActions.actionOnItemAtPosition<LawsAdapter.ViewHolder>(
+                        idx,
+                        click()
+                    )
                 )
-            )
+        } else {
+            onView(withId(R.id.list))
+                .perform(
+                    RecyclerViewActions.actionOnItemAtPosition<LawsAdapter.ViewHolder>(
+                        idx,
+                        click()
+                    )
+                )
+        }
     }
 
     fun clickSearchItem() {

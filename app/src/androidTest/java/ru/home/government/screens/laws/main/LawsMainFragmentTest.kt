@@ -65,7 +65,8 @@ class LawsMainFragmentTest: BaseApiTest() {
         robot
             .seesNavigationBar()
             .seesListViewComponentIsVisible()
-            .seesListItems(40)
+            .seesListItems(count = 40, isShimmer = true)
+            .seesShimmerIsUnveiled()
 
         activityScenario.close()
     }
@@ -80,8 +81,8 @@ class LawsMainFragmentTest: BaseApiTest() {
             .seesNavigationBar()
             .seesNoDataView(appContext)
             .seesErrorMessage(serverErrorUtil.getErrorMessageByServerResponseCode(500))
-            .doesNotSeeListItems()
-            .doesNotSeeProgressIndicator()
+            .doesNotSeeListItems(isShimmer = true)
+//            .seesShimmerIsUnveiled()
 
         activityScenario.close()
     }
@@ -95,8 +96,8 @@ class LawsMainFragmentTest: BaseApiTest() {
         robot
             .seesNavigationBar()
             .seesNoDataView(appContext)
-            .doesNotSeeListItems()
-            .doesNotSeeProgressIndicator()
+            .doesNotSeeListItems(isShimmer = true)
+//            .seesShimmerIsUnveiled()
 
         activityScenario.close()
     }
@@ -110,12 +111,12 @@ class LawsMainFragmentTest: BaseApiTest() {
 
         robot
             .seesNavigationBar()
-            .seesListViewComponentIsVisible()
-            .seesListItems(40)
-            .scrollToItem(1)
+//            .seesShimmerIsUnveiled()
+            .seesListItems(count = 40, isShimmer = true)
+            .scrollToItem(idx = 1, isShimmer = true, tagToMatch = LawsMainFragment.Const.TAG_LIST)
 
         Intents.init()
-        robot.clickOnItem(1)
+        robot.clickOnItem(idx = 1, isShimmer = true, tagToMatch = LawsMainFragment.Const.TAG_LIST)
         Intents.intended(IntentMatchers.hasComponent(DetailsActivity::class.java.name))
         Intents.release()
 

@@ -40,6 +40,23 @@ class CustomMatchers() {
 
         }
     }
+
+    /*
+    * Alternative to onView(allOf(withClassName(endsWith("RecyclerView")), isDisplayed())) matcher for
+    * shimmer component. It requires setup of tag on both RecyclerViews within shimmer.
+    * */
+    fun isThisRequiredListInShimmer(tagToMatch: String): BoundedMatcher<View, RecyclerView> {
+        return object : BoundedMatcher<View, RecyclerView>(RecyclerView::class.java) {
+
+            override fun describeTo(description: Description) {
+                description.appendText("RecyclerView in shimmer component should have defined tag $tagToMatch")
+            }
+
+            override fun matchesSafely(item: RecyclerView): Boolean {
+                return item.tag != null && item.tag.equals(tagToMatch)
+            }
+        }
+    }
     @Deprecated("not completed and redundant")
     fun recyclerViewInsideShimmerComponent(matcherSize: Int): Matcher<View> {
         return object : BaseMatcher<View>() {

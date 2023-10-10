@@ -43,6 +43,7 @@ abstract class BaseRobot {
         if (isShimmer) {
             onView(allOf(withClassName(endsWith("RecyclerView")), isDisplayed()))
                 .check(matches(CustomMatchers().recyclerViewSizeMatch(count)))
+
         } else {
             onView(withId(R.id.list))
                 .check(matches(CustomMatchers().recyclerViewSizeMatch(count)))

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import org.jetbrains.annotations.TestOnly
 import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
@@ -24,6 +25,12 @@ import ru.home.government.screens.laws.details.DetailsActivity
 import javax.inject.Inject
 
 class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
+
+    object Const {
+        // used for integration tests
+        val TAG_LIST = LawsMainFragment::class.java.simpleName.plus("TAG_LIST")
+        val TAG_SHIMMER = LawsMainFragment::class.java.simpleName.plus("TAG_SHIMMER")
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -52,6 +59,8 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
         lawsAdapter = LawsAdapter(Dispatchers.Main, Dispatchers.Default)
         lawsAdapter.addOnPagesUpdatedListener { billsViewModel.onPageUpdate(lawsAdapter.itemCount) }
 
+        binding.list.getRecyclerView().tag = Const.TAG_LIST
+        binding.list.getVeiledRecyclerView().tag = Const.TAG_SHIMMER
         binding.list.setLayoutManager(LinearLayoutManager(context))
         binding.list.setAdapter(lawsAdapter)
         (binding.list.getRecyclerView().adapter as LawsAdapter).listener = this
@@ -70,7 +79,7 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
     }
 
     override fun visibleProgress(show: Boolean) {
-        Log.d(App.TAG, "Toggle visibility for main screen with laws ${show}")
+        Log.d(App.TAG, "${LawsMainFragment::class.java.simpleName} Toggle visibility for main screen with laws ${show}")
         if (show) {
             binding.list.veil()
         } else {
