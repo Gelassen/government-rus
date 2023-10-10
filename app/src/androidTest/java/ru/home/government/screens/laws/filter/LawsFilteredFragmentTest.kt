@@ -70,7 +70,7 @@ class LawsFilteredFragmentTest : BaseApiTest() {
         robot
             .seesListItems(resId = R.id.list_laws_filtered, count = 40)
             .seesListItemWithText(order = 0, text = whatShouldBeWithinResult)
-            .doesNotSeeProgressIndicator()
+//            .seesShimmerIsUnveiled()
             .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
 
         activityScenario.close()
@@ -92,7 +92,7 @@ class LawsFilteredFragmentTest : BaseApiTest() {
             .doesNotSeeListItems(resId = R.id.list_laws_filtered)
             .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
             .seesNoDataView(appContext)
-            .doesNotSeeProgressIndicator()
+            .seesShimmerIsUnveiled()
 
         activityScenario.close()
     }
@@ -114,7 +114,7 @@ class LawsFilteredFragmentTest : BaseApiTest() {
             .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
             .seesNoDataView(appContext)
             .seesErrorMessage(serverErrorUtil.getErrorMessageByServerResponseCode(500))
-            .doesNotSeeProgressIndicator()
+//            .seesShimmerIsUnveiled()
 
         activityScenario.close()
     }
@@ -135,9 +135,9 @@ class LawsFilteredFragmentTest : BaseApiTest() {
             .doesNotSeeListItems(resId = R.id.list_laws_filtered)
             .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
             .seesNoDataView(appContext)
-            .doesNotSeeProgressIndicator()
+//            .seesShimmerIsUnveiled()
         robot.pressBackButton()
-        robot.seesListItems(resId = R.id.list, 40)
+        robot.seesListItems(count = 40, isShimmer = true)
 
         activityScenario.close()
     }
