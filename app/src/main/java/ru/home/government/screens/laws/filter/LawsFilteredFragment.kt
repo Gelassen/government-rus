@@ -35,7 +35,7 @@ class LawsFilteredFragment: BaseFragment(),
 
         const val TAG = "LawsFilteredFragment"
 
-        private const val EXTRA_KEY = "EXTRA_KEY"
+        /*private */const val EXTRA_KEY = "EXTRA_KEY"
 
         fun instance(filter: String): LawsFilteredFragment {
             val fragment =

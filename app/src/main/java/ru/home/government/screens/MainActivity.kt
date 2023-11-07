@@ -8,12 +8,14 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.home.government.R
 import ru.home.government.databinding.ActivityMainBinding
+import java.lang.IllegalStateException
 
 class MainActivity : BaseActivity() {
 
@@ -30,8 +32,10 @@ class MainActivity : BaseActivity() {
         supportActionBar!!.setBackgroundDrawable(dr)
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+            ?: throw IllegalStateException("There is no NavHostFragment. Did you lose it during refactoring?")
 
-        val navController = findNavController(R.id.nav_host_fragment)
+        val navController = navHostFragment.findNavController()
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(

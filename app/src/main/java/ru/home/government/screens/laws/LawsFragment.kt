@@ -2,11 +2,14 @@ package ru.home.government.screens.laws
 
 import android.os.Bundle
 import android.view.*
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.ferfalk.simplesearchview.SimpleSearchView
 import ru.home.government.R
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.OnSearchClickListener
 import ru.home.government.screens.laws.filter.LawsFilteredFragment
+import ru.home.government.screens.laws.filter.LawsFilteredFragment.Companion.EXTRA_KEY
 import ru.home.government.screens.laws.main.LawsMainFragment
 import java.lang.RuntimeException
 
@@ -48,8 +51,10 @@ class LawsFragment: BaseFragment() {
     }
 
     fun onSearch(str: String?) {
-        val frag = childFragmentManager.findFragmentByTag(LawsFilteredFragment.TAG)
-        if (frag == null) {
+//        val frag = childFragmentManager.findFragmentByTag(LawsFilteredFragment.TAG)
+        val navController = findNavController()
+        navController.navigate(R.id.navigationLawsFilteredFragment, bundleOf(EXTRA_KEY to str))
+/*        if (frag == null) {
             childFragmentManager
                 .beginTransaction()
                 .add(R.id.container_laws, LawsFilteredFragment.instance(str!!), LawsFilteredFragment.TAG)
@@ -61,7 +66,7 @@ class LawsFragment: BaseFragment() {
             } else {
                 throw RuntimeException("Did you miss to add search interface to fragment?")
             }
-        }
+        }*/
     }
 
     private fun initActivityDependentViews() {

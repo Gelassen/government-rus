@@ -27,11 +27,30 @@
         android:id="@+id/navigation_dashboard"
         android:name="ru.home.government.screens.laws.LawsFragment"
         android:label="@string/title_laws"
-        tools:layout="@layout/fragment_laws" />
+        tools:layout="@layout/fragment_laws" >
+
+        <action
+            android:id="@+id/action_navigation_dashboard_to_lawsFilteredFragment"
+            app:destination="@id/navigationLawsFilteredFragment" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="ru.home.government.screens.tracker.TrackerFragment"
         android:label="@string/title_tracker"
         tools:layout="@layout/fragment_tracker" />
+
+    <fragment
+        android:id="@+id/navigationLawsFilteredFragment"
+        android:name="ru.home.government.screens.laws.filter.LawsFilteredFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_law_filtered">
+
+        <argument
+            android:name="EXTRA_KEY"
+            app:argType="string"
+            android:defaultValue="false" />
+
+    </fragment>
 </navigation>
