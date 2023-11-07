@@ -155,4 +155,14 @@ class LawScreenRobot : BaseRobot(){
             /*.perform(typeText(query), pressKey(KeyEvent.KEYCODE_ENTER)) // Unicode chars is not supported here */
     }
 
+    fun clickDeputiesTab() {
+        onView(withId(R.id.navigation_home))
+            .perform(click())
+    }
+
+    fun clickBillsTab() {
+        onView(withId(R.id.navigation_dashboard))
+            .perform(click())
+    }
+
 }

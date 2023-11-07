@@ -11,11 +11,13 @@ object NetworkIdlingResource {
 
     fun increment() {
         countingIdlingResource.increment()
+        countingIdlingResource.dumpStateToLogs()
     }
 
     fun decrement() {
         if (!countingIdlingResource.isIdleNow) {
             countingIdlingResource.decrement()
+            countingIdlingResource.dumpStateToLogs()
         }
     }
 }

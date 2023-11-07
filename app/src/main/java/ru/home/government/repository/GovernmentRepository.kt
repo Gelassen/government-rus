@@ -3,12 +3,14 @@ package ru.home.government.repository
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import ru.home.government.App
 import ru.home.government.R
 import ru.home.government.model.dto.Deputy
 import ru.home.government.model.dto.GovResponse
@@ -32,6 +34,7 @@ open class GovernmentRepository(
     // TODO add and verify network not available case
 
     open fun getIntroducedLaws(): Flow<PagingData<Law>> {
+        Log.d(App.IDLE, "getIntroducedLaws() call")
         return Pager(
             config = PagingConfig(
                 pageSize = DEFAULT_PAGE_SIZE,
@@ -43,10 +46,11 @@ open class GovernmentRepository(
             }
         )
             .flow
-            .attachIdlingResource()
+//            .attachIdlingResource()
     }
 
     fun getLawsByNameFilter(filter: String): Flow<PagingData<Law>> {
+        Log.d(App.IDLE, "getLawsByNameFilter() call")
         return Pager(
             config = PagingConfig(
                 pageSize = DEFAULT_PAGE_SIZE,
@@ -87,6 +91,7 @@ open class GovernmentRepository(
     }
 
     open fun getDeputies(): Flow<Response<List<Deputy>>> {
+        Log.d(App.IDLE, "getDeputies() call")
         return flow {
             if (isConnected()) {
                 val response = api.getAllDeputies(

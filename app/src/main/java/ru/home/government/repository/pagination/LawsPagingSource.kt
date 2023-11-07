@@ -1,9 +1,11 @@
 package ru.home.government.repository.pagination
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
 import retrofit2.Response
+import ru.home.government.App
 import ru.home.government.model.dto.GovResponse
 import ru.home.government.model.dto.Law
 import ru.home.government.network.IApi
@@ -37,6 +39,7 @@ open class BillsPagingSource(
             val response = wrapIdlingResource { execute(page) }
             if (response.isSuccessful) {
                 val govResponse = response.body()
+                Log.d(App.TAG, "[lawsPaging] Next page will be ${if (govResponse!!.laws?.isEmpty()!!)  null else govResponse.page.plus(params.loadSize / PAGE_SIZE)}")
                 return LoadResult.Page(
                     data = govResponse!!.laws,
                     prevKey = if (page == DEFAULT_START_PAGE) null else  page.minus(1),
@@ -47,8 +50,10 @@ open class BillsPagingSource(
                 return LoadResult.Error(IllegalStateException(msg))
             }
         } catch (ex: IOException) {
+            Log.e(App.TAG, "Failed to load data", ex)
             return LoadResult.Error(ex)
         } catch (ex: HttpException) {
+            Log.e(App.TAG, "Failed to load data", ex)
             return LoadResult.Error(ex)
         }
     }

@@ -1,7 +1,6 @@
 package ru.home.government.screens.laws.filter
 
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -10,7 +9,6 @@ import org.junit.Assert.*
 
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -120,7 +118,7 @@ class LawsFilteredFragmentTest : BaseApiTest() {
     }
 
     @Test
-    fun onStart_withOkResponsePressBackButton_seesPreviousListWIthBills() {
+    fun onStart_withOkResponsePressBackButton_seesPreviousListWithBills() {
         dispatcher.getApiResponse().billsApi.setOkBillsResponse()
         dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
         dispatcher.getApiResponse().billsSearchApi.setBillsSearchEmptyResponse()
@@ -138,6 +136,46 @@ class LawsFilteredFragmentTest : BaseApiTest() {
 //            .seesShimmerIsUnveiled()
         robot.pressBackButton()
         robot.seesListItems(count = 40, isShimmer = true)
+
+        activityScenario.close()
+    }
+
+    /*
+    * Confirm search logic correctness https://github.com/Gelassen/government-rus/issues/4
+    * */
+    @Test
+    fun onSearch_withOkResponseWithPayloadAndReopenTab_seesFilteredScreenRef() {
+        dispatcher.getApiResponse().billsApi.setOkBillsResponse()
+        dispatcher.getApiResponse().billsApi.set2ndPageOkBillsResponse()
+        dispatcher.getApiResponse().billsSearchApi.setBillsSearchPositive1stPageResponse()
+        dispatcher.getApiResponse().billsSearchApi.setBillsSearchPositive2stPageResponse()
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+        // perform general search flow
+        val searchQuery = "суд"
+        val whatShouldBeWithinResult = "суд"
+        robot.clickSearchItem()
+        robot.enterSearchQuery(searchQuery)
+        robot
+            .seesListItems(resId = R.id.list_laws_filtered, count = 40)
+            .seesListItemWithText(order = 0, text = whatShouldBeWithinResult)
+//            .seesShimmerIsUnveiled()
+            .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
+
+        robot.clickDeputiesTab()
+        robot.clickBillsTab()
+//        robot.seesListItems(count = 40, isShimmer = false)
+        // make a new request
+        dispatcher.getApiResponse().billsSearchApi.setBillsSearchEmptyResponse()
+        val newSearchQuery = "med"
+        robot.clickSearchItem()
+        robot.enterSearchQuery(newSearchQuery)
+
+        robot
+            .doesNotSeeListItems(resId = R.id.list_laws_filtered) // filtered screen
+            .doesNotSeeListItems() // main bills screen
+            .doesNotSeeExpandSearchView(text = whatShouldBeWithinResult)
+            .seesNoDataView(appContext)
 
         activityScenario.close()
     }
