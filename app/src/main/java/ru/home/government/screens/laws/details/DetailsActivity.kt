@@ -43,8 +43,6 @@ class DetailsActivity : BaseActivity() {
         binding = ActivityLawDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
-
         val dr = ColorDrawable(getApiSupportColor())
         supportActionBar!!.setBackgroundDrawable(dr)
 
@@ -72,8 +70,7 @@ class DetailsActivity : BaseActivity() {
             tabLayout.setupWithViewPager(viewPager)
         }
 
-        cacheRepository =
-            CacheRepository(this)
+        cacheRepository = CacheRepository(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

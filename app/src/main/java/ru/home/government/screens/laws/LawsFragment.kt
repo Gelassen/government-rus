@@ -2,11 +2,14 @@ package ru.home.government.screens.laws
 
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.ferfalk.simplesearchview.SimpleSearchView
 import ru.home.government.R
 import ru.home.government.screens.BaseFragment
+import ru.home.government.screens.MainActivity
 import ru.home.government.screens.OnSearchClickListener
 import ru.home.government.screens.laws.filter.LawsFilteredFragment
 import ru.home.government.screens.laws.filter.LawsFilteredFragment.Companion.EXTRA_KEY
@@ -15,7 +18,7 @@ import java.lang.RuntimeException
 
 class LawsFragment: BaseFragment() {
 
-    private lateinit var search_view: SimpleSearchView
+//    private lateinit var search_view: SimpleSearchView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,13 +49,17 @@ class LawsFragment: BaseFragment() {
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.menu_law, menu)
 
-        val menuItem = menu.findItem(R.id.action_search)
-        search_view.setMenuItem(menuItem)
+        // TODO complete me ref. #7
+/*        val menuItem = menu.findItem(R.id.action_search)
+        search_view.setMenuItem(menuItem)*/
     }
 
     fun onSearch(str: String?) {
 //        val frag = childFragmentManager.findFragmentByTag(LawsFilteredFragment.TAG)
         val navController = findNavController()
+//        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar) TODO complete me ref. #7
+//        (requireActivity() as MainActivity).appBarCon
+//        NavigationUI.setupWithNavController(toolbar = toolbar, navController = navController/*, configuration = null*/)
         navController.navigate(R.id.navigationLawsFilteredFragment, bundleOf(EXTRA_KEY to str))
 /*        if (frag == null) {
             childFragmentManager
@@ -70,7 +77,8 @@ class LawsFragment: BaseFragment() {
     }
 
     private fun initActivityDependentViews() {
-        search_view = requireActivity().findViewById<SimpleSearchView>(R.id.searchView)
+        // TODO complete me ref. #7
+/*        search_view = requireActivity().findViewById<SimpleSearchView>(R.id.searchView)
         search_view.isSearchOpen
         search_view.setOnQueryTextListener(object: SimpleSearchView.OnQueryTextListener {
 
@@ -89,7 +97,7 @@ class LawsFragment: BaseFragment() {
                 // no op
                 return true
             }
-        })
+        })*/
     }
 
 }

@@ -33,7 +33,7 @@ class DeputiesOnLawActivity: BaseActivity() {
         binding = ActivityLawDeputiesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
+//        setSupportActionBar(binding.toolbar)
 
         val dr = ColorDrawable(getApiSupportColor())
         supportActionBar!!.setBackgroundDrawable(dr)

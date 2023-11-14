@@ -123,7 +123,7 @@ class DeputiesFragment: BaseFragment() {
             FrameLayout.LayoutParams.MATCH_PARENT,
             FrameLayout.LayoutParams.MATCH_PARENT
         )
-        layoutParams.topMargin = resources.getDimension(R.dimen.actionBarSize).toInt()
+        layoutParams.topMargin = 0 /* resources.getDimension(R.dimen.actionBarSize).toInt()  */
         binding.deputiesContainer.layoutParams = layoutParams
     }
 

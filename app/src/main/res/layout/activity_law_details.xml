@@ -12,7 +12,7 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_marginTop="0dp"
         >
 
         <com.google.android.material.tabs.TabLayout
@@ -27,28 +27,4 @@
             app:tabMode="fixed" />
 
     </androidx.viewpager.widget.ViewPager>
-
-    <!-- Must be last for right layering display -->
-    <FrameLayout
-        android:id="@+id/toolbar_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/list">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorGray"
-            app:theme="@style/ToolBarStyle"
-            />
-
-<!--        <com.miguelcatalan.materialsearchview.MaterialSearchView
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />-->
-    </FrameLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

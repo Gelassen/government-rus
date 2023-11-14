@@ -11,6 +11,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.home.government.R
@@ -26,11 +28,6 @@ class MainActivity : BaseActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
-
-        val dr = ColorDrawable(getApiSupportColor())
-        supportActionBar!!.setBackgroundDrawable(dr)
-
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
             ?: throw IllegalStateException("There is no NavHostFragment. Did you lose it during refactoring?")
@@ -44,8 +41,11 @@ class MainActivity : BaseActivity() {
             )
         )
 
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
-        NavigationUI.setupWithNavController(navView, navController)
+        navView.setupWithNavController(navController)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        val dr = ColorDrawable(getApiSupportColor())
+        supportActionBar!!.setBackgroundDrawable(dr)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -72,10 +72,11 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        val searchView = findViewById<SimpleSearchView>(R.id.searchView)
+        // TODO complete me ref. #7
+/*        val searchView = findViewById<SimpleSearchView>(R.id.searchView)
         if (searchView.onBackPressed()) {
             return
-        }
+        }*/
         super.onBackPressed()
     }
 }
