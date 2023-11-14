@@ -3,16 +3,18 @@ package ru.home.government.screens.laws.main
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.TestOnly
 import ru.home.government.App
 import ru.home.government.AppApplication
 import ru.home.government.R
@@ -22,7 +24,9 @@ import ru.home.government.model.dto.Law
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.laws.BillsViewModel
 import ru.home.government.screens.laws.details.DetailsActivity
+import ru.home.government.screens.laws.filter.LawsFilteredFragment
 import javax.inject.Inject
+
 
 class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
 
@@ -72,6 +76,30 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
         billsViewModel = viewModelFactory.create(BillsViewModel::class.java)
         fetchLaws()
         listenUpdates()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu_law, menu)
+        val myActionMenuItem = menu.findItem(R.id.action_search)
+        val searchView = myActionMenuItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                val navController = findNavController()
+                navController.navigate(R.id.navigationLawsFilteredFragment, bundleOf(
+                    LawsFilteredFragment.EXTRA_KEY to query)
+                )
+                if (!searchView.isIconified()) {
+                    searchView.setIconified(true)
+                }
+                myActionMenuItem.collapseActionView()
+                return false
+            }
+
+            override fun onQueryTextChange(s: String?): Boolean {
+                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
+                return false
+            }
+        })
     }
 
     override fun onItemClick(item: Law) {

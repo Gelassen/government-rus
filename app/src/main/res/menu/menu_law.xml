@@ -13,6 +13,8 @@
      android:icon="@drawable/ic_search_black_24dp"
      android:title="@string/search_hint"
      app:iconTint="@android:color/white"
-     app:showAsAction="ifRoom" />
+     app:showAsAction="ifRoom|collapseActionView"
+     app:actionViewClass="androidx.appcompat.widget.SearchView"
+     />
 
 </menu>

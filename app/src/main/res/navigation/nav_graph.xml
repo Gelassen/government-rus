@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="ru.home.government.screens.laws.LawsFragment"
+        android:name="ru.home.government.screens.laws.main.LawsMainFragment"
         android:label="@string/title_laws"
         tools:layout="@layout/fragment_laws" >
 
