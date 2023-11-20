@@ -6,9 +6,12 @@ import android.view.*
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -72,6 +75,8 @@ class LawsFilteredFragment: BaseFragment(),
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity().application as AppApplication).component.inject(this)
+
+//        requireActivity().findViewById<BottomNavigationView>(R.id.nav_view).setOnItemSelectedListener(this)
 
         lawsAdapter = LawsAdapter(Dispatchers.Main, Dispatchers.Default)
 
@@ -158,5 +163,24 @@ class LawsFilteredFragment: BaseFragment(),
             binding.listLawsFiltered.visibility = View.VISIBLE
         }
     }
+
+/*    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var result = false
+        when (item.itemId) {
+            R.id.navigation_dashboard -> {
+                findNavController().popBackStack()
+                result = true
+            }
+            R.id.navigation_home -> {
+                findNavController().popBackStack()
+                result = true
+            }
+            R.id.navigation_notifications -> {
+                findNavController().popBackStack()
+                result = true
+            }
+        }
+        return result
+    }*/
 
 }

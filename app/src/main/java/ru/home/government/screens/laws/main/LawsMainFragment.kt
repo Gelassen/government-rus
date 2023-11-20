@@ -7,12 +7,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ComponentActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -91,7 +89,7 @@ class LawsMainFragment: BaseFragment(), LawsAdapter.ClickListener {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 val navController = findNavController()
-                navController.navigate(R.id.navigationLawsFilteredFragment, bundleOf(
+                navController.navigate(R.id.navigation_laws_filtered, bundleOf(
                     LawsFilteredFragment.EXTRA_KEY to query)
                 )
                 if (!searchView.isIconified()) {
