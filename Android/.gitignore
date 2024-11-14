@@ -1,0 +1,64 @@
+# Ignore all files in the build directory
+/build/
+/app/build/
+
+# Ignore local configuration files
+/local.properties
+/.idea/
+/.idea/caches/
+/.idea/libraries/
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/misc.xml
+.gradle/
+/captures/
+/output.json
+
+# Ignore Gradle files
+.gradle
+/build
+**/build
+!gradle-wrapper.jar
+.gradle/caches/
+/gradle/
+/gradlew
+/gradlew.bat
+/gradle.properties
+/settings.gradle
+
+# Ignore Kotlin specific files
+*.kts
+*.iml
+
+# Ignore Android Studio generated files
+/.idea
+/.idea/*
+
+# Ignore misc Android files
+.DS_Store
+*.apk
+*.ap_
+*.dex
+*.class
+*.jar
+*.apk
+*.ap_
+*.dex
+*.class
+*.jar
+*.war
+*.ear
+
+# Ignore lint and crashlytics files
+lint/outputs
+lint/reports
+crashlytics.properties
+fabric.properties
+app/google-services.json
+app/firebase-debug.log
+app/google-services-debug.json
+
+# Ignore Mac system files
+.DS_Store
