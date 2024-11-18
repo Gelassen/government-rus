@@ -1,0 +1,66 @@
+package io.github.gelassen.government_rus.model.dto;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import io.github.gelassen.government_rus.model.dto.Phase;
+import io.github.gelassen.government_rus.model.dto.Stage;
+
+public class LastEvent {
+    @SerializedName("stage")
+    @Expose
+    private Stage stage;
+    @SerializedName("phase")
+    @Expose
+    private Phase phase;
+    @SerializedName("solution")
+    @Expose
+    private Object solution;
+    @SerializedName("date")
+    @Expose
+    private String date;
+    @SerializedName("document")
+    @Expose
+    private Object document;
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public Phase getPhase() {
+        return phase;
+    }
+
+    public void setPhase(Phase phase) {
+        this.phase = phase;
+    }
+
+    public Object getSolution() {
+        return solution;
+    }
+
+    public void setSolution(Object solution) {
+        this.solution = solution;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Object getDocument() {
+        return document;
+    }
+
+    public void setDocument(Object document) {
+        this.document = document;
+    }
+
+}
