@@ -11,12 +11,10 @@
 
 // Enum to distinguish request types
 enum class RequestType {
-    GetExampleData,
-    PostUserData,
-    FetchStatistics,
-    UpdateSettings,
-    DeleteRecord,
-    Custom // Add more as needed
+    FETCH_BILLS,
+    FETCH_DEPUTIES,
+    FETCH_BILL_BY_ID,
+    FETCH_POLL
 };
 
 class NetworkManager : public QObject
