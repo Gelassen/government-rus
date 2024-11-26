@@ -44,8 +44,10 @@ PKGCONFIG += \
 
 SOURCES += \
     src/main.cpp \
+    src/network/NetworkManager.cpp \ 
 
 HEADERS += \
+    src/network/NetworkManager.h \ 
 
 DISTFILES += \
     rpm/io.github.gelassen.government.rus.Government-Rus.spec \
