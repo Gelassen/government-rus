@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=io.github.gelassen.government.rus.Government-Rus
+Exec=/usr/bin/io.github.gelassen.government.rus.Government-Rus
+Name=Russian Government
+Name[ru]=Российское правительство
+
+[X-Application]
+Permissions=DeviceInfo;Internet;WebView
+OrganizationName=io.github.gelassen.government.rus
+ApplicationName=Government-Rus
+ExecDBus=/usr/bin/io.github.gelassen.government.rus.Government-Rus

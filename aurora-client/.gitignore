@@ -1,0 +1,86 @@
+# Ignore Gradle build files
+.gradle/
+build/
+*/build/
+
+# Ignore Android Studio files
+.idea/
+*.iml
+*.iws
+
+# Ignore Android Studio workspace settings
+*.db
+*.swp
+*.swo
+.idea/workspace.xml
+
+# Ignore local configuration files
+local.properties
+
+# Ignore Gradle wrapper files
+gradle-wrapper.jar
+gradle-wrapper.properties
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
+
+# Ignore all dependency folders
+node_modules/
+bower_components/
+
+# Ignore generated resources
+/generated/
+
+# Ignore compiled Java classes
+*.class
+
+# Ignore APK files and other output
+*.apk
+*.ap_ # Flavors generated
+*.dex
+*.oat
+
+# Ignore Proguard configuration files
+proguard/
+
+# Ignore the Android keystore files
+*.jks
+*.keystore
+
+# Ignore Kotlin build output (if applicable)
+.kapt/
+.kotlinc/
+*.kotlin_module
+
+# Ignore Firebase config files
+google-services.json
+
+# Ignore IDE specific directories for IntelliJ IDEA, Eclipse, etc.
+.idea/
+.vscode/
+
+# Ignore Android specific libraries and compiled files
+libs/
+
+# Ignore build-related generated files
+build/
+
+# Ignore coverage reports
+coverage/
+
+# Ignore generated files for Flutter, React Native, or any cross-platform frameworks (if used)
+flutter/ # Flutter build files
+*.hbs # Handlebars template files
+
+# Ignore JetBrains IDE-specific files
+.idea/
+
+# Ignore user-specific IntelliJ IDEA files
+*.iml
+.idea/
+
+build-*/
