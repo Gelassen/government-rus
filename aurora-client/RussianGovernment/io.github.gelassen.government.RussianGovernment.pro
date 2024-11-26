@@ -1,8 +1,8 @@
 ################################################################################
 ##
-## Copyright (C) 2022 io.github.gelassen.government.rus
+## Copyright (C) 2022 io.github.gelassen.government
 ## 
-## This file is part of the Aurora OS Application project.
+## This file is part of the RussianGovernment project.
 ##
 ## Redistribution and use in source and binary forms,
 ## with or without modification, are permitted provided
@@ -35,7 +35,7 @@
 ##
 ################################################################################
 
-TARGET = io.github.gelassen.government.rus.Government-Rus
+TARGET = io.github.gelassen.government.RussianGovernment
 
 CONFIG += \
     auroraapp
@@ -45,18 +45,20 @@ PKGCONFIG += \
 SOURCES += \
     src/main.cpp \
     src/network/NetworkManager.cpp \ 
+    src/repository/Repository.cpp \
 
 HEADERS += \
     src/network/NetworkManager.h \ 
+    src/repository/Repository.h \
 
 DISTFILES += \
-    rpm/io.github.gelassen.government.rus.Government-Rus.spec \
+    rpm/io.github.gelassen.government.RussianGovernment.spec \
     AUTHORS.md \
     CODE_OF_CONDUCT.md \
     CONTRIBUTING.md \
     LICENSE.BSD-3-CLAUSE.md \
     README.md \
-    qml/Government-Rus.qml \
+    qml/RussianGovernment.qml \
     qml/cover/DefaultCoverPage.qml \
     qml/pages/AboutPage.qml \
     qml/pages/MainPage.qml \
@@ -66,5 +68,5 @@ AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
 CONFIG += auroraapp_i18n
 
 TRANSLATIONS += \
-    translations/io.github.gelassen.government.rus.Government-Rus.ts \
-    translations/io.github.gelassen.government.rus.Government-Rus-ru.ts \
+    translations/io.github.gelassen.government.RussianGovernment.ts \
+    translations/io.github.gelassen.government.RussianGovernment-ru.ts \

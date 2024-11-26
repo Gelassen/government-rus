@@ -1,5 +1,5 @@
-Name:       io.github.gelassen.government.rus.Government-Rus
-Summary:    Aurora OS Application
+Name:       io.github.gelassen.government.RussianGovernment
+Summary:    RussianGovernment
 Version:    0.1
 Release:    1
 License:    BSD-3-Clause
@@ -14,7 +14,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 
 
 %description
-Application provides access to the bills which are under consideration by Russian Government
+Мобильное приложение, которое предоставляет доступ к законопроектам на рассмотрении Гос. Думой. 
 
 %prep
 %autosetup

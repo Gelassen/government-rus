@@ -32,7 +32,7 @@ QUrl Repository::constructUrl(const QString &endpoint, const QString &extraPath,
 
 void Repository::handleRequestCompleted(RequestType requestType, const QJsonObject &response)
 {
-    if (requestType == RequestType::GetExampleData) {
+    if (requestType == RequestType::FETCH_BILLS) {
         if (m_successCallback) {
             m_successCallback(response);
         }
@@ -41,7 +41,7 @@ void Repository::handleRequestCompleted(RequestType requestType, const QJsonObje
 
 void Repository::handleRequestFailed(RequestType requestType, const QString &error)
 {
-    if (requestType == RequestType::GetExampleData) {
+    if (requestType == RequestType::FETCH_BILLS) {
         if (m_failureCallback) {
             m_failureCallback(error);
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.15.2, 2024-11-26T17:14:49. -->
+<!-- Written by QtCreator 4.15.2, 2024-11-26T18:15:13. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -102,8 +102,8 @@
     <value type="QString" key="MerBuildConfiguration.SigningUser"></value>
     <value type="QString" key="MerSfdkConfigurationAspect.Options"></value>
     <value type="QString" key="MerSpecFileAspect.Path"></value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Debug</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -163,8 +163,8 @@
     <value type="QString" key="MerBuildConfiguration.SigningUser"></value>
     <value type="QString" key="MerSfdkConfigurationAspect.Options"></value>
     <value type="QString" key="MerSpecFileAspect.Path"></value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Release</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Release</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -225,8 +225,8 @@
     <value type="QString" key="MerBuildConfiguration.SigningUser"></value>
     <value type="QString" key="MerSfdkConfigurationAspect.Options"></value>
     <value type="QString" key="MerSpecFileAspect.Path"></value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Profile</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Profile</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Profile</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_armv7hl_in_Aurora_Build_Engine-Profile</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -299,7 +299,7 @@
       <value type="QString" key="SignTools.Key">/home/gelassen/Workspace/Business/Aurora-OS/regular-keys/regular_key.pem</value>
      </valuemap>
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.3">
-      <value type="QString" key="MerProcessStep.Arguments">rpm /usr/share/io.github.gelassen.government.rus.Government-Rus</value>
+      <value type="QString" key="MerProcessStep.Arguments">rpm /usr/share/io.github.gelassen.government.RussianGovernment</value>
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">false</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">QmakeProjectManager.MerRpmValidationStep</value>
      </valuemap>
@@ -408,7 +408,7 @@
     </valuelist>
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="bool" key="MerRunConfiguration.DebugBypassOpenSslArmCapEnabled">true</value>
-    <value type="QString" key="MerRunConfiguration.QmlLiveBenchWorkspace">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/Government-Rus</value>
+    <value type="QString" key="MerRunConfiguration.QmlLiveBenchWorkspace">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/RussianGovernment</value>
     <value type="bool" key="MerRunConfiguration.QmlLiveEnabled">false</value>
     <value type="int" key="MerRunConfiguration.QmlLiveIpcPort">-1</value>
     <value type="int" key="MerRunConfiguration.QmlLiveOptions">3</value>
@@ -416,9 +416,9 @@
     <value type="bool" key="MerRunConfiguration.SandboxEnabled">false</value>
     <value type="int" key="PE.EnvironmentAspect.Base">1</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">io.github.gelassen.government.rus.Government-Rus (on %{Device:Name})2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">QmakeProjectManager.MerRunConfiguration:/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/Government-Rus/io.github.gelassen.government.rus.Government-Rus.pro</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/Government-Rus/io.github.gelassen.government.rus.Government-Rus.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">io.github.gelassen.government.RussianGovernment (on %{Device:Name})</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">QmakeProjectManager.MerRunConfiguration:/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/RussianGovernment/io.github.gelassen.government.RussianGovernment.pro</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/RussianGovernment/io.github.gelassen.government.RussianGovernment.pro</value>
     <value type="int" key="RemoteLinux.EnvironmentAspect.Version">1</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
@@ -446,8 +446,8 @@
     <value type="QString" key="MerBuildConfiguration.SigningUser"></value>
     <value type="QString" key="MerSfdkConfigurationAspect.Options"></value>
     <value type="QString" key="MerSpecFileAspect.Path"></value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Debug</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Debug</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Debug</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -507,8 +507,8 @@
     <value type="QString" key="MerBuildConfiguration.SigningUser"></value>
     <value type="QString" key="MerSfdkConfigurationAspect.Options"></value>
     <value type="QString" key="MerSpecFileAspect.Path"></value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Release</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Release</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Release</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -569,8 +569,8 @@
     <value type="QString" key="MerBuildConfiguration.SigningUser"></value>
     <value type="QString" key="MerSfdkConfigurationAspect.Options"></value>
     <value type="QString" key="MerSpecFileAspect.Path"></value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Profile</value>
-    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Personal/government-rus/aurora-client/build-io.github.gelassen.government.rus.Government-Rus-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Profile</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Profile</value>
+    <value type="QString" key="ProjectExplorer.BuildConfiguration.BuildDirectory.shadowDir">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/build-io.github.gelassen.government.RussianGovernment-AuroraOS_4_0_2_303_base_i486_in_Aurora_Build_Engine-Profile</value>
     <valuemap type="QVariantMap" key="ProjectExplorer.BuildConfiguration.BuildStepList.0">
      <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.0">
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
@@ -731,7 +731,7 @@
     </valuelist>
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="bool" key="MerRunConfiguration.DebugBypassOpenSslArmCapEnabled">true</value>
-    <value type="QString" key="MerRunConfiguration.QmlLiveBenchWorkspace">/home/gelassen/Workspace/Personal/government-rus/aurora-client/Government-Rus</value>
+    <value type="QString" key="MerRunConfiguration.QmlLiveBenchWorkspace">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/RussianGovernment</value>
     <value type="bool" key="MerRunConfiguration.QmlLiveEnabled">false</value>
     <value type="int" key="MerRunConfiguration.QmlLiveIpcPort">-1</value>
     <value type="int" key="MerRunConfiguration.QmlLiveOptions">3</value>
@@ -809,7 +809,7 @@
     </valuelist>
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="bool" key="MerRunConfiguration.DebugBypassOpenSslArmCapEnabled">true</value>
-    <value type="QString" key="MerRunConfiguration.QmlLiveBenchWorkspace">/home/gelassen/Workspace/Personal/government-rus/aurora-client/Government-Rus</value>
+    <value type="QString" key="MerRunConfiguration.QmlLiveBenchWorkspace">/home/gelassen/Workspace/Business/Aurora-OS/government-rus/aurora-client/RussianGovernment</value>
     <value type="bool" key="MerRunConfiguration.QmlLiveEnabled">false</value>
     <value type="int" key="MerRunConfiguration.QmlLiveIpcPort">-1</value>
     <value type="int" key="MerRunConfiguration.QmlLiveOptions">3</value>

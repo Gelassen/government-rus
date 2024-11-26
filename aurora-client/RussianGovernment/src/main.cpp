@@ -1,8 +1,8 @@
 /*******************************************************************************
 **
-** Copyright (C) 2022 io.github.gelassen.government.rus
+** Copyright (C) 2022 io.github.gelassen.government
 **
-** This file is part of the Aurora OS Application project.
+** This file is part of the RussianGovernment project.
 **
 ** Redistribution and use in source and binary forms,
 ** with or without modification, are permitted provided
@@ -35,19 +35,23 @@
 **
 *******************************************************************************/
 
-import QtQuick 2.0
-import Sailfish.Silica 1.0
+#include <auroraapp.h>
+#include <QtQuick>
 
-CoverBackground {
-    objectName: "defaultCover"
+#include "network/NetworkManager.h"
+#include "repository/Repository.h"
 
-    CoverPlaceholder {
-        objectName: "placeholder"
-        text: qsTr("Russian Government")
-        icon {
-            source: Qt.resolvedUrl("../icons/Government-Rus.svg")
-            sourceSize { width: icon.width; height: icon.height }
-        }
-        forceFit: true
-    }
+int main(int argc, char *argv[])
+{
+    QScopedPointer<QGuiApplication> application(Aurora::Application::application(argc, argv));
+    application->setOrganizationName(QStringLiteral("io.github.gelassen.government"));
+    application->setApplicationName(QStringLiteral("RussianGovernment"));
+
+//    qmlRegisterType<NetworkManager>("io.github.gelassen.network", 1, 0, "NetworkManager");
+
+    QScopedPointer<QQuickView> view(Aurora::Application::createView());
+    view->setSource(Aurora::Application::pathTo(QStringLiteral("qml/RussianGovernment.qml")));
+    view->show();
+
+    return application->exec();
 }

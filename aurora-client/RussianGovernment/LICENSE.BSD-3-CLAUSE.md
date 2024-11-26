@@ -1,6 +1,6 @@
 # The 3-Clause BSD License
 
-_Copyright (C) 2022 io.github.gelassen.government.rus_
+_Copyright (C) 2022 io.github.gelassen.government_
 
 Redistribution and use in source and binary forms,
 with or without modification,
