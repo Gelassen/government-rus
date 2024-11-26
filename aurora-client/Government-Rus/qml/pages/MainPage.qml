@@ -39,20 +39,94 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 Page {
+    id: mainPage
     objectName: "mainPage"
-    allowedOrientations: Orientation.All
+    width: parent.width
+    height: parent.height
+    allowedOrientations: Orientation.Landscape
 
-    PageHeader {
-        objectName: "pageHeader"
-        title: qsTr("Russian Government")
-        extraContent.children: [
-            IconButton {
-                objectName: "aboutButton"
-                icon.source: "image://theme/icon-m-about"
-                anchors.verticalCenter: parent.verticalCenter
+    property bool isTablet: ApplicationWindow.primaryItem.width > 600
 
-                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+//    PageHeader {
+//        objectName: "pageHeader"
+//        title: qsTr("Russian Government")
+//        extraContent.children: [
+//            IconButton {
+//                objectName: "aboutButton"
+//                icon.source: "image://theme/icon-m-about"
+//                anchors.verticalCenter: parent.verticalCenter
+
+//                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+//            }
+//        ]
+//    }
+
+    // Container for Main and Detail view
+    Rectangle {
+        id: splitContainer
+        width: parent.width
+        height: parent.height
+        color: "transparent"
+
+        // Main Panel (List of items)
+        ListView {
+            id: mainPanel
+            width: isTablet ? parent.width * 0.3 : parent.width
+            height: parent.height
+            model: ListModel {
+                ListElement { title: "Item 1" }
+                ListElement { title: "Item 2" }
+                ListElement { title: "Item 3" }
             }
-        ]
+
+            delegate: Item {
+                width: parent.width
+                height: Theme.itemSizeSmall
+                Text {
+                    anchors.centerIn: parent
+                    text: model.title
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (isTablet) {
+                            detailPanel.setText(model.title)
+                        } else {
+                            // Navigate to Detail Page for Phones
+                            pageStack.push(detailPage, { "detailText": model.title })
+                        }
+                    }
+                }
+            }
+        }
+
+        // Detail Panel (For Tablets)
+        Rectangle {
+            id: detailPanel
+            width: isTablet ? parent.width * 0.7 : 0
+            height: parent.height
+            visible: isTablet
+            color: "lightgray"
+
+            Text {
+                id: detailText
+                anchors.centerIn: parent
+                text: "Select an item"
+            }
+
+            function setText(text) {
+                detailText.text = "Detail: " + text;
+            }
+        }
+    }
+
+    // Detail Page (For Phones)
+    Page {
+        id: detailPage
+        property string detailText
+        Text {
+            anchors.centerIn: parent
+            text: detailPage.detailText
+        }
     }
 }
