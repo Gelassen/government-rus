@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import ru.home.government.R
@@ -12,10 +13,14 @@ import ru.home.government.model.dto.Deputy
 import ru.home.government.screens.BaseActivity
 import ru.home.government.screens.deputies.DeputiesFragment
 
-class DeputiesOnLawActivity: BaseActivity() {
+/**
+ * Показывает список депутатов, связанных с законопроектом.
+ * Использует FragmentContainerView + commit вместо устаревшего
+ * supportFragmentManager.beginTransaction().replace().
+ */
+class DeputiesOnLawActivity : BaseActivity() {
 
     companion object {
-
         private const val EXTRA_DEPUTIES = "EXTRA_DEPUTIES"
 
         fun launch(activity: AppCompatActivity, deputies: ArrayList<Deputy>) {
@@ -34,15 +39,22 @@ class DeputiesOnLawActivity: BaseActivity() {
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(getApiSupportColor()))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val dr = ColorDrawable(getApiSupportColor())
-        supportActionBar!!.setBackgroundDrawable(dr)
+        if (savedInstanceState == null) {
+            val deputies: ArrayList<Deputy> =
+                intent.getParcelableArrayListExtra(EXTRA_DEPUTIES) ?: arrayListOf()
 
-        val deputies: java.util.ArrayList<Deputy> = intent.getParcelableArrayListExtra(EXTRA_DEPUTIES)!!
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                replace(R.id.container_deputies, DeputiesFragment.instance(deputies))
+            }
+        }
+    }
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.container_deputies, DeputiesFragment.instance(deputies))
-            .commit()
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }

@@ -2,17 +2,23 @@ package ru.home.government.screens.laws
 
 import android.os.Bundle
 import android.view.*
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.ferfalk.simplesearchview.SimpleSearchView
 import ru.home.government.R
 import ru.home.government.screens.BaseFragment
 import ru.home.government.screens.OnSearchClickListener
 import ru.home.government.screens.laws.filter.LawsFilteredFragment
 import ru.home.government.screens.laws.main.LawsMainFragment
-import java.lang.RuntimeException
 
-class LawsFragment: BaseFragment() {
+/**
+ * Контейнер вкладки «Законопроекты».
+ * Внутренняя навигация (список ↔ поиск) идёт через Navigation Component,
+ * а не через FragmentManager.replace.
+ */
+class LawsFragment : BaseFragment() {
 
-    private lateinit var search_view: SimpleSearchView
+    private lateinit var searchView: SimpleSearchView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,71 +26,74 @@ class LawsFragment: BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        return layoutInflater.inflate(R.layout.fragment_laws, container, false)
+        return inflater.inflate(R.layout.fragment_laws, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        parentFragmentManager
-            .beginTransaction()
-            .replace(R.id.container_laws,
-                LawsMainFragment()
-            )
-            .commit()
+        // Вложенный NavHost для списка / поиска
+        if (childFragmentManager.findFragmentById(R.id.container_laws) == null) {
+            val navHost = NavHostFragment.create(R.navigation.laws_nav_graph)
+            childFragmentManager.beginTransaction()
+                .replace(R.id.container_laws, navHost)
+                .setPrimaryNavigationFragment(navHost)
+                .commitNow()
+        }
     }
 
-    @Deprecated(message = "It should be urgently replaced with valid implementation")
+    @Deprecated("Use onViewCreated + viewLifecycleOwner")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initActivityDependentViews()
+        initSearchView()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.menu_law, menu)
-
         val menuItem = menu.findItem(R.id.action_search)
-        search_view.setMenuItem(menuItem)
-    }
-
-    fun onSearch(str: String?) {
-        val frag = childFragmentManager.findFragmentByTag(LawsFilteredFragment.TAG)
-        if (frag == null) {
-            childFragmentManager
-                .beginTransaction()
-                .add(R.id.container_laws, LawsFilteredFragment.instance(str!!), LawsFilteredFragment.TAG)
-                .addToBackStack(LawsFilteredFragment.TAG)
-                .commit()
-        } else {
-            if (frag is OnSearchClickListener) {
-                frag.onSearch(str)
-            } else {
-                throw RuntimeException("Did you miss to add search interface to fragment?")
-            }
+        if (::searchView.isInitialized) {
+            searchView.setMenuItem(menuItem)
         }
     }
 
-    private fun initActivityDependentViews() {
-        search_view = requireActivity().findViewById<SimpleSearchView>(R.id.searchView)
-        search_view.isSearchOpen
-        search_view.setOnQueryTextListener(object: SimpleSearchView.OnQueryTextListener {
+    /**
+     * Вызывается из SimpleSearchView при submit.
+     * Переходим на экран поиска через Navigation Component.
+     */
+    fun onSearch(query: String?) {
+        if (query.isNullOrBlank()) return
 
-            override fun onQueryTextSubmit(query: String): Boolean {
-                onSearch(query)
-                search_view.closeSearch()
-                return true
-            }
+        val navHost = childFragmentManager.findFragmentById(R.id.container_laws) as? NavHostFragment
+            ?: return
+        val navController = navHost.navController
 
-            override fun onQueryTextChange(newText: String): Boolean {
-                // no op
-                return true
+        // Если уже на экране поиска — просто обновляем запрос
+        val current = navController.currentDestination?.id
+        if (current == R.id.laws_filtered) {
+            val frag = navHost.childFragmentManager.primaryNavigationFragment
+            if (frag is OnSearchClickListener) {
+                frag.onSearch(query)
             }
-
-            override fun onQueryTextCleared(): Boolean {
-                // no op
-                return true
+        } else {
+            val args = Bundle().apply {
+                putString("query", query)
             }
-        })
+            navController.navigate(R.id.action_laws_main_to_filtered, args)
+        }
     }
 
+    private fun initSearchView() {
+        searchView = requireActivity().findViewById(R.id.searchView)
+        searchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                onSearch(query)
+                searchView.closeSearch()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean = true
+
+            override fun onQueryTextCleared(): Boolean = true
+        })
+    }
 }

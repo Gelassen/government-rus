@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/laws_nav_graph"
+    app:startDestination="@id/laws_main">
+
+    <fragment
+        android:id="@+id/laws_main"
+        android:name="ru.home.government.screens.laws.main.LawsMainFragment"
+        android:label="@string/title_laws"
+        tools:layout="@layout/fragment_law_main">
+        <action
+            android:id="@+id/action_laws_main_to_filtered"
+            app:destination="@id/laws_filtered"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/laws_filtered"
+        android:name="ru.home.government.screens.laws.filter.LawsFilteredFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_law_filtered">
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue="" />
+        <action
+            android:id="@+id/action_filtered_pop"
+            app:popUpTo="@id/laws_main"
+            app:popUpToInclusive="false" />
+    </fragment>
+
+</navigation>

@@ -5,6 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_dashboard">
 
+    <!-- Депутаты -->
     <fragment
         android:id="@+id/navigation_home"
         android:name="ru.home.government.screens.deputies.DeputiesFragment"
@@ -14,24 +15,63 @@
             android:name="EXTRA_NO_BOTTOM_VIEW"
             app:argType="boolean"
             android:defaultValue="false" />
-
         <action
             android:id="@+id/action_navigation_home_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard"
             app:popUpTo="@+id/navigation_home"
             app:popUpToInclusive="true" />
-
     </fragment>
 
+    <!-- Законопроекты (контейнер с вложенной навигацией) -->
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="ru.home.government.screens.laws.LawsFragment"
         android:label="@string/title_laws"
-        tools:layout="@layout/fragment_laws" />
+        tools:layout="@layout/fragment_laws">
+        <action
+            android:id="@+id/action_laws_to_filtered"
+            app:destination="@id/laws_filtered"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 
+    <!-- Поиск / фильтр законопроектов (вложенный destination) -->
+    <fragment
+        android:id="@+id/laws_filtered"
+        android:name="ru.home.government.screens.laws.filter.LawsFilteredFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_law_filtered">
+        <argument
+            android:name="query"
+            app:argType="string"
+            android:defaultValue="" />
+        <action
+            android:id="@+id/action_filtered_to_details"
+            app:destination="@id/law_details" />
+    </fragment>
+
+    <!-- Трекер -->
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="ru.home.government.screens.tracker.TrackerFragment"
         android:label="@string/title_tracker"
         tools:layout="@layout/fragment_tracker" />
+
+    <!-- Детали законопроекта (можно открывать из списка) -->
+    <activity
+        android:id="@+id/law_details"
+        android:name="ru.home.government.screens.laws.details.DetailsActivity"
+        android:label="@string/title_law_tab_law"
+        tools:layout="@layout/activity_law_details">
+        <argument
+            android:name="lawCode"
+            app:argType="string" />
+        <argument
+            android:name="detailsUrl"
+            app:argType="string"
+            android:defaultValue="" />
+    </activity>
+
 </navigation>

@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.home.government.network.IApi
 import ru.home.government.network.ServerErrorUtil
 import ru.home.government.network.adapter.CustomTypeAdapterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -21,7 +22,9 @@ class NetworkModule {
     @Singleton
     @Provides
     fun providesApi(httpClient: OkHttpClient, @Named("API endpoint") uri: String): IApi {
-        val customGson = GsonBuilder().registerTypeAdapterFactory(CustomTypeAdapterFactory()).create()
+        val customGson = GsonBuilder()
+            .registerTypeAdapterFactory(CustomTypeAdapterFactory())
+            .create()
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(customGson))
             .client(httpClient)
@@ -37,13 +40,15 @@ class NetworkModule {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        val httpClient = OkHttpClient
-            .Builder()
+        return OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .callTimeout(45, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
             .addInterceptor(logging)
             .addInterceptor(interceptor)
             .build()
-
-        return httpClient
     }
 
     @Singleton
